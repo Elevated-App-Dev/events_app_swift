@@ -1,7 +1,7 @@
 # Event Planning Simulator
 ## Game Design Document
 
-**A strategic planning simulation game where players build an event planning business from solo side-hustle to premier agency.**
+**A strategic planning simulation game where players build an event planning career from solo side-hustle, to employee at an established firm, to running their own premier agency.**
 
 - **Genre:** Business Simulation / Tycoon / Strategy
 - **Platform:** Mobile (iOS/Android)
@@ -74,6 +74,8 @@ A stylized 2D map of the city showing locations players can visit. Locations unl
 | Services | DJ Studio, Photo Booth Rental, Florist | Book entertainment and extras |
 | Your Office | Home Office → Small Office → Agency HQ | Manage business, view stats, hire staff |
 | Client Locations | Client's home, Coffee shop | Meet clients, pitch services |
+| Conference Room | Rented meeting space, Hotel business center | Formal client meetings, progress updates |
+| Virtual Meeting | Video call from any location | Remote client updates, quick check-ins |
 
 #### Map Interaction Flow
 
@@ -81,7 +83,7 @@ A stylized 2D map of the city showing locations players can visit. Locations unl
 2. Available venues in that category appear as pins on map
 3. Tapping a pin shows a preview card with key stats
 4. Player can 'Visit' to see full details, photos, reviews
-5. From the visit screen, player can book/hire
+5. From the visit screen, player can book, place a hold for a future event, or hire
 
 ### 3.2 Planner's Phone Interface
 
