@@ -6,6 +6,59 @@ Event Planning Simulator is a mobile business simulation/tycoon game for iOS and
 
 This document covers the complete game scope (Stages 1-5) with MVP items marked. The project starts from scratch with all assets built during development. Save data is local device only.
 
+## Progressive Complexity Model
+
+This game uses a **progressive complexity approach** where game systems start simple and unlock depth as players advance. This reduces cognitive load for new players while rewarding engaged players with strategic depth.
+
+### Design Philosophy
+
+- **Stage 1** presents simplified versions of systems - players learn core loops without overwhelming detail
+- **Complexity unlocks as rewards** - advanced mechanics feel like progression, not burden
+- **Hidden mechanics remain hidden** - players discover depth through experience, not tutorials
+- **Satisfying midpoint at Stage 3** - players who stop here feel they've completed a full game
+
+### Phase Definitions
+
+Requirements are tagged with implementation phases:
+
+| Tag | Description |
+|-----|-------------|
+| **[MVP]** | Core launch features - required for initial release |
+| **[Post-MVP]** | Features for future updates after launch |
+| **[Phase:Launch-Simple]** | Implemented at launch but in simplified form for Stage 1 |
+| **[Phase:Stage2-Unlock]** | Full complexity unlocks when player reaches Stage 2 |
+| **[Phase:Stage3-Unlock]** | Full complexity unlocks when player reaches Stage 3 |
+
+### Stage 1 Simplifications
+
+The following systems are **simplified in Stage 1** and unlock full complexity later:
+
+| System | Stage 1 (Simplified) | Full Version Unlocks |
+|--------|---------------------|---------------------|
+| **Workload Capacity** | Soft cap at 3 events with warning | Stage 2: Full tier system (optimal/comfortable/strained) |
+| **Satisfaction Display** | Single final score only | Stage 2: Category breakdown visible |
+| **Weather System** | Simple "Good/Risky/Bad" indicator | Stage 2: 7-day forecast with accuracy percentages |
+| **Work Hours** | Tasks have deadlines only | Stage 2: Daily 8-hour work capacity system |
+| **Vendor Attributes** | Price, quality, style visible | Stage 3: Hidden reliability/flexibility revealed through relationship |
+
+### Stage 3 Midpoint Milestone
+
+When players reach Stage 3, they experience a **narrative completion moment**:
+
+1. **Path Choice Ceremony** - Meaningful choice between Entrepreneur and Corporate paths
+2. **Career Summary Screen** - Stats from their journey (first event, biggest success, total earnings)
+3. **Credits Sequence** - Acknowledges player achievement; signals "you beat the game"
+4. **"Your Story Continues"** - Clear messaging that Stages 4-5 are expansion/endgame content
+
+This ensures players who complete Stage 3 (~8-12 hours) feel satisfied, while dedicated players have substantial endgame content.
+
+### Tutorial Simplification
+
+The tutorial teaches only essential mechanics:
+- Accept client → Pick venue → Pick caterer → Event happens → See results
+
+Advanced systems (work hours, weather forecasting, category scores, workload management) are introduced contextually as players encounter them or unlock them through progression.
+
 ## Glossary
 
 - **Game_Manager**: The central system coordinating game state, progression, and cross-system communication
@@ -56,6 +109,9 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 4. WHEN the player's data changes, THE Save_System SHALL persist changes to local storage [MVP]
 5. IF the save file is corrupted, THEN THE Save_System SHALL notify the player and offer to start a new game [MVP]
 6. WHEN the game loses focus or closes, THE Save_System SHALL automatically save current progress [MVP]
+7. THE Game_Manager SHALL support full offline play for all core gameplay features (event planning, execution, progression) [MVP]
+8. WHEN the device is offline, THE Game_Manager SHALL disable network-dependent features (ads, IAP, cloud save) gracefully without impacting core gameplay [MVP]
+9. WHEN the device transitions from offline to online, THE Game_Manager SHALL re-enable network features without requiring app restart [MVP]
 
 ### Requirement 3: City Map Navigation
 
@@ -109,16 +165,17 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 6. THE Event_Planning_System SHALL use base inquiry intervals of: Stage 1 = 8-12 minutes, Stage 2 = 6-10 minutes, Stage 3 = 5-8 minutes, Stage 4 = 4-7 minutes, Stage 5 = 3-6 minutes [MVP]
 7. THE Event_Planning_System SHALL reduce inquiry interval by 5% per 25 reputation points above stage minimum [MVP]
 8. THE Event_Planning_System SHALL queue up to 5 pending inquiries, expiring oldest inquiries after 20 minutes if not reviewed [MVP]
-9. THE Event_Planning_System SHALL define optimal concurrent event capacity as: Stage 1 = 2 events, Stage 2 = 4 events, Stage 3 = 6 events, Stage 4 = 10 events, Stage 5 = 15 events [MVP]
-10. THE Event_Planning_System SHALL define comfortable concurrent event capacity as: Stage 1 = 3 events, Stage 2 = 6 events, Stage 3 = 9 events, Stage 4 = 14 events, Stage 5 = 20 events [MVP]
-11. THE Event_Planning_System SHALL define strained concurrent event capacity as: Stage 1 = 5 events, Stage 2 = 8 events, Stage 3 = 12 events, Stage 4 = 18 events, Stage 5 = 25 events [MVP]
-12. WHEN the player has concurrent active events at or below optimal capacity, THE Event_Planning_System SHALL apply no penalties [MVP]
-13. WHEN the player has concurrent active events between optimal and comfortable capacity, THE Event_Planning_System SHALL apply 3% satisfaction reduction per event over optimal [MVP]
-14. WHEN the player has concurrent active events between comfortable and strained capacity, THE Event_Planning_System SHALL apply 7% satisfaction reduction per event over comfortable AND 10% increased task failure probability [MVP]
-15. WHEN the player has concurrent active events beyond strained capacity, THE Event_Planning_System SHALL apply 12% satisfaction reduction per event over strained AND 25% increased task failure probability AND display critical workload warning [MVP]
-16. THE Event_Planning_System SHALL NOT impose a hard cap on concurrent events, allowing players to accept unlimited events at their own risk [MVP]
-17. WHEN multiple concurrent events have overlapping preparation periods, THE Event_Planning_System SHALL increase task failure probability by 5% per overlapping event [MVP]
-18. THE Event_Planning_System SHALL display current workload status (Optimal/Comfortable/Strained/Critical) in the UI [MVP]
+9. THE Event_Planning_System SHALL define optimal concurrent event capacity as: Stage 1 = 2 events, Stage 2 = 4 events, Stage 3 = 6 events, Stage 4 = 10 events, Stage 5 = 15 events [MVP] [Phase:Stage2-Unlock]
+10. THE Event_Planning_System SHALL define comfortable concurrent event capacity as: Stage 1 = 3 events, Stage 2 = 6 events, Stage 3 = 9 events, Stage 4 = 14 events, Stage 5 = 20 events [MVP] [Phase:Stage2-Unlock]
+11. THE Event_Planning_System SHALL define strained concurrent event capacity as: Stage 1 = 5 events, Stage 2 = 8 events, Stage 3 = 12 events, Stage 4 = 18 events, Stage 5 = 25 events [MVP] [Phase:Stage2-Unlock]
+12. WHEN the player has concurrent active events at or below optimal capacity, THE Event_Planning_System SHALL apply no penalties [MVP] [Phase:Stage2-Unlock]
+13. WHEN the player has concurrent active events between optimal and comfortable capacity, THE Event_Planning_System SHALL apply 3% satisfaction reduction per event over optimal [MVP] [Phase:Stage2-Unlock]
+14. WHEN the player has concurrent active events between comfortable and strained capacity, THE Event_Planning_System SHALL apply 7% satisfaction reduction per event over comfortable AND 10% increased task failure probability [MVP] [Phase:Stage2-Unlock]
+15. WHEN the player has concurrent active events beyond strained capacity, THE Event_Planning_System SHALL apply 12% satisfaction reduction per event over strained AND 25% increased task failure probability AND display critical workload warning [MVP] [Phase:Stage2-Unlock]
+16. THE Event_Planning_System SHALL NOT impose a hard cap on concurrent events, allowing players to accept unlimited events at their own risk [MVP] [Phase:Stage2-Unlock]
+17. WHEN multiple concurrent events have overlapping preparation periods, THE Event_Planning_System SHALL increase task failure probability by 5% per overlapping event [MVP] [Phase:Stage2-Unlock]
+18. THE Event_Planning_System SHALL display current workload status (Optimal/Comfortable/Strained/Critical) in the UI [MVP] [Phase:Stage2-Unlock]
+18a. WHILE in Stage 1, THE Event_Planning_System SHALL use simplified workload display: soft cap at 3 events with warning message, no percentage penalties [MVP] [Phase:Launch-Simple]
 19. THE Event_Planning_System SHALL count an event as "active" from acceptance until results are displayed, then remove it from concurrent count [MVP]
 20. WHILE in Stage 2, THE Event_Planning_System SHALL generate two separate inquiry streams: company assignments and personal side gig opportunities [MVP]
 21. WHILE in Stage 2, THE Event_Planning_System SHALL generate company assignments at the Stage 2 interval rate [MVP]
@@ -252,11 +309,12 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 4. WHEN the player completes a task, THE Event_Planning_System SHALL update task status and unlock dependent tasks [MVP]
 5. WHILE in Stage 2, THE Event_Planning_System SHALL allow some tasks to be handled by employer resources [MVP]
 6. IF critical tasks are incomplete at event time, THEN THE Event_Planning_System SHALL apply negative modifiers to satisfaction [MVP]
-7. THE Event_Planning_System SHALL give the player a daily work capacity of 8 work hours per in-game day [MVP]
-8. WHEN the player starts a task, THE Event_Planning_System SHALL deduct the task's work hours from the daily capacity [MVP]
-9. WHEN the daily work capacity reaches 0, THE Event_Planning_System SHALL prevent starting new tasks until the next in-game day [MVP]
-10. WHEN a new in-game day begins, THE Event_Planning_System SHALL reset the player's daily work capacity to 8 hours [MVP]
-11. THE Event_Planning_System SHALL display remaining daily work hours in the UI [MVP]
+7. THE Event_Planning_System SHALL give the player a daily work capacity of 8 work hours per in-game day [MVP] [Phase:Stage2-Unlock]
+8. WHEN the player starts a task, THE Event_Planning_System SHALL deduct the task's work hours from the daily capacity [MVP] [Phase:Stage2-Unlock]
+9. WHEN the daily work capacity reaches 0, THE Event_Planning_System SHALL prevent starting new tasks until the next in-game day [MVP] [Phase:Stage2-Unlock]
+10. WHEN a new in-game day begins, THE Event_Planning_System SHALL reset the player's daily work capacity to 8 hours [MVP] [Phase:Stage2-Unlock]
+11. THE Event_Planning_System SHALL display remaining daily work hours in the UI [MVP] [Phase:Stage2-Unlock]
+11a. WHILE in Stage 1, THE Event_Planning_System SHALL use simplified task system: tasks have deadlines only, no work hour tracking [MVP] [Phase:Launch-Simple]
 12. WHILE in Stage 2, THE Event_Planning_System SHALL allow the player to request company help on tasks for a 10% profit reduction on that event [MVP]
 13. WHEN company help is requested, THE Event_Planning_System SHALL complete the task without consuming player work hours [MVP]
 14. WHEN company help is used, THE Event_Planning_System SHALL have a 25% chance to grant a small reputation bonus (mentor noticed your delegation skills) [MVP]
@@ -315,7 +373,8 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 1. WHEN an event completes, THE Satisfaction_Calculator SHALL compute scores for venue, food, entertainment, decorations, service, and expectations [MVP]
 2. THE Satisfaction_Calculator SHALL weight scores as: Venue 20%, Food 25%, Entertainment 20%, Decorations 15%, Service 10%, Expectations 10% [MVP]
 3. WHEN random events occurred, THE Satisfaction_Calculator SHALL apply the random event modifier to the base score [MVP]
-4. WHEN displaying results, THE Event_Planning_System SHALL show individual category scores and final satisfaction as a 0-100 score [MVP]
+4. WHEN displaying results, THE Event_Planning_System SHALL show individual category scores and final satisfaction as a 0-100 score [MVP] [Phase:Stage2-Unlock]
+4a. WHILE in Stage 1, THE Event_Planning_System SHALL show only the final satisfaction score (0-100), not individual category breakdowns [MVP] [Phase:Launch-Simple]
 5. WHEN satisfaction meets client threshold, THE Event_Planning_System SHALL mark the event as successful [MVP]
 6. WHEN displaying results, THE Event_Planning_System SHALL show profit/loss calculation and reputation change [MVP]
 7. THE Event_Planning_System SHALL generate client feedback text based on satisfaction level and notable issues [MVP]
@@ -371,9 +430,10 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 14. WHEN a Celebrity event succeeds with Positive press coverage, THE Progression_System SHALL apply 3x reputation gain AND generate 2 guaranteed referral opportunities [Post-MVP]
 15. WHEN a Celebrity event succeeds with Neutral press coverage, THE Progression_System SHALL apply 2x reputation gain AND generate 1 guaranteed referral opportunity [Post-MVP]
 16. WHEN a Celebrity event succeeds with Negative press coverage, THE Progression_System SHALL apply 1.5x reputation gain with no referral (damage control success) [Post-MVP]
-17. WHEN a Celebrity event fails with Positive press coverage, THE Progression_System SHALL apply 2x reputation loss (wasted opportunity) [Post-MVP]
-18. WHEN a Celebrity event fails with Neutral press coverage, THE Progression_System SHALL apply 2.5x reputation loss [Post-MVP]
-19. WHEN a Celebrity event fails with Negative press coverage, THE Progression_System SHALL apply 3x reputation loss AND generate negative media coverage affecting future inquiries [Post-MVP]
+17. WHEN a Celebrity event fails with Positive press coverage, THE Progression_System SHALL apply 2x reputation loss (wasted opportunity), capped at -50 maximum loss [Post-MVP]
+18. WHEN a Celebrity event fails with Neutral press coverage, THE Progression_System SHALL apply 2.5x reputation loss, capped at -50 maximum loss [Post-MVP]
+19. WHEN a Celebrity event fails with Negative press coverage, THE Progression_System SHALL apply 3x reputation loss (capped at -50 maximum loss) AND generate negative media coverage affecting future inquiries [Post-MVP]
+19a. THE Progression_System SHALL cap all Celebrity event reputation losses at -50 to prevent single-event catastrophic reputation damage [Post-MVP]
 20. WHEN a Celebrity client's satisfaction exceeds 90%, THE Event_Planning_System SHALL mark them as a retained client with 50% chance of repeat booking [Post-MVP]
 21. WHEN a retained Celebrity books again, THE Event_Planning_System SHALL improve their press coverage probability by one tier [Post-MVP]
 22. THE Event_Planning_System SHALL NOT generate Indecisive, Demanding, or Celebrity clients before their respective stage unlocks [MVP]
@@ -409,7 +469,24 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 23. THE Event_Planning_System SHALL limit side gigs to 2 concurrent events maximum while employed [MVP]
 24. WHEN a side gig succeeds, THE Progression_System SHALL add to personal reputation but not company reputation [MVP]
 
-### Requirement 17: Stages 3-5 Business Progression
+### Requirement 17: Stage 3 Midpoint Milestone
+
+**User Story:** As a player reaching Stage 3, I want to experience a satisfying narrative conclusion, so that I feel my journey has been meaningful even if I don't continue to later stages.
+
+#### Acceptance Criteria
+
+1. WHEN the player meets Stage 3 unlock requirements, THE Progression_System SHALL trigger the Stage 3 Milestone sequence before presenting the path choice [MVP]
+2. THE Progression_System SHALL display a Career Summary Screen showing: total events completed, first event name, highest satisfaction event, total money earned, and current reputation [MVP]
+3. THE Progression_System SHALL display a narrative moment based on chosen path: office lease signing (Entrepreneur) or Director announcement ceremony (Corporate) [MVP]
+4. FOR the Entrepreneur path narrative, THE UI_Manager SHALL show: signing lease on first office, former client sending congratulatory flowers, family phone call expressing pride, small newspaper feature about the new business [MVP]
+5. FOR the Corporate path narrative, THE UI_Manager SHALL show: company meeting announcement, mentor speech acknowledging growth, reserved parking spot reveal, name plaque on office door [MVP]
+6. WHEN the narrative moment completes, THE Progression_System SHALL display a Credits Sequence acknowledging the player's achievement [MVP]
+7. THE Credits Sequence SHALL include game credits followed by "Your story continues..." messaging [MVP]
+8. AFTER the Credits Sequence, THE UI_Manager SHALL clearly label Stages 4-5 content as "Expansion Mode" or "Endgame Content" [MVP]
+9. THE Achievement_System SHALL award "Going Pro" achievement during the Stage 3 Milestone sequence [MVP]
+10. THE Progression_System SHALL allow players to skip the narrative/credits sequence on subsequent playthroughs [MVP]
+
+### Requirement 18: Stages 3-5 Business Progression (Endgame)
 
 **User Story:** As a business owner or company executive, I want to grow my career through either entrepreneurship or corporate advancement, so that I can experience different paths to success.
 
@@ -439,7 +516,7 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 16. WHILE on Corporate Path, THE Event_Planning_System SHALL pay higher base salary + commission but cap maximum earnings per event [Post-MVP]
 17. WHILE on Corporate Path, THE Progression_System SHALL provide company-funded staff and resources but require meeting company performance targets [Post-MVP]
 
-### Requirement 18: Staff Management System
+### Requirement 19: Staff Management System (Endgame)
 
 **User Story:** As a player, I want to hire and manage staff, so that I can handle more events and delegate tasks.
 
@@ -456,22 +533,23 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 9. WHILE on Entrepreneur Path, THE Staff_System SHALL allow the player to hire and fire staff freely [Post-MVP]
 10. WHILE on Corporate Path, THE Staff_System SHALL require company approval for staff changes [Post-MVP]
 
-### Requirement 19: Vendor Relationship System
+### Requirement 20: Vendor Relationship System
 
 **User Story:** As a player, I want to build relationships with vendors over time, so that I can unlock benefits and hidden information.
 
 #### Acceptance Criteria
 
 1. WHEN the player hires a vendor, THE Event_Planning_System SHALL increment the relationship counter [MVP] 
-2. WHEN relationship level reaches 3, THE Event_Planning_System SHALL reveal vendor's hidden reliability attribute [MVP]
-3. WHEN relationship level reaches 5, THE Event_Planning_System SHALL reveal vendor's hidden flexibility attribute [MVP]
+2. WHEN relationship level reaches 3, THE Event_Planning_System SHALL reveal vendor's hidden reliability attribute [MVP] [Phase:Stage3-Unlock]
+3. WHEN relationship level reaches 5, THE Event_Planning_System SHALL reveal vendor's hidden flexibility attribute [MVP] [Phase:Stage3-Unlock]
+3a. WHILE in Stage 1-2, THE Event_Planning_System SHALL track vendor relationships but not reveal hidden attributes (system operates invisibly) [MVP] [Phase:Launch-Simple]
 4. WHEN relationship level reaches certain thresholds, THE Event_Planning_System SHALL unlock discount rates [Post-MVP]
 5. WHEN a vendor performs poorly, THE Event_Planning_System SHALL allow the player to leave a note for future reference [Post-MVP]
 6. WHILE on Corporate Path, THE Event_Planning_System SHALL provide access to company vendor network with pre-negotiated rates [MVP]
 7. WHILE on Entrepreneur Path, THE Event_Planning_System SHALL require the player to build vendor relationships from scratch after leaving company [MVP]
 8. WHEN transitioning from Corporate to Entrepreneur Path, THE Event_Planning_System SHALL retain personal vendor relationships built during employment [MVP]
 
-### Requirement 20: Office Progression
+### Requirement 21: Office Progression
 
 **User Story:** As a player, I want to see my workspace evolve as I progress, so that I can see tangible evidence of my career growth.
 
@@ -493,7 +571,7 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 10. WHEN the player enters Stage 5 as Partner, THE Progression_System SHALL provide executive suite in flagship building with +30% efficiency [Post-MVP]
 11. WHILE on Corporate Path, THE Progression_System SHALL provide office space at no cost to the player [Post-MVP]
 
-### Requirement 21: Marketing System
+### Requirement 22: Marketing System (Endgame)
 
 **User Story:** As a business owner, I want to invest in marketing to attract more clients, so that I can grow my business faster.
 
@@ -511,7 +589,7 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 10. THE Marketing_System SHALL allow players to pause or cancel marketing at any time [Post-MVP]
 11. WHILE on Corporate Path, THE Event_Planning_System SHALL NOT apply the 30% inquiry reduction (company handles marketing) [Post-MVP]
 
-### Requirement 22: Referral Opportunities
+### Requirement 23: Referral Opportunities
 
 **User Story:** As a successful event planner, I want to receive referral clients from satisfied customers, so that I am rewarded for maintaining high quality.
 
@@ -531,7 +609,7 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 12. WHEN a referral opportunity expires without acceptance, THE Event_Planning_System SHALL not penalize the player but the opportunity is lost [MVP]
 13. THE Event_Planning_System SHALL make referrals progressively harder to maintain as concurrent event count increases (natural difficulty scaling) [MVP]
 
-### Requirement 23: Modern Mobile UI
+### Requirement 24: Modern Mobile UI
 
 **User Story:** As a player, I want a polished, modern mobile interface, so that the game feels professional and enjoyable to use.
 
@@ -546,7 +624,7 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 7. THE UI_Manager SHALL maintain 60fps performance on iPhone 8 and equivalent Android devices [MVP]
 8. THE UI_Manager SHALL use consistent color palette, typography, and icon style throughout [MVP]
 
-### Requirement 24: Tutorial System
+### Requirement 25: Tutorial System
 
 **User Story:** As a new player, I want guided instruction through my first event, so that I understand core game mechanics before playing independently.
 
@@ -555,10 +633,13 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 1. WHEN a new game starts, THE Tutorial_System SHALL begin the guided first event sequence with an Easy-Going client [MVP]
 2. WHEN teaching a mechanic, THE Tutorial_System SHALL highlight relevant UI elements and disable others [MVP]
 3. WHEN the player completes a tutorial step, THE Tutorial_System SHALL advance to the next instruction [MVP]
-4. THE Tutorial_System SHALL guide the player through: client intake, budget allocation, venue selection, vendor selection, task management, and results review [MVP]
-5. THE Tutorial_System SHALL teach the player about daily work hours and task completion during the task management phase [MVP]
-6. THE Tutorial_System SHALL introduce the Phone apps: Calendar, Messages, Bank, Contacts, Tasks, and Clients [MVP]
-7. THE Tutorial_System SHALL demonstrate checking the weather forecast before booking an outdoor venue [MVP]
+4. THE Tutorial_System SHALL guide the player through simplified core loop: accept client, pick venue, pick caterer, event executes, see results [MVP] [Phase:Launch-Simple]
+4a. THE Tutorial_System SHALL teach full mechanics (budget allocation, vendor selection, task management) only when those systems unlock in Stage 2 [MVP] [Phase:Stage2-Unlock]
+5. THE Tutorial_System SHALL defer teaching daily work hours until the player reaches Stage 2 when the system activates [MVP] [Phase:Stage2-Unlock]
+6. THE Tutorial_System SHALL introduce essential Phone apps only: Calendar, Messages, Bank [MVP] [Phase:Launch-Simple]
+6a. THE Tutorial_System SHALL introduce Contacts, Tasks, and Clients apps contextually as players use them [MVP]
+7. THE Tutorial_System SHALL demonstrate weather awareness with simplified "Good/Risky/Bad" indicator in Stage 1 [MVP] [Phase:Launch-Simple]
+7a. THE Tutorial_System SHALL teach full weather forecast checking when the system unlocks in Stage 2 [MVP] [Phase:Stage2-Unlock]
 8. THE Tutorial_System SHALL explain contingency budget allocation with a vague hint: "Experienced planners always keep something in reserve for surprises" [MVP]
 9. THE Tutorial_System SHALL NOT explicitly teach hidden mechanics (reputation bonuses, going above and beyond, client exploitation penalties) [MVP]
 10. THE Tutorial_System SHALL include subtle hints that encourage discovery: "Some say the best planners develop a sixth sense for vendor reliability over time" [MVP]
@@ -568,7 +649,7 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 14. THE Tutorial_System SHALL allow the player to skip the tutorial if they choose, with a confirmation warning [MVP]
 15. THE Tutorial_System SHALL provide a "Tips" section in the Phone that players can revisit for basic guidance [MVP]
 
-### Requirement 25: Audio System
+### Requirement 26: Audio System
 
 **User Story:** As a player, I want appropriate music and sound effects, so that the game feels polished and engaging.
 
@@ -581,7 +662,7 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 5. THE Audio_Manager SHALL respect device volume settings and allow muting music and SFX independently [MVP]
 6. WHEN the game loses focus, THE Audio_Manager SHALL pause audio playback [MVP]
 
-### Requirement 26: Data Persistence and Serialization
+### Requirement 27: Data Persistence and Serialization
 
 **User Story:** As a player, I want my game data to be reliably saved and loaded, so that I never lose progress.
 
@@ -600,7 +681,7 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 11. WHEN a player logs into an account on a new device, THE Save_System SHALL offer to download cloud save or keep local save [Post-MVP]
 12. THE Save_System SHALL handle cloud save conflicts by presenting both options to the player with timestamps [Post-MVP]
 
-### Requirement 27: Monetization Foundation
+### Requirement 28: Monetization Foundation
 
 **User Story:** As a player, I want optional ways to enhance my experience through purchases, so that I can support the game while gaining benefits.
 
@@ -617,7 +698,7 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 9. THE Monetization_System SHALL integrate Unity Gaming Services for analytics and remote configuration [MVP]
 10. THE Monetization_System SHALL track all ad views and purchases for analytics [MVP]
 
-### Requirement 28: In-App Purchase Products
+### Requirement 29: In-App Purchase Products
 
 **User Story:** As a player, I want various purchase options at different price points, so that I can choose how much to invest in the game.
 
@@ -634,7 +715,7 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 9. THE Monetization_System SHALL offer Business Upgrade Bundles: Office Starter Kit (furniture + basic equipment), Professional Bundle (AV suite + vehicle), Executive Package (all upgrades at 20% discount) [Post-MVP]
 10. THE Monetization_System SHALL offer Training Fast-Track pack that unlocks all certifications [Post-MVP]
 
-### Requirement 29: Advertisement Integration
+### Requirement 30: Advertisement Integration
 
 **User Story:** As a player, I want to optionally watch ads for bonuses, so that I can progress without spending money.
 
@@ -651,7 +732,7 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 9. WHILE on Corporate Path in Stage 2, THE Monetization_System SHALL NOT show interstitial ads (company benefit) [MVP]
 10. THE Monetization_System SHALL support both free-to-play (with ads) and premium (no ads) distribution models [MVP]
 
-### Requirement 30: Unity Gaming Services Integration
+### Requirement 31: Unity Gaming Services Integration
 
 **User Story:** As a developer, I want to leverage Unity's backend services, so that I can track analytics, configure the game remotely, and manage player engagement.
 
@@ -661,33 +742,55 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 2. THE Game_Manager SHALL integrate Unity Remote Config for server-side game balance adjustments [MVP]
 3. THE Game_Manager SHALL integrate Unity Cloud Diagnostics for crash reporting and performance monitoring [MVP]
 4. WHEN the game launches, THE Game_Manager SHALL initialize Unity Gaming Services with appropriate project credentials [MVP]
-5. THE Game_Manager SHALL track key events: tutorial completion, event completion, purchases, stage progression [MVP]
+5. THE Game_Manager SHALL track key analytics events as defined in the Analytics Events List below [MVP]
 6. THE Game_Manager SHALL support A/B testing through Remote Config for monetization optimization [Post-MVP]
+
+**Analytics Events List (MVP):**
+- `tutorial_started`: When tutorial begins
+- `tutorial_completed`: When tutorial finishes
+- `tutorial_skipped`: When player skips tutorial
+- `event_accepted`: When player accepts a client inquiry (with event_type, budget_range, stage)
+- `event_completed`: When event finishes (with satisfaction_score, profit, event_type)
+- `event_failed`: When satisfaction drops below threshold (with satisfaction_score, event_type)
+- `stage_advanced`: When player advances to next stage (with new_stage, total_playtime)
+- `stage_3_path_chosen`: When player chooses Entrepreneur or Corporate (with path_choice)
+- `vendor_booked`: When vendor is hired (with vendor_category, vendor_tier, relationship_level)
+- `venue_booked`: When venue is selected (with venue_type, capacity_utilization)
+- `purchase_initiated`: When IAP flow starts (with product_id)
+- `purchase_completed`: When IAP succeeds (with product_id, price)
+- `purchase_failed`: When IAP fails (with product_id, error_type)
+- `ad_watched`: When rewarded ad completes (with ad_placement, reward_type)
+- `ad_skipped`: When player dismisses ad early (with ad_placement)
+- `family_help_used`: When emergency family funding is requested (with request_number)
+- `financial_crisis`: When player hits $0 (with stage, total_events_completed)
+- `session_start`: When app opens (with time_since_last_session)
+- `session_end`: When app closes (with session_duration)
 
 **Free Tier Notes:**
 7. THE Game_Manager SHALL operate within Unity Gaming Services free tier limits: Analytics up to 50,000 MAU, Cloud Save up to 5GB/month and 1M operations, Crash Reporting included with Unity license [MVP]
 8. WHEN the game exceeds free tier limits, THE Game_Manager SHALL alert developers via Unity Dashboard for cost planning [Post-MVP]
 
-### Requirement 31: Weather System
+### Requirement 32: Weather System
 
 **User Story:** As a player, I want to check weather forecasts before booking outdoor venues, so that I can plan for inclement weather and avoid event disasters.
 
 #### Acceptance Criteria
 
-1. THE Weather_System SHALL generate a 7-day weather forecast for the game world [MVP]
-2. THE Weather_System SHALL display the forecast in the Phone Calendar app [MVP]
+1. THE Weather_System SHALL generate a 7-day weather forecast for the game world [MVP] [Phase:Stage2-Unlock]
+2. THE Weather_System SHALL display the forecast in the Phone Calendar app [MVP] [Phase:Stage2-Unlock]
 3. WHEN the player is booking an outdoor venue, THE Weather_System SHALL display the forecasted weather for the event date [MVP]
 4. THE Weather_System SHALL define weather types: Clear, Cloudy, Light Rain, Heavy Rain, Extreme Heat, Extreme Cold [MVP]
 5. WHEN an outdoor event is scheduled on a day with Light Rain forecast, THE Weather_System SHALL display a warning during venue booking [MVP]
 6. WHEN an outdoor event is scheduled on a day with Heavy Rain or Extreme weather forecast, THE Weather_System SHALL strongly warn the player and suggest indoor alternatives [MVP]
-7. THE Weather_System SHALL allow forecasts to change as the event date approaches (70% accuracy 7 days out, 90% accuracy 2 days out, 100% accuracy day-of) [MVP]
+7. THE Weather_System SHALL allow forecasts to change as the event date approaches (70% accuracy 7 days out, 90% accuracy 2 days out, 100% accuracy day-of) [MVP] [Phase:Stage2-Unlock]
+7a. WHILE in Stage 1, THE Weather_System SHALL display simplified weather as "Good", "Risky", or "Bad" indicator only, with 100% accuracy [MVP] [Phase:Launch-Simple]
 8. WHEN weather changes unfavorably after booking, THE Event_Planning_System SHALL notify the player via Messages app [MVP]
 9. WHEN inclement weather occurs on an outdoor event day, THE Consequence_System SHALL check for backup venue or tent rental in contingency [MVP]
 10. IF no weather backup exists for an outdoor event with bad weather, THEN THE Consequence_System SHALL apply 20-40% satisfaction penalty based on severity [MVP]
 11. WHEN the player books a backup indoor venue or tent rental, THE Event_Planning_System SHALL deduct from contingency budget [MVP]
 12. THE Weather_System SHALL make weather patterns learnable (e.g., summer has more extreme heat risk, spring has more rain) [MVP]
 
-### Requirement 32: Business Economics and Money Management
+### Requirement 33: Business Economics and Money Management
 
 **User Story:** As a player, I want meaningful ways to spend my earnings on business growth and upgrades, so that financial success feels rewarding and strategic.
 
@@ -720,7 +823,7 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 16. THE Event_Planning_System SHALL balance economics so players have discretionary income for optional upgrades after covering necessities [Post-MVP]
 17. THE Event_Planning_System SHALL ensure ongoing expenses consume approximately 30-40% of typical weekly earnings, leaving 60-70% for savings and upgrades [Post-MVP]
 
-### Requirement 33: Emergency Funding System
+### Requirement 34: Emergency Funding System
 
 **User Story:** As a player facing financial hardship, I want realistic options to get emergency funds, so that I can recover from setbacks without breaking immersion.
 
@@ -755,7 +858,7 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 20. IF the player's funds reach $0 with no emergency options available, THEN THE Progression_System SHALL trigger a "Financial Crisis" event with recovery options [MVP]
 21. THE Progression_System SHALL offer Financial Crisis recovery: restart stage with reduced reputation OR watch ad to receive one-time emergency grant [MVP]
 
-### Requirement 34: Settings and Player Profile
+### Requirement 35: Settings and Player Profile
 
 **User Story:** As a player, I want to customize my avatar and adjust game settings, so that I can personalize my experience.
 
@@ -785,15 +888,24 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 15. THE Settings_Screen SHALL provide links to Privacy Policy and Terms of Service [MVP]
 16. THE Settings_Screen SHALL provide account login/logout options when cloud save is enabled [Post-MVP]
 
-**Accessibility (Post-MVP):**
-17. THE Settings_Screen SHALL provide text size options (Small, Medium, Large) [Post-MVP]
-18. THE Settings_Screen SHALL provide colorblind mode options (Deuteranopia, Protanopia, Tritanopia) [Post-MVP]
-19. THE Settings_Screen SHALL provide a reduced motion toggle for players sensitive to animations [Post-MVP]
+**Accessibility:**
+17. THE Settings_Screen SHALL provide text size options (Small, Medium, Large) [MVP]
+18. THE UI_Manager SHALL scale all text elements according to the selected text size setting [MVP]
+19. THE Settings_Screen SHALL provide colorblind mode options (Deuteranopia, Protanopia, Tritanopia) [Post-MVP]
+20. THE Settings_Screen SHALL provide a reduced motion toggle for players sensitive to animations [Post-MVP]
 
 **Localization (Post-MVP):**
-20. THE Settings_Screen SHALL provide language selection when multiple languages are supported [Post-MVP]
+21. THE Settings_Screen SHALL provide language selection when multiple languages are supported [Post-MVP]
 
-### Requirement 35: Push Notifications
+**Privacy and Data Compliance:**
+22. THE Settings_Screen SHALL provide a "Privacy Settings" option allowing players to manage data collection preferences [MVP]
+23. THE Game_Manager SHALL request user consent before enabling analytics data collection (GDPR/CCPA compliance) [MVP]
+24. WHEN a player opts out of analytics, THE Game_Manager SHALL disable Unity Analytics data collection while maintaining core functionality [MVP]
+25. THE Settings_Screen SHALL provide a "Delete My Data" option that clears all local save data and resets the game [MVP]
+26. THE Game_Manager SHALL NOT collect or transmit personally identifiable information without explicit user consent [MVP]
+27. WHEN displaying Privacy Policy or Terms of Service, THE Settings_Screen SHALL open the documents in an in-app browser or system browser [MVP]
+
+### Requirement 36: Push Notifications
 
 **User Story:** As a player, I want optional reminders about important game events, so that I don't miss deadlines or opportunities when I'm away from the game.
 
@@ -822,7 +934,7 @@ This document covers the complete game scope (Stages 1-5) with MVP items marked.
 14. THE Notification_System SHALL schedule notifications locally based on in-game time calculations [MVP]
 15. WHEN the player opens the app from a notification, THE Notification_System SHALL navigate to the relevant screen [MVP]
 
-### Requirement 36: Achievements and Trophies
+### Requirement 37: Achievements and Trophies
 
 **User Story:** As a player, I want to earn achievements for my accomplishments, so that I feel recognized for my progress and have additional goals to pursue.
 
