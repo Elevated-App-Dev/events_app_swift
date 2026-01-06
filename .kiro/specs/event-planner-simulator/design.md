@@ -718,6 +718,7 @@ public class GameManager : MonoBehaviour
     public IProgressionSystem ProgressionSystem { get; private set; }
     public IConsequenceSystem ConsequenceSystem { get; private set; }
     public IWeatherSystem WeatherSystem { get; private set; }
+    public ISatisfactionCalculator SatisfactionCalculator { get; private set; }
 
     // UI System references
     public IPhoneSystem PhoneSystem { get; private set; }
@@ -753,6 +754,7 @@ public class GameManager : MonoBehaviour
         WeatherSystem = new WeatherSystemImpl();
 
         // 2. Game systems (depend on core)
+        SatisfactionCalculator = new SatisfactionCalculatorImpl();
         ProgressionSystem = new ProgressionSystemImpl();
         ConsequenceSystem = new ConsequenceSystemImpl();
         EventPlanningSystem = new EventPlanningSystemImpl();
@@ -1059,6 +1061,46 @@ public class EventData
     public bool isCompanyEvent; // Stage 2: company vs side gig
     public bool isReferral;
     public string referredByClientName;
+}
+
+/// <summary>
+/// Tracks a vendor assigned to an event.
+/// </summary>
+[Serializable]
+public class VendorAssignment
+{
+    public string vendorId;
+    public VendorCategory category;
+    public float agreedPrice;
+    public bool isConfirmed;
+    public GameDate bookingDate;
+}
+
+/// <summary>
+/// Client data for satisfaction calculation.
+/// Extracted from EventData for calculator interface.
+/// </summary>
+[Serializable]
+public class ClientData
+{
+    public string clientId;
+    public string clientName;
+    public ClientPersonality personality;
+    public int guestCount;
+    public float budgetTotal;
+    public List<string> specialRequirements;
+    
+    /// <summary>
+    /// Create ClientData from an EventData for satisfaction calculation.
+    /// </summary>
+    public static ClientData FromEvent(EventData eventData) => new ClientData
+    {
+        clientId = eventData.clientId,
+        clientName = eventData.clientName,
+        personality = eventData.personality,
+        guestCount = eventData.guestCount,
+        budgetTotal = eventData.budget.total
+    };
 }
 
 [Serializable]
