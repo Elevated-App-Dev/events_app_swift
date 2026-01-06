@@ -306,6 +306,399 @@ public interface IAchievementSystem
 }
 ```
 
+### Save System Interface
+
+```csharp
+/// <summary>
+/// Handles persistent game state storage and retrieval.
+/// </summary>
+public interface ISaveSystem
+{
+    /// <summary>
+    /// Save current game state to persistent storage.
+    /// </summary>
+    void Save(SaveData data);
+
+    /// <summary>
+    /// Load game state from persistent storage.
+    /// Returns null if no save exists.
+    /// </summary>
+    SaveData Load();
+
+    /// <summary>
+    /// Check if a save file exists.
+    /// </summary>
+    bool HasSaveFile { get; }
+
+    /// <summary>
+    /// Delete the current save file.
+    /// </summary>
+    void DeleteSave();
+
+    /// <summary>
+    /// Create a backup of the current save before major operations.
+    /// </summary>
+    void CreateBackup();
+
+    /// <summary>
+    /// Restore from the most recent backup.
+    /// Returns null if no backup exists.
+    /// </summary>
+    SaveData RestoreFromBackup();
+
+    /// <summary>
+    /// Check if save file is corrupted.
+    /// </summary>
+    bool ValidateSaveFile();
+
+    /// <summary>
+    /// Get the current save file version.
+    /// </summary>
+    string GetSaveVersion();
+
+    /// <summary>
+    /// Migrate save data from an older version to current.
+    /// </summary>
+    SaveData MigrateSaveData(SaveData oldData, string fromVersion);
+}
+```
+
+### Map System Interface
+
+```csharp
+/// <summary>
+/// Manages the city map UI, zone navigation, and location discovery.
+/// </summary>
+public interface IMapSystem
+{
+    /// <summary>
+    /// Get zones currently visible/unlocked for the player.
+    /// </summary>
+    List<MapZone> GetVisibleZones(int stage);
+
+    /// <summary>
+    /// Get all locations (venues, vendors) in a specific zone.
+    /// </summary>
+    List<LocationData> GetLocationsInZone(MapZone zone);
+
+    /// <summary>
+    /// Navigate to a specific zone, triggering zoom animation.
+    /// </summary>
+    void NavigateToZone(MapZone zone);
+
+    /// <summary>
+    /// Navigate to a specific location within a zone.
+    /// </summary>
+    void NavigateToLocation(string locationId);
+
+    /// <summary>
+    /// Filter visible location pins by type.
+    /// </summary>
+    void SetLocationFilter(LocationType filter);
+
+    /// <summary>
+    /// Get the preview card data for a location.
+    /// </summary>
+    LocationPreviewData GetLocationPreview(string locationId);
+
+    /// <summary>
+    /// Check if a zone is unlocked for the current player.
+    /// </summary>
+    bool IsZoneUnlocked(MapZone zone);
+
+    /// <summary>
+    /// Get the player's current office location.
+    /// </summary>
+    LocationData GetPlayerOffice();
+}
+
+public enum LocationType { All, Venue, Vendor, Office, MeetingPoint }
+
+[Serializable]
+public class LocationData
+{
+    public string locationId;
+    public string displayName;
+    public LocationType locationType;
+    public MapZone zone;
+    public Vector2 mapPosition; // Position on map UI
+    public string iconId;
+}
+
+[Serializable]
+public class LocationPreviewData
+{
+    public string locationId;
+    public string displayName;
+    public string description;
+    public string thumbnailPath;
+    public LocationType locationType;
+    // Venue-specific
+    public int capacity;
+    public float pricePerEvent;
+    // Vendor-specific
+    public VendorTier tier;
+    public float rating;
+}
+```
+
+### Phone System Interface
+
+```csharp
+/// <summary>
+/// Manages the smartphone UI overlay and app navigation.
+/// </summary>
+public interface IPhoneSystem
+{
+    /// <summary>
+    /// Open the phone overlay, displaying available apps.
+    /// </summary>
+    void OpenPhone();
+
+    /// <summary>
+    /// Close the phone overlay and return to previous screen.
+    /// </summary>
+    void ClosePhone();
+
+    /// <summary>
+    /// Open a specific app within the phone.
+    /// </summary>
+    void OpenApp(PhoneApp app);
+
+    /// <summary>
+    /// Get notification badge count for an app.
+    /// </summary>
+    int GetBadgeCount(PhoneApp app);
+
+    /// <summary>
+    /// Update badge count for an app.
+    /// </summary>
+    void SetBadgeCount(PhoneApp app, int count);
+
+    /// <summary>
+    /// Check if phone overlay is currently visible.
+    /// </summary>
+    bool IsPhoneOpen { get; }
+}
+
+public enum PhoneApp 
+{ 
+    Calendar, Messages, Bank, Contacts, Reviews, Tasks, Clients 
+}
+```
+
+### Tutorial System Interface
+
+```csharp
+/// <summary>
+/// Manages guided instruction for new players.
+/// </summary>
+public interface ITutorialSystem
+{
+    /// <summary>
+    /// Start the tutorial sequence for a new player.
+    /// </summary>
+    void StartTutorial();
+
+    /// <summary>
+    /// Advance to the next tutorial step.
+    /// </summary>
+    void AdvanceStep();
+
+    /// <summary>
+    /// Skip the tutorial entirely.
+    /// </summary>
+    void SkipTutorial();
+
+    /// <summary>
+    /// Check if tutorial has been completed.
+    /// </summary>
+    bool IsTutorialComplete { get; }
+
+    /// <summary>
+    /// Get current tutorial step for UI highlighting.
+    /// </summary>
+    TutorialStep CurrentStep { get; }
+
+    /// <summary>
+    /// Highlight specific UI elements for current step.
+    /// </summary>
+    void HighlightElements(List<string> elementIds);
+
+    /// <summary>
+    /// Show contextual tip for a mechanic.
+    /// </summary>
+    void ShowContextualTip(string tipKey);
+}
+
+public enum TutorialStep
+{
+    Welcome,
+    AcceptClient,
+    SelectVenue,
+    SelectCaterer,
+    EventExecution,
+    ViewResults,
+    Complete
+}
+```
+
+### Audio Manager Interface
+
+```csharp
+/// <summary>
+/// Manages background music and sound effects.
+/// </summary>
+public interface IAudioManager
+{
+    /// <summary>
+    /// Play background music for a screen/context.
+    /// </summary>
+    void PlayMusic(MusicTrack track);
+
+    /// <summary>
+    /// Stop current background music.
+    /// </summary>
+    void StopMusic();
+
+    /// <summary>
+    /// Play a sound effect.
+    /// </summary>
+    void PlaySFX(SoundEffect sfx);
+
+    /// <summary>
+    /// Set music volume (0-1).
+    /// </summary>
+    void SetMusicVolume(float volume);
+
+    /// <summary>
+    /// Set sound effects volume (0-1).
+    /// </summary>
+    void SetSFXVolume(float volume);
+
+    /// <summary>
+    /// Mute/unmute all audio.
+    /// </summary>
+    void SetMuteAll(bool muted);
+
+    /// <summary>
+    /// Pause audio when app loses focus.
+    /// </summary>
+    void PauseAudio();
+
+    /// <summary>
+    /// Resume audio when app regains focus.
+    /// </summary>
+    void ResumeAudio();
+}
+
+public enum MusicTrack { MainMenu, Planning, Execution, Results, Celebration }
+public enum SoundEffect { ButtonClick, Success, Failure, Notification, CashRegister, Warning }
+```
+
+### Monetization System Interface
+
+```csharp
+/// <summary>
+/// Handles in-app purchases and advertisements.
+/// </summary>
+public interface IMonetizationSystem
+{
+    /// <summary>
+    /// Initialize Unity IAP and Unity Ads.
+    /// </summary>
+    void Initialize();
+
+    /// <summary>
+    /// Check if a rewarded ad is available.
+    /// </summary>
+    bool IsRewardedAdReady(AdPlacement placement);
+
+    /// <summary>
+    /// Show a rewarded ad and invoke callback on completion.
+    /// </summary>
+    void ShowRewardedAd(AdPlacement placement, Action<bool> onComplete);
+
+    /// <summary>
+    /// Show an interstitial ad at a natural break point.
+    /// </summary>
+    void ShowInterstitialAd(Action onComplete);
+
+    /// <summary>
+    /// Initiate a purchase for a product.
+    /// </summary>
+    void PurchaseProduct(string productId, Action<bool> onComplete);
+
+    /// <summary>
+    /// Restore previously purchased non-consumable items.
+    /// </summary>
+    void RestorePurchases(Action<bool> onComplete);
+
+    /// <summary>
+    /// Check if player has purchased "No Ads" or is VIP.
+    /// </summary>
+    bool IsAdFree { get; }
+
+    /// <summary>
+    /// Check if player has active VIP subscription.
+    /// </summary>
+    bool IsVIP { get; }
+
+    /// <summary>
+    /// Get remaining cooldown for a rewarded ad placement.
+    /// </summary>
+    float GetAdCooldown(AdPlacement placement);
+}
+
+public enum AdPlacement
+{
+    EmergencyFunding,
+    OvertimeHours,
+    RandomEventMitigation,
+    TimeSkip
+}
+```
+
+### Unity Gaming Services Interface
+
+```csharp
+/// <summary>
+/// Manages Unity Gaming Services integration (Analytics, Remote Config, Cloud Diagnostics).
+/// </summary>
+public interface IUnityServicesManager
+{
+    /// <summary>
+    /// Initialize Unity Gaming Services with project credentials.
+    /// </summary>
+    void Initialize();
+
+    /// <summary>
+    /// Track an analytics event.
+    /// </summary>
+    void TrackEvent(string eventName, Dictionary<string, object> parameters = null);
+
+    /// <summary>
+    /// Get a remote config value.
+    /// </summary>
+    T GetRemoteConfig<T>(string key, T defaultValue);
+
+    /// <summary>
+    /// Check if user has consented to analytics.
+    /// </summary>
+    bool HasAnalyticsConsent { get; }
+
+    /// <summary>
+    /// Set user analytics consent status.
+    /// </summary>
+    void SetAnalyticsConsent(bool consented);
+
+    /// <summary>
+    /// Log a custom exception for crash reporting.
+    /// </summary>
+    void LogException(Exception exception);
+}
+```
+
 ### Manager Classes (MonoBehaviour Wrappers)
 
 ```csharp
@@ -316,24 +709,102 @@ public interface IAchievementSystem
 public class GameManager : MonoBehaviour
 {
     public static GameManager Instance { get; private set; }
-    
-    // System references
+
+    // Core System references
     public ISaveSystem SaveSystem { get; private set; }
     public ITimeSystem TimeSystem { get; private set; }
+    public IMapSystem MapSystem { get; private set; }
     public IEventPlanningSystem EventPlanningSystem { get; private set; }
     public IProgressionSystem ProgressionSystem { get; private set; }
     public IConsequenceSystem ConsequenceSystem { get; private set; }
-    
+    public IWeatherSystem WeatherSystem { get; private set; }
+
+    // UI System references
+    public IPhoneSystem PhoneSystem { get; private set; }
+    public ITutorialSystem TutorialSystem { get; private set; }
+    public IAudioManager AudioManager { get; private set; }
+
+    // Platform System references
+    public IMonetizationSystem MonetizationSystem { get; private set; }
+    public IUnityServicesManager UnityServices { get; private set; }
+    public INotificationSystem NotificationSystem { get; private set; }
+    public IAchievementSystem AchievementSystem { get; private set; }
+
     // Current game state
     public PlayerData CurrentPlayer { get; private set; }
     public GameState State { get; private set; }
-    
+
     private void Awake()
     {
         if (Instance != null) { Destroy(gameObject); return; }
         Instance = this;
         DontDestroyOnLoad(gameObject);
         InitializeSystems();
+    }
+
+    /// <summary>
+    /// Initialize all systems in dependency order.
+    /// </summary>
+    private void InitializeSystems()
+    {
+        // 1. Core systems (no dependencies)
+        SaveSystem = new SaveSystemImpl();
+        TimeSystem = new TimeSystemImpl();
+        WeatherSystem = new WeatherSystemImpl();
+
+        // 2. Game systems (depend on core)
+        ProgressionSystem = new ProgressionSystemImpl();
+        ConsequenceSystem = new ConsequenceSystemImpl();
+        EventPlanningSystem = new EventPlanningSystemImpl();
+        MapSystem = new MapSystemImpl();
+
+        // 3. UI systems (depend on game systems)
+        PhoneSystem = new PhoneSystemImpl();
+        TutorialSystem = new TutorialSystemImpl();
+        AudioManager = new AudioManagerImpl();
+
+        // 4. Platform systems (can initialize async)
+        MonetizationSystem = new MonetizationSystemImpl();
+        UnityServices = new UnityServicesManagerImpl();
+        NotificationSystem = new NotificationSystemImpl();
+        AchievementSystem = new AchievementSystemImpl();
+
+        // Initialize monetization and services
+        MonetizationSystem.Initialize();
+        UnityServices.Initialize();
+    }
+
+    /// <summary>
+    /// Load existing save or start new game.
+    /// </summary>
+    public void StartGame()
+    {
+        if (SaveSystem.HasSaveFile && SaveSystem.ValidateSaveFile())
+        {
+            var saveData = SaveSystem.Load();
+            CurrentPlayer = saveData.playerData;
+            State = GameState.Playing;
+        }
+        else
+        {
+            StartNewGame();
+        }
+    }
+
+    /// <summary>
+    /// Initialize a new game with Stage 1 defaults.
+    /// </summary>
+    public void StartNewGame()
+    {
+        CurrentPlayer = new PlayerData
+        {
+            plannerName = "Alex",
+            currentStage = BusinessStage.Solo,
+            money = 500f,
+            reputation = 0,
+            unlockedZones = new List<MapZone> { MapZone.Neighborhood }
+        };
+        State = GameState.Tutorial;
     }
 }
 ```
@@ -418,15 +889,73 @@ public struct GameDate : IComparable<GameDate>, IEquatable<GameDate>
 ### Core Enums
 
 ```csharp
+// Game State
+public enum GameState { Loading, MainMenu, Playing, Paused, Tutorial, Results, Settings }
+
+// Business & Career
 public enum BusinessStage { Solo = 1, Employee = 2, SmallCompany = 3, Established = 4, Premier = 5 }
 public enum CareerPath { None, Entrepreneur, Corporate }
+public enum EmployeeLevel { Junior = 1, Planner = 3, Senior = 5 } // Level 1-2 = Junior, 3-4 = Planner, 5 = Senior
+
+// Client & Event
 public enum ClientPersonality { EasyGoing, BudgetConscious, Perfectionist, Indecisive, Demanding, Celebrity }
 public enum EventStatus { Inquiry, Accepted, Planning, Executing, Completed, Cancelled }
 public enum EventComplexity { Low, Medium, High, VeryHigh }
 public enum WorkloadStatus { Optimal, Comfortable, Strained, Critical }
 public enum EventPhase { Booking, PrePlanning, ActivePlanning, FinalPrep, ExecutionDay, Results }
+
+// Map & Locations
+public enum MapZone { Neighborhood, Downtown, Uptown, Waterfront }
+
+// Venue & Vendor
+public enum VenueType
+{
+    // Neighborhood (Stage 1)
+    Backyard, CommunityCenter, ParkPavilion,
+    // Downtown (Stage 2+)
+    Hotel, Restaurant, SmallBallroom,
+    // Large (Stage 3+)
+    ConventionCenter, ConferenceHotel,
+    // Uptown (Stage 4+)
+    LuxuryHotel, Estate, Rooftop,
+    // Waterfront (Stage 5)
+    Beach, GardenEstate
+}
+
+public enum VendorCategory
+{
+    Caterer, Entertainer, Decorator, Photographer,
+    Florist, Baker, RentalCompany, AVTechnician,
+    Transportation, Security // Post-MVP
+}
+
+public enum VendorTier { Budget, Standard, Premium, Luxury }
+
+// Weather
 public enum WeatherType { Clear, Cloudy, LightRain, HeavyRain, ExtremeHeat, ExtremeCold }
 public enum WeatherRisk { Good, Risky, Bad } // Stage 1 simplified
+
+// Notifications
+public enum NotificationType
+{
+    EventDeadline, TaskDeadline, NewInquiry,
+    Referral, FinancialWarning, WeatherAlert
+}
+
+// Achievements
+public enum AchievementType
+{
+    // Progression
+    FirstSteps, RisingStar, GoingPro, IndustryLeader, EventPlanningMogul,
+    // Mastery
+    PerfectPlanner, ConsistencyIsKey, ExcellenceStreak, BudgetMaster, VendorWhisperer, WeatherWatcher,
+    // Challenge
+    PerfectionistsPerfectionist, JugglingAct, CrisisManager, SelfMade, CorporateClimber, CelebrityHandler,
+    // Secret
+    AboveAndBeyond, FamilyFirst, ComebackKid
+}
+
+public enum AchievementCategory { Progression, Mastery, Challenge, Secret }
 ```
 
 ### Player Data
@@ -729,6 +1258,188 @@ public class WeatherSystemData
     public List<WeatherForecast> forecasts = new(); // 7-day rolling
     public string currentSeason; // Affects probabilities
 }
+
+/// <summary>
+/// Weather warning for outdoor event booking decisions.
+/// </summary>
+[Serializable]
+public class WeatherWarning
+{
+    public WeatherRisk riskLevel;
+    public string warningMessage;
+    public string suggestedAction; // e.g., "Consider indoor backup" or "Book tent rental"
+    public float satisfactionPenaltyIfIgnored; // Potential penalty if weather hits
+}
+```
+
+### Random Event and Consequence Data
+
+```csharp
+/// <summary>
+/// Types of random events that can occur during event execution.
+/// </summary>
+public enum RandomEventType
+{
+    // Vendor Issues
+    VendorNoShow, VendorLate, VendorUnderperformance,
+    // Equipment Issues
+    EquipmentFailure, PowerOutage, AVMalfunction,
+    // Guest Issues
+    GuestConflict, UnexpectedGuests, GuestInjury,
+    // Weather (outdoor events)
+    WeatherChange, ExtremeWeather,
+    // Client Issues
+    LastMinuteChanges, ClientComplaint, BudgetDispute,
+    // Positive Events (rare)
+    UnexpectedCompliment, MediaCoverage, CelebrityAppearance
+}
+
+/// <summary>
+/// Result of a random event evaluation during event execution.
+/// </summary>
+[Serializable]
+public class RandomEventResult
+{
+    public RandomEventType eventType;
+    public string eventDescription;
+    public float baseSatisfactionImpact; // Negative for problems, positive for bonuses
+    public float mitigationCost; // Cost to mitigate via contingency
+    public bool canBeMitigated;
+    public bool wasMitigated;
+    public string mitigationDescription; // What happened if mitigated
+    public string failureDescription; // What happened if not mitigated
+
+    /// <summary>
+    /// Calculate final satisfaction impact based on mitigation status.
+    /// </summary>
+    public float GetFinalImpact() => wasMitigated ? baseSatisfactionImpact * 0.25f : baseSatisfactionImpact;
+}
+
+/// <summary>
+/// Result of attempting to mitigate a random event.
+/// </summary>
+[Serializable]
+public class MitigationResult
+{
+    public bool canMitigate;
+    public float requiredBudget;
+    public float availableBudget;
+    public string mitigationOption; // Description of what can be done
+    public float reducedImpact; // Satisfaction impact if mitigated
+}
+```
+
+### Achievement Data
+
+```csharp
+/// <summary>
+/// Progress tracking for a single achievement.
+/// </summary>
+[Serializable]
+public class AchievementProgress
+{
+    public AchievementType achievementType;
+    public int currentProgress;
+    public int targetProgress;
+    public bool isEarned;
+    public long earnedTimeTicks; // DateTime.Ticks when earned
+
+    public DateTime EarnedTime
+    {
+        get => new DateTime(earnedTimeTicks);
+        set => earnedTimeTicks = value.Ticks;
+    }
+
+    public float ProgressPercent => targetProgress > 0 ? (float)currentProgress / targetProgress : 0f;
+    public bool IsTrackable => targetProgress > 1; // Multi-step achievements show progress
+}
+
+/// <summary>
+/// Full achievement definition and status.
+/// </summary>
+[Serializable]
+public class AchievementData
+{
+    public AchievementType achievementType;
+    public AchievementCategory category;
+    public string displayName;
+    public string description;
+    public string hiddenDescription; // Shown before earning secret achievements
+    public string iconId;
+    public int targetProgress; // 1 for one-time achievements
+    public bool isSecret;
+
+    // Rewards (Post-MVP)
+    public int currencyReward;
+    public string unlockId; // Cosmetic or feature unlock
+
+    /// <summary>
+    /// Get display description (handles secret achievements).
+    /// </summary>
+    public string GetDisplayDescription(bool isEarned)
+    {
+        if (isSecret && !isEarned) return hiddenDescription;
+        return description;
+    }
+}
+```
+
+### Event Type and Subcategory Data
+
+```csharp
+/// <summary>
+/// Definition of an event type with its subcategories.
+/// </summary>
+[CreateAssetMenu(fileName = "EventType", menuName = "EventPlanner/EventType")]
+public class EventTypeData : ScriptableObject
+{
+    public string eventTypeId;
+    public string displayName;
+    public EventComplexity complexity;
+    public int minBudget;
+    public int maxBudget;
+    public int minStageRequired;
+    public List<string> subCategories;
+    public List<VendorCategory> requiredVendors;
+    public List<VendorCategory> optionalVendors;
+    public float[] recommendedBudgetSplit; // Venue, Catering, Entertainment, Decorations, Staffing, Contingency
+}
+
+/// <summary>
+/// Generated client inquiry awaiting player response.
+/// </summary>
+[Serializable]
+public class ClientInquiry
+{
+    public string inquiryId;
+    public string clientName;
+    public string eventTypeId;
+    public string subCategory;
+    public string eventDisplayName; // "[clientName]'s [subCategory]"
+    public ClientPersonality personality;
+    public int budget;
+    public int guestCount;
+    public GameDate eventDate;
+    public List<string> specialRequirements;
+    public long createdTimeTicks;
+    public long expiresTimeTicks; // 20 minutes after creation
+
+    public DateTime CreatedTime
+    {
+        get => new DateTime(createdTimeTicks);
+        set => createdTimeTicks = value.Ticks;
+    }
+
+    public DateTime ExpiresTime
+    {
+        get => new DateTime(expiresTimeTicks);
+        set => expiresTimeTicks = value.Ticks;
+    }
+
+    public bool IsExpired => DateTime.UtcNow > ExpiresTime;
+    public bool IsReferral; // True if generated from a referral
+    public string referredByClientName; // Name of referring client
+}
 ```
 
 ### Save Data
@@ -828,6 +1539,8 @@ public class GameSettings
     public bool muteAll = false;
     public bool showTutorialTips = true;
     public NotificationSettings notifications = new();
+    public PrivacySettings privacy = new();
+    public AccessibilitySettings accessibility = new();
 }
 
 [Serializable]
@@ -838,6 +1551,66 @@ public class NotificationSettings
     public bool newInquiries = false;
     public bool referrals = false;
     public bool financialWarnings = false;
+}
+```
+
+### Avatar and Settings Data
+
+```csharp
+[Serializable]
+public class AvatarData
+{
+    public int faceShapeIndex = 0;
+    public int skinToneIndex = 0;
+    public int hairStyleIndex = 0;
+    public int hairColorIndex = 0;
+    public int outfitIndex = 0;
+}
+
+[Serializable]
+public class PrivacySettings
+{
+    public bool analyticsEnabled = false; // Default OFF, requires opt-in (GDPR/CCPA)
+    public bool crashReportingEnabled = true;
+    public DateTime consentTimestamp;
+    public bool hasGivenConsent = false;
+}
+
+[Serializable]
+public class AccessibilitySettings
+{
+    public TextSize textSize = TextSize.Medium;
+    public bool reducedMotion = false;
+    public ColorblindMode colorblindMode = ColorblindMode.None;
+}
+
+public enum TextSize { Small, Medium, Large }
+public enum ColorblindMode { None, Deuteranopia, Protanopia, Tritanopia }
+```
+
+### Stage 3 Milestone Data
+
+```csharp
+[Serializable]
+public class CareerSummaryData
+{
+    public int totalEventsCompleted;
+    public string firstEventName;
+    public string highestSatisfactionEventName;
+    public float highestSatisfactionScore;
+    public float totalMoneyEarned;
+    public int currentReputation;
+    public DateTime journeyStartDate;
+    public DateTime stage3ReachedDate;
+}
+
+[Serializable]
+public class MilestoneProgress
+{
+    public bool hasSeenStage3Milestone = false;
+    public bool hasChosenPath = false;
+    public CareerPath chosenPath = CareerPath.None;
+    public bool canSkipMilestoneSequence = false; // True after first playthrough
 }
 ```
 
@@ -882,6 +1655,149 @@ public class MarketingData
         MarketingTier.Premium => 1.5f,   // +50% above normal
         _ => 0.7f                         // No marketing = 70% of base
     };
+}
+```
+
+### Monetization Data Models
+
+```csharp
+public enum IAPProductType { Consumable, NonConsumable, Subscription }
+
+/// <summary>
+/// Defines an in-app purchase product.
+/// </summary>
+[CreateAssetMenu(fileName = "IAPProduct", menuName = "EventPlanner/IAPProduct")]
+public class IAPProductData : ScriptableObject
+{
+    public string productId;
+    public string displayName;
+    public string description;
+    public IAPProductType productType;
+    public float basePrice; // USD, actual price from store
+    
+    // Consumable rewards
+    public int currencyAmount;
+    
+    // Non-consumable unlocks
+    public List<string> unlockIds;
+    
+    // Subscription benefits
+    public bool grantsVIP;
+    public bool grantsNoAds;
+    public bool grantsPremiumIdleMode;
+}
+
+/// <summary>
+/// Defines a rewarded ad placement with cooldowns and limits.
+/// </summary>
+[CreateAssetMenu(fileName = "AdPlacement", menuName = "EventPlanner/AdPlacement")]
+public class AdPlacementData : ScriptableObject
+{
+    public AdPlacement placementType;
+    public string unityAdUnitId;
+    public float cooldownSeconds = 300f; // 5 minutes default
+    public int dailyLimit = 5;
+    public string rewardDescription;
+    
+    // Reward values
+    public int currencyReward;
+    public int workHoursReward;
+    public float timeSkipHours;
+}
+
+/// <summary>
+/// Serializable ad tracking entry for a single placement.
+/// Unity's JsonUtility doesn't serialize Dictionary, so we use List instead.
+/// </summary>
+[Serializable]
+public class AdTrackingEntry
+{
+    public AdPlacement placement;
+    public long lastWatchTimeTicks; // DateTime.Ticks for serialization
+    public int dailyWatchCount;
+
+    public AdTrackingEntry() { }
+    public AdTrackingEntry(AdPlacement p) => placement = p;
+
+    public DateTime LastWatchTime
+    {
+        get => new DateTime(lastWatchTimeTicks);
+        set => lastWatchTimeTicks = value.Ticks;
+    }
+}
+
+/// <summary>
+/// Runtime tracking for monetization state.
+/// </summary>
+[Serializable]
+public class MonetizationState
+{
+    public bool hasNoAdsPurchase = false;
+    public bool hasVIPSubscription = false;
+    public bool hasPremiumIdleMode = false;
+    public List<string> purchasedProductIds = new();
+    public List<AdTrackingEntry> adTracking = new(); // Replaces Dictionary for serialization
+    public long lastDailyResetTicks;
+
+    public DateTime LastDailyReset
+    {
+        get => new DateTime(lastDailyResetTicks);
+        set => lastDailyResetTicks = value.Ticks;
+    }
+
+    /// <summary>
+    /// Get or create tracking entry for a placement.
+    /// </summary>
+    private AdTrackingEntry GetOrCreateEntry(AdPlacement placement)
+    {
+        var entry = adTracking.Find(e => e.placement == placement);
+        if (entry == null)
+        {
+            entry = new AdTrackingEntry(placement);
+            adTracking.Add(entry);
+        }
+        return entry;
+    }
+
+    /// <summary>
+    /// Check if ad placement is available (not on cooldown, under daily limit).
+    /// </summary>
+    public bool CanWatchAd(AdPlacement placement, AdPlacementData config)
+    {
+        var entry = adTracking.Find(e => e.placement == placement);
+        if (entry == null) return true;
+
+        // Check daily limit
+        if (entry.dailyWatchCount >= config.dailyLimit)
+            return false;
+
+        // Check cooldown
+        var elapsed = (DateTime.UtcNow - entry.LastWatchTime).TotalSeconds;
+        if (elapsed < config.cooldownSeconds)
+            return false;
+
+        return true;
+    }
+
+    /// <summary>
+    /// Record that an ad was watched.
+    /// </summary>
+    public void RecordAdWatch(AdPlacement placement)
+    {
+        var entry = GetOrCreateEntry(placement);
+        entry.LastWatchTime = DateTime.UtcNow;
+        entry.dailyWatchCount++;
+    }
+
+    /// <summary>
+    /// Reset daily ad counts (call at start of each real day).
+    /// </summary>
+    public void ResetDailyCounts()
+    {
+        foreach (var entry in adTracking)
+            entry.dailyWatchCount = 0;
+        LastDailyReset = DateTime.UtcNow.Date;
+    }
 }
 ```
 
@@ -1365,6 +2281,52 @@ INVARIANT: Celebrity event reputation loss >= -50 (loss is negative)
 ```
 
 **Test Approach:** Test worst-case scenarios (minimum satisfaction + negative press) and verify cap is applied.
+
+## UI Animation Specifications
+
+### Touch Feedback Animations
+
+| Interaction | Animation | Duration | Easing |
+|-------------|-----------|----------|--------|
+| Button Press | Scale to 0.95 | 50ms | EaseOut |
+| Button Release | Scale to 1.0 | 100ms | EaseOutBack |
+| Toggle Switch | Slide + Color | 200ms | EaseInOut |
+| Card Tap | Scale to 0.98 + Highlight | 100ms | EaseOut |
+
+### Screen Transitions
+
+| Transition | Animation | Duration | Notes |
+|------------|-----------|----------|-------|
+| Push Screen | Slide from right | 300ms | Previous screen slides left |
+| Pop Screen | Slide from left | 300ms | Current screen slides right |
+| Modal Open | Fade + Scale from 0.9 | 250ms | Background dims to 50% |
+| Modal Close | Fade + Scale to 0.9 | 200ms | Background restores |
+| Phone Overlay | Slide from bottom | 350ms | Slight bounce at end |
+
+### Success/Failure Feedback
+
+| Event | Animation | Duration | Additional |
+|-------|-----------|----------|------------|
+| Event Success | Confetti particles + Scale pop | 500ms | Celebratory SFX |
+| Achievement Earned | Badge slide-in + Glow | 400ms | Achievement SFX |
+| Task Complete | Checkmark draw + Fade | 300ms | Subtle success SFX |
+| Error/Warning | Shake (3 cycles) | 300ms | Warning SFX |
+| Budget Overage | Red flash + Shake | 400ms | Alert SFX |
+
+### Loading States
+
+| State | Animation | Notes |
+|-------|-----------|-------|
+| Data Loading | Pulsing opacity (0.5-1.0) | 1s cycle |
+| Event Execution | Progress bar + Status text | Real-time updates |
+| Save in Progress | Spinning icon | Top-right corner |
+
+### Accessibility Considerations
+
+- All animations respect `AccessibilitySettings.reducedMotion`
+- When reduced motion enabled: instant transitions, no particles
+- Minimum touch target: 44x44 points
+- Color feedback always paired with icon/shape changes
 
 ## Error Handling
 
