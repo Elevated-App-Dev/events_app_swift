@@ -1,0 +1,474 @@
+# Implementation Plan: Unity UI Layer
+
+## Overview
+
+This implementation plan breaks down the Unity UI layer into discrete tasks, organized by dependency order. Tasks build incrementally, starting with foundation and progressing to complete UI systems.
+
+## Tasks
+
+- [ ] 1. Project Setup and Scene Creation
+  - [ ] 1.1 Create MainMenu.unity scene with basic structure
+    - Add Canvas with Screen Space - Overlay
+    - Configure Canvas Scaler (1080x1920, Scale With Screen Size, Match 0.5)
+    - Add EventSystem
+    - _Requirements: UI-1.1, UI-1.6, UI-1.7_
+  - [ ] 1.2 Create GameplayMain.unity scene with canvas hierarchy
+    - Add root Canvas with layers as empty GameObjects
+    - Configure sort orders per design (0, 10, 20, 30, 40, 50, 60, 70, 80)
+    - Add SafeAreaHandler component
+    - _Requirements: UI-1.5, UI-2.1_
+  - [ ] 1.3 Create scene loading infrastructure
+    - Implement SceneLoader utility class
+    - Add loading transition support
+    - _Requirements: UI-1.3, UI-1.4_
+
+- [ ] 2. Common UI Components
+  - [ ] 2.1 Create UIControllerBase abstract class
+    - Implement OnEnable/OnDisable event subscription pattern
+    - Add GameManager property accessor
+    - _Requirements: UI-16.1, UI-16.2, UI-16.3_
+  - [ ] 2.2 Create UIManager singleton
+    - Add overlay management with stack
+    - Add panel transition methods
+    - Add notification queue interface
+    - _Requirements: UI-16.4, UI-16.5_
+  - [ ] 2.3 Create ButtonFeedback component
+    - Implement press/release scale animation
+    - Add sound effect hook
+    - Respect reduced motion setting
+    - _Requirements: UI-17.1, UI-17.6_
+  - [ ] 2.4 Create AccessibleText component
+    - Implement text size scaling from settings
+    - _Requirements: UI-11.8_
+  - [ ] 2.5 Create SafeAreaHandler component
+    - Adjust RectTransform for device safe areas
+    - _Requirements: UI-18.5_
+  - [ ] 2.6 Create UIAnimations utility class
+    - Static methods for common animations
+    - Reduced motion support
+    - _Requirements: UI-17.2, UI-17.6_
+
+- [ ] 3. Checkpoint - Foundation Complete
+  - Verify scenes load correctly
+  - Verify UIManager singleton works
+  - Verify button feedback animations
+
+- [ ] 4. HUD Implementation
+  - [ ] 4.1 Create HUD prefab structure
+    - TopBar with date, money, reputation displays
+    - BottomBar with Phone, Map, Settings buttons
+    - _Requirements: UI-3.1, UI-3.2, UI-3.3, UI-3.4, UI-3.5, UI-3.6_
+  - [ ] 4.2 Implement HUDController
+    - Wire to ITimeSystem for date display
+    - Wire to PlayerData for money/reputation
+    - Implement value change animations
+    - _Requirements: UI-3.7, UI-3.8_
+  - [ ] 4.3 Add workload status indicator (Stage 2+)
+    - Wire to IEventPlanningSystem.GetWorkloadStatus
+    - Conditional display based on stage
+    - _Requirements: UI-3.9_
+  - [ ] 4.4 Wire HUD buttons to UIManager
+    - Phone button opens PhoneOverlay
+    - Map button opens MapOverlay
+    - Settings button opens PauseMenu
+    - _Requirements: UI-3.4, UI-3.5, UI-3.6, UI-3.10_
+
+- [ ] 5. Phone System UI
+  - [ ] 5.1 Create PhoneOverlay prefab
+    - Phone frame visual
+    - Home screen with app grid
+    - App content area
+    - Back and Close buttons
+    - _Requirements: UI-4.1, UI-4.2, UI-4.5, UI-4.6_
+  - [ ] 5.2 Implement PhoneOverlayController
+    - Slide animation from bottom
+    - App icon badge updates from IPhoneSystem
+    - App navigation state management
+    - _Requirements: UI-4.1, UI-4.3, UI-4.4, UI-4.7_
+  - [ ] 5.3 Create AppIcon prefab with AppIconController
+    - Icon image, label, badge counter
+    - Tap handler to open app
+    - _Requirements: UI-4.3_
+  - [ ] 5.4 Implement CalendarAppController
+    - Display upcoming events from SaveData
+    - Display task deadlines with urgency
+    - Highlight current date
+    - _Requirements: UI-4.8, UI-4.9, UI-4.10, UI-4.11_
+  - [ ] 5.5 Implement MessagesAppController
+    - Display message threads (mock data for now)
+    - Unread indicators
+    - Stage 2 company/personal sections
+    - _Requirements: UI-4.12, UI-4.13, UI-4.14, UI-4.15_
+  - [ ] 5.6 Implement BankAppController
+    - Display balance from PlayerData.money
+    - Transaction list from SaveData
+    - Emergency funding highlight
+    - _Requirements: UI-4.16, UI-4.17, UI-4.18, UI-4.19, UI-4.20_
+  - [ ] 5.7 Implement ContactsAppController
+    - Display vendors from SaveData.vendorRelationships
+    - Category filters
+    - Relationship indicators
+    - _Requirements: UI-4.21, UI-4.22, UI-4.23, UI-4.24_
+  - [ ] 5.8 Implement ReviewsAppController
+    - Display reputation from PlayerData
+    - Excellence streak from SaveData
+    - Recent reviews from event history
+    - _Requirements: UI-4.25, UI-4.26, UI-4.27, UI-4.28_
+  - [ ] 5.9 Implement TasksAppController
+    - Display tasks grouped by event
+    - Status, deadlines, work hours
+    - Task detail view
+    - _Requirements: UI-4.29, UI-4.30, UI-4.31, UI-4.32, UI-4.33_
+  - [ ] 5.10 Implement ClientsAppController
+    - Display client history from event history
+    - Personality, satisfaction, referrals
+    - _Requirements: UI-4.34, UI-4.35, UI-4.36, UI-4.37_
+
+- [ ] 6. Checkpoint - Phone System Complete
+  - Verify phone opens/closes with animation
+  - Verify all 7 apps display data
+  - Verify badge counts update
+
+- [ ] 7. Map System UI
+  - [ ] 7.1 Create MapOverlay prefab
+    - Map background image
+    - Zone boundary overlays
+    - Location pin container
+    - Filter bar
+    - Preview card (hidden by default)
+    - Close button
+    - _Requirements: UI-5.1, UI-5.2, UI-5.4, UI-5.12_
+  - [ ] 7.2 Create LocationPin prefab
+    - Pin icon by type (Venue, Vendor, Office)
+    - Tap handler
+    - _Requirements: UI-5.3, UI-5.6_
+  - [ ] 7.3 Create PreviewCard prefab
+    - Location name, description, attributes
+    - Visit button
+    - _Requirements: UI-5.7, UI-5.8_
+  - [ ] 7.4 Implement MapOverlayController
+    - Wire to IMapSystem for zones and locations
+    - Zone zoom behavior
+    - Filter toggle handling
+    - Preview card display
+    - Locked zone messaging
+    - _Requirements: UI-5.5, UI-5.9, UI-5.10, UI-5.11_
+
+- [ ] 8. Event Planning Flow UI
+  - [ ] 8.1 Create ClientInquiryPanel prefab
+    - All client/event info displays
+    - Accept/Decline buttons
+    - Expiration countdown
+    - _Requirements: UI-6.1, UI-6.2, UI-6.3, UI-6.4, UI-6.5_
+  - [ ] 8.2 Implement ClientInquiryController
+    - Wire to IEventPlanningSystem
+    - Accept creates event, transitions to budget
+    - Decline dismisses panel
+    - _Requirements: UI-6.6, UI-6.7_
+  - [ ] 8.3 Create BudgetAllocationPanel prefab
+    - Total budget display
+    - 6 category sliders with labels
+    - Remaining budget display
+    - Warning indicators
+    - Confirm button
+    - _Requirements: UI-6.8, UI-6.9, UI-6.10, UI-6.11, UI-6.12_
+  - [ ] 8.4 Implement BudgetAllocationController
+    - Real-time calculation on slider change
+    - Warning display logic
+    - Transition to venue selection
+    - _Requirements: UI-6.10, UI-6.11, UI-6.13_
+  - [ ] 8.5 Create VenueSelectionPanel prefab
+    - Venue list with VenueCard items
+    - Capacity and price displays
+    - Weather warning area
+    - _Requirements: UI-6.14, UI-6.15, UI-6.16, UI-6.17_
+  - [ ] 8.6 Create VenueCard prefab
+    - Venue image, name, capacity, price, type
+    - Select button
+  - [ ] 8.7 Implement VenueSelectionController
+    - Filter venues by event requirements
+    - Capacity validation warnings
+    - Weather system integration for outdoor venues
+    - Transition to vendor selection
+    - _Requirements: UI-6.14, UI-6.16, UI-6.17, UI-6.18_
+  - [ ] 8.8 Create VendorSelectionPanel prefab
+    - Category tabs/sections
+    - Required vs Optional indicators
+    - Vendor list per category
+    - Budget remaining per category
+    - Complete Planning button
+    - _Requirements: UI-6.19, UI-6.20, UI-6.23, UI-6.24, UI-6.25_
+  - [ ] 8.9 Create VendorCard prefab
+    - Vendor name, tier, price, quality
+    - Availability indicator
+    - Relationship level (Stage 3+)
+    - Book button
+  - [ ] 8.10 Implement VendorSelectionController
+    - Wire to IEventPlanningSystem.BookVendor
+    - Track required vendor completion
+    - Transition to gameplay or execution
+    - _Requirements: UI-6.21, UI-6.22, UI-6.24_
+
+- [ ] 9. Checkpoint - Event Planning Complete
+  - Verify full flow: Inquiry → Budget → Venue → Vendor
+  - Verify transitions work correctly
+  - Verify data persists through flow
+
+- [ ] 10. Event Execution UI
+  - [ ] 10.1 Create EventExecutionPanel prefab
+    - Event progress display
+    - Status updates area
+    - Random event card area
+    - Contingency budget display
+    - _Requirements: UI-7.1, UI-7.2, UI-7.5_
+  - [ ] 10.2 Create RandomEventCard prefab
+    - Event description
+    - Impact indicator
+    - Mitigation option buttons
+    - _Requirements: UI-7.3, UI-7.4_
+  - [ ] 10.3 Implement EventExecutionController
+    - Wire to IConsequenceSystem
+    - Display random events as they occur
+    - Handle mitigation choices
+    - Transition to results
+    - _Requirements: UI-7.3, UI-7.4, UI-7.6, UI-7.7, UI-7.8_
+
+- [ ] 11. Results Screen UI
+  - [ ] 11.1 Create ResultsPanel prefab
+    - Satisfaction score (large, animated)
+    - Category breakdown (Stage 2+)
+    - Profit/loss breakdown
+    - Reputation change
+    - Client feedback
+    - Random events summary
+    - Continue button
+    - _Requirements: UI-8.1, UI-8.2, UI-8.3, UI-8.4, UI-8.5, UI-8.6, UI-8.7, UI-8.8_
+  - [ ] 11.2 Implement ResultsController
+    - Animate score reveal
+    - Animate category bars (Stage 2+)
+    - Display profit calculation
+    - Highlight referral if triggered
+    - Return to gameplay on continue
+    - _Requirements: UI-8.1, UI-8.2, UI-8.4, UI-8.6, UI-8.9_
+
+- [ ] 12. Tutorial System UI
+  - [ ] 12.1 Create TutorialOverlay prefab
+    - Dim background layer
+    - Highlight mask/cutout
+    - Instruction panel
+    - Tip bubble
+    - Skip and Continue buttons
+    - _Requirements: UI-9.1, UI-9.2, UI-9.3, UI-9.5, UI-9.6_
+  - [ ] 12.2 Implement TutorialOverlayController
+    - Wire to ITutorialSystem
+    - Highlight elements by ID
+    - Display contextual tips
+    - Handle step advancement
+    - Handle skip with confirmation
+    - _Requirements: UI-9.4, UI-9.7, UI-9.8_
+  - [ ] 12.3 Add tutorial element IDs to relevant UI elements
+    - Tag elements with TutorialElementId component
+    - IDs: welcome_panel, client_inquiry_panel, accept_button, venue_list, etc.
+    - _Requirements: UI-9.8_
+
+- [ ] 13. Notification System UI
+  - [ ] 13.1 Create NotificationPopup prefab
+    - Type icon
+    - Title and message text
+    - Dismiss button
+    - _Requirements: UI-10.2, UI-10.4_
+  - [ ] 13.2 Implement NotificationController
+    - Queue management
+    - Auto-dismiss timer
+    - Priority ordering
+    - Slide animation
+    - Navigate on tap
+    - _Requirements: UI-10.1, UI-10.3, UI-10.5, UI-10.6, UI-10.7_
+
+- [ ] 14. Checkpoint - Core Gameplay UI Complete
+  - Full event flow works end-to-end
+  - Tutorial highlights work
+  - Notifications display correctly
+
+- [ ] 15. Settings and Pause Menu UI
+  - [ ] 15.1 Create PauseMenu prefab
+    - Resume, Settings, Quit buttons
+    - Dim background
+    - _Requirements: UI-11.1, UI-11.3_
+  - [ ] 15.2 Implement PauseMenuController
+    - Pause time on show
+    - Resume time on hide
+    - Save and quit to main menu
+    - Open settings panel
+    - _Requirements: UI-11.2, UI-11.4, UI-11.5_
+  - [ ] 15.3 Create SettingsPanel prefab
+    - Audio sliders (Music, SFX)
+    - Notification toggles
+    - Text size selector
+    - Restore Purchases button
+    - Reset Game button
+    - Privacy Settings button
+    - Version display
+    - _Requirements: UI-11.6, UI-11.7, UI-11.8, UI-11.9, UI-11.10, UI-11.11, UI-11.12_
+  - [ ] 15.4 Implement SettingsController
+    - Wire sliders to IAudioManager
+    - Wire toggles to INotificationSystem
+    - Wire text size to AccessibilitySettings
+    - Implement restore purchases flow
+    - Implement reset game with confirmation
+    - _Requirements: UI-11.6, UI-11.7, UI-11.8_
+
+- [ ] 16. Milestone Sequence UI
+  - [ ] 16.1 Create MilestoneOverlay prefab
+    - Career summary view
+    - Path choice view
+    - Narrative view with image/text areas
+    - Credits view
+    - Skip button
+    - _Requirements: UI-12.1, UI-12.3, UI-12.4, UI-12.6, UI-12.7_
+  - [ ] 16.2 Implement MilestoneOverlayController
+    - Display career stats from IMilestoneSystem
+    - Handle path choice selection
+    - Play narrative sequence
+    - Display credits
+    - Skip handling
+    - _Requirements: UI-12.2, UI-12.4, UI-12.5, UI-12.8_
+
+- [ ] 17. Main Menu UI
+  - [ ] 17.1 Create MainMenuPanel prefab
+    - Game logo/title
+    - New Game button
+    - Continue button (conditional)
+    - Settings button
+    - Credits button
+    - _Requirements: UI-13.1, UI-13.2, UI-13.3, UI-13.4, UI-13.5_
+  - [ ] 17.2 Implement MainMenuController
+    - Check for save file existence
+    - New game with overwrite confirmation
+    - Continue loads save and transitions
+    - Play background music
+    - _Requirements: UI-13.3, UI-13.6, UI-13.7, UI-13.8_
+
+- [ ] 18. Loading Screen UI
+  - [ ] 18.1 Create LoadingScreen prefab
+    - Progress indicator (spinner or bar)
+    - Loading tip text
+    - _Requirements: UI-14.1, UI-14.2, UI-14.3_
+  - [ ] 18.2 Implement LoadingController
+    - Show during scene transitions
+    - Update progress
+    - Fade out on complete
+    - _Requirements: UI-14.1, UI-14.4_
+
+- [ ] 19. Checkpoint - All UI Screens Complete
+  - All overlays and panels implemented
+  - Settings persist correctly
+  - Main menu works
+
+- [ ] 20. ScriptableObject Test Data
+  - [ ] 20.1 Create Stage 1 VenueData instances (5+)
+    - Backyard venues (2)
+    - Community center (2)
+    - Park pavilion (1)
+    - _Requirements: UI-15.1, UI-15.4_
+  - [ ] 20.2 Create VendorData instances (10+)
+    - Caterers: Budget, Standard (2)
+    - Entertainers: Budget, Standard (2)
+    - Decorators: Budget, Standard (2)
+    - Photographers: Budget, Standard (2)
+    - Baker, Rental Company (2)
+    - _Requirements: UI-15.2, UI-15.4_
+  - [ ] 20.3 Create EventTypeData instances for Stage 1
+    - Kids' Birthday with subcategories
+    - Family Gathering with subcategories
+    - School Event with subcategories
+    - Adult Birthday with subcategories
+    - Baby Shower with subcategories
+    - _Requirements: UI-15.3, UI-15.4_
+  - [ ] 20.4 Create IAPProductData instances
+    - Currency packs (Small, Medium, Large, Mega)
+    - No Ads unlock
+    - VIP subscription
+    - _Requirements: UI-15.5_
+  - [ ] 20.5 Create AdPlacementData instances
+    - Emergency Funding placement
+    - Overtime Hours placement
+    - Time Skip placement
+    - _Requirements: UI-15.6_
+
+- [ ] 21. Integration and Polish
+  - [ ] 21.1 Wire all UI controllers to GameManager systems
+    - Verify all system references resolve
+    - Verify event subscriptions work
+    - _Requirements: UI-16.1, UI-16.4, UI-16.5_
+  - [ ] 21.2 Add UI event subscriptions
+    - Time system date changes
+    - Player data money/reputation changes
+    - Event planning state changes
+    - _Requirements: UI-16.2, UI-16.3_
+  - [ ] 21.3 Implement graceful null handling
+    - All controllers handle missing data
+    - Display placeholder states
+    - _Requirements: UI-16.6_
+  - [ ] 21.4 Add touch feedback to all interactive elements
+    - Verify 44x44 touch targets
+    - Add ButtonFeedback to all buttons
+    - _Requirements: UI-17.1, UI-18.1_
+  - [ ] 21.5 Add success/error feedback
+    - Success: particles, scale pop, sound
+    - Error: shake, sound
+    - _Requirements: UI-17.4, UI-17.5_
+  - [ ] 21.6 Implement swipe to dismiss overlays
+    - Phone, Map, Settings overlays
+    - _Requirements: UI-18.2_
+
+- [ ] 22. Final Testing and Validation
+  - [ ] 22.1 Test complete gameplay loop
+    - New game → Tutorial → First event → Results
+    - Verify all transitions work
+  - [ ] 22.2 Test all phone apps with real data
+    - Verify data displays correctly
+    - Verify updates refresh display
+  - [ ] 22.3 Test map navigation
+    - Zone visibility by stage
+    - Location pins and preview cards
+  - [ ] 22.4 Test settings persistence
+    - Audio settings save/load
+    - Notification settings save/load
+  - [ ] 22.5 Test accessibility features
+    - Reduced motion mode
+    - Text size scaling
+  - [ ] 22.6 Test on multiple screen sizes
+    - iPhone SE (small)
+    - iPhone Pro Max (large)
+    - iPad (tablet)
+    - _Requirements: UI-18.5_
+
+- [ ] 23. Final Checkpoint
+  - All UI requirements implemented
+  - All tests pass
+  - Game is playable end-to-end
+
+## Notes
+
+- Tasks are ordered by dependency - complete earlier tasks before later ones
+- Checkpoints verify milestone completion before proceeding
+- ScriptableObject test data enables testing without complete art assets
+- Integration tasks (21.x) should be done incrementally as UI is built, not all at end
+- Use placeholder sprites/colors until real art assets are available
+
+## Asset Dependencies
+
+The following placeholder assets should be created early:
+- UI sprites (buttons, icons, panels)
+- App icons for phone (7 icons)
+- Location pin icons (4 types)
+- Notification type icons
+- Font (TextMeshPro compatible)
+
+## Technical Notes
+
+- Use DOTween for animations (or Unity's built-in animation if preferred)
+- Use TextMeshPro for all text
+- Prefabs should be self-contained with all internal references set
+- ScriptableObjects should be in Resources/ for runtime loading if needed

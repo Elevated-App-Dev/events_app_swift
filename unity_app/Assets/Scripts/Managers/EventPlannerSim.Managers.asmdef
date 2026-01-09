@@ -5,7 +5,7 @@
         "EventPlannerSim.Core",
         "EventPlannerSim.Data",
         "EventPlannerSim.Systems",
-        "EventPlannerSim.UI"
+        "EventPlannerSim.Interfaces"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],

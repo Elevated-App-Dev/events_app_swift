@@ -4,7 +4,9 @@
     "references": [
         "EventPlannerSim.Core",
         "EventPlannerSim.Data",
-        "EventPlannerSim.Systems"
+        "EventPlannerSim.Systems",
+        "EventPlannerSim.Interfaces",
+        "Unity.TextMeshPro"
     ],
     "includePlatforms": [],
     "excludePlatforms": [],
