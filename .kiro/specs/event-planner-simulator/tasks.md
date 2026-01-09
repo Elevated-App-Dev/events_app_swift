@@ -80,42 +80,42 @@ This implementation plan breaks down the Event Planning Simulator into discrete 
     - Default values per requirements
     - _Requirements: R35.6-R35.27, R36.6-R36.7_
 
-- [ ] 5. Time System Implementation
-  - [ ] 5.1 Implement ITimeSystem interface and TimeSystemImpl
+- [x] 5. Time System Implementation
+  - [x] 5.1 Implement ITimeSystem interface and TimeSystemImpl
     - CurrentDate, AdvanceTime, GetTimeRate
     - ScheduleEvent based on complexity
     - _Requirements: R11.1-R11.11_
-  - [ ] 5.2 Write property test for time passage by stage
+  - [x] 5.2 Write property test for time passage by stage
     - **Property 12: Time Passage by Stage**
     - **Validates: Requirements R11**
-  - [ ] 5.3 Implement event phase calculations
+  - [x] 5.3 Implement event phase calculations
     - Phase durations, stress weights
     - _Requirements: R11.4-R11.7_
 
-- [ ] 6. Satisfaction Calculator Implementation
-  - [ ] 6.1 Implement ISatisfactionCalculator interface and SatisfactionCalculatorImpl
+- [x] 6. Satisfaction Calculator Implementation
+  - [x] 6.1 Implement ISatisfactionCalculator interface and SatisfactionCalculatorImpl
     - Calculate method with weighted scores
     - CalculateCategoryScore for individual categories
     - _Requirements: R13.1-R13.3_
-  - [ ] 6.2 Write property test for satisfaction weighted calculation
+  - [x] 6.2 Write property test for satisfaction weighted calculation
     - **Property 13: Satisfaction Weighted Calculation**
     - **Validates: Requirements R13**
-  - [ ] 6.3 Implement satisfaction clamping (0-100)
+  - [x] 6.3 Implement satisfaction clamping (0-100)
     - Handle extreme inputs
     - _Requirements: R13.8_
-  - [ ] 6.4 Write property test for satisfaction clamping
+  - [x] 6.4 Write property test for satisfaction clamping
     - **Property 14: Satisfaction Clamping**
     - **Validates: Requirements R13.8**
-  - [ ] 6.5 Implement personality threshold lookup
+  - [x] 6.5 Implement personality threshold lookup
     - Thresholds for each personality type
     - _Requirements: R15.2-R15.6_
-  - [ ] 6.6 Write property test for personality thresholds
+  - [x] 6.6 Write property test for personality thresholds
     - **Property 16: Personality Thresholds**
     - **Validates: Requirements R15**
-  - [ ] 6.7 Implement overage tolerance by personality
+  - [x] 6.7 Implement overage tolerance by personality
     - Tolerance percentages, overage handling
     - _Requirements: R7.9-R7.14_
-  - [ ] 6.8 Write property test for overage tolerance
+  - [x] 6.8 Write property test for overage tolerance
     - **Property 8: Overage Tolerance by Personality**
     - **Validates: Requirements R7.9-R7.14**
 

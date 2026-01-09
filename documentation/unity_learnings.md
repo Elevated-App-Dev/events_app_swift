@@ -95,3 +95,54 @@ Assert.AreEqual(expected, actual, 0.01f, ...);
 2. **For float comparisons with values > 100,000**, consider tolerance of `0.1f` or higher
 3. **Alternative**: Use `decimal` type for financial calculations requiring exact precision
 4. **Rule of thumb**: Float has ~7 significant digits of precision, so tolerance should be relative to value magnitude
+
+---
+
+## 3. Ambiguous Reference: Random (UnityEngine vs System)
+
+**Date:** January 2026
+
+**Error Message:**
+```
+Assets/Scripts/Tests/EditMode/SaveSystemPropertyTests.cs(18,17): error CS0104: 'Random' is an ambiguous reference between 'UnityEngine.Random' and 'System.Random'
+```
+
+**Root Cause:**
+When a C# file has `using UnityEngine;` and `using System;` (or uses types from both namespaces), the compiler cannot determine which `Random` class you intend to use since both namespaces contain a `Random` type.
+
+**The Problem:**
+```csharp
+using System;
+using UnityEngine;
+
+public class MyTest
+{
+    private Random _random;  // CS0104: Ambiguous!
+}
+```
+
+**The Solution:**
+Use the fully qualified type name to disambiguate:
+```csharp
+using System;
+using UnityEngine;
+
+public class MyTest
+{
+    private System.Random _random;  // Explicit - no ambiguity
+    
+    void Setup()
+    {
+        _random = new System.Random(42);  // Use System.Random for seeded randomness
+    }
+}
+```
+
+**When to Use Which:**
+- **`System.Random`**: Use for tests requiring reproducible sequences (seeded), or when you need `NextDouble()`, `Next(min, max)` with full control
+- **`UnityEngine.Random`**: Use for gameplay randomness, has convenient static methods like `Random.Range()`, `Random.insideUnitCircle`
+
+**Prevention Rules:**
+1. **In test files**, prefer `System.Random` with a fixed seed for reproducibility
+2. **Always use fully qualified names** when both namespaces are imported and you need `Random`
+3. **Alternative**: Use a namespace alias: `using SysRandom = System.Random;`
