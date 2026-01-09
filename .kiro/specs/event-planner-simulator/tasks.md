@@ -119,7 +119,7 @@ This implementation plan breaks down the Event Planning Simulator into discrete 
     - **Property 8: Overage Tolerance by Personality**
     - **Validates: Requirements R7.9-R7.14**
 
-- [ ] 7. Checkpoint - Core Calculators
+- [x] 7. Checkpoint - Core Calculators
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 8. Progression System Implementation
