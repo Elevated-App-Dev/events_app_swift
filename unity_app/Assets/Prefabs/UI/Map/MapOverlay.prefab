@@ -554,6 +554,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 8538037148083555928}
+  - component: {fileID: 2106233290829684230}
   m_Layer: 0
   m_Name: MapOverlay
   m_TagString: Untagged
@@ -586,6 +587,47 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &2106233290829684230
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 7223401612979351199}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 596606a21f0c74e4bb5da2d4a1274ea4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: EventPlannerSim.UI::EventPlannerSim.UI.Map.MapOverlayController
+  cityOverviewView: {fileID: 0}
+  zoneDetailView: {fileID: 0}
+  neighborhoodButton: {fileID: 0}
+  downtownButton: {fileID: 0}
+  uptownButton: {fileID: 0}
+  waterfrontButton: {fileID: 0}
+  neighborhoodZone: {fileID: 0}
+  downtownZone: {fileID: 0}
+  uptownZone: {fileID: 0}
+  waterfrontZone: {fileID: 0}
+  neighborhoodLabel: {fileID: 0}
+  downtownLabel: {fileID: 0}
+  uptownLabel: {fileID: 0}
+  waterfrontLabel: {fileID: 0}
+  zoneNameText: {fileID: 0}
+  pinsContainer: {fileID: 0}
+  locationPinPrefab: {fileID: 0}
+  backToOverviewButton: {fileID: 0}
+  filterAllButton: {fileID: 0}
+  filterVenuesButton: {fileID: 0}
+  filterVendorsButton: {fileID: 0}
+  previewCard: {fileID: 8479184040090383666}
+  previewNameText: {fileID: 0}
+  previewTypeText: {fileID: 0}
+  previewDescriptionText: {fileID: 0}
+  previewTierText: {fileID: 0}
+  previewSelectButton: {fileID: 0}
+  previewCloseButton: {fileID: 0}
+  closeButton: {fileID: 5068405935578909335}
 --- !u!1 &8479184040090383666
 GameObject:
   m_ObjectHideFlags: 0

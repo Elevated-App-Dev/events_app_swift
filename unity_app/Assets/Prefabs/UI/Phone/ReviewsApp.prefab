@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 4702270595181195397}
   - component: {fileID: 7111817583874798392}
   - component: {fileID: 6135145227779077677}
+  - component: {fileID: 6071199934991313626}
   m_Layer: 0
   m_Name: ReviewsApp
   m_TagString: Untagged
@@ -214,6 +215,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &6071199934991313626
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1888948271003961033}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0f2fa26bb4a9d4aa69bb8967aba3abe3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: EventPlannerSim.UI::EventPlannerSim.UI.Phone.Apps.ReviewsAppController
+  reputationScoreText: {fileID: 0}
+  totalEventsText: {fileID: 0}
+  averageSatisfactionText: {fileID: 0}
+  satisfactionBar: {fileID: 0}
+  streakSection: {fileID: 0}
+  currentStreakText: {fileID: 0}
+  bestStreakText: {fileID: 0}
+  reviewsContainer: {fileID: 0}
+  reviewItemPrefab: {fileID: 0}
+  noReviewsText: {fileID: 0}
 --- !u!1 &4284548508474818639
 GameObject:
   m_ObjectHideFlags: 0

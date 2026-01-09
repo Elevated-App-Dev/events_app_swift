@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 2449885449623231219}
   - component: {fileID: 8556780024676590744}
   - component: {fileID: 2039180941035837051}
+  - component: {fileID: 8331382158988055819}
   m_Layer: 0
   m_Name: ClientsApp
   m_TagString: Untagged
@@ -77,6 +78,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &8331382158988055819
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 458706606130823343}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 511816925b5144020aa56a41751a378a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: EventPlannerSim.UI::EventPlannerSim.UI.Phone.Apps.ClientsAppController
+  totalClientsText: {fileID: 0}
+  repeatClientsText: {fileID: 0}
+  referralSourcesText: {fileID: 0}
+  clientsContainer: {fileID: 0}
+  clientItemPrefab: {fileID: 0}
+  noClientsText: {fileID: 0}
 --- !u!1 &1141648829326537609
 GameObject:
   m_ObjectHideFlags: 0

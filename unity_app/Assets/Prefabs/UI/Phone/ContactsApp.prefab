@@ -260,6 +260,7 @@ GameObject:
   - component: {fileID: 5693274010601550184}
   - component: {fileID: 9046249781640051622}
   - component: {fileID: 815527407062950120}
+  - component: {fileID: 5123540276506665195}
   m_Layer: 0
   m_Name: ContactsApp
   m_TagString: Untagged
@@ -326,6 +327,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &5123540276506665195
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5051695206935034763}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 4d80472470fed4ced908a422d87ce5f0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: EventPlannerSim.UI::EventPlannerSim.UI.Phone.Apps.ContactsAppController
+  contactsContainer: {fileID: 0}
+  contactItemPrefab: {fileID: 0}
+  noContactsText: {fileID: 0}
+  contactListView: {fileID: 0}
+  contactDetailView: {fileID: 0}
+  allFilterButton: {fileID: 0}
+  vendorsFilterButton: {fileID: 0}
+  venuesFilterButton: {fileID: 0}
+  favoritesFilterButton: {fileID: 0}
+  backButton: {fileID: 0}
 --- !u!1 &5971809628649573850
 GameObject:
   m_ObjectHideFlags: 0

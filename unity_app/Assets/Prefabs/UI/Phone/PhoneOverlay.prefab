@@ -539,6 +539,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 3095200127116880183}
+  - component: {fileID: 5945687506946393148}
   m_Layer: 0
   m_Name: PhoneOverlay
   m_TagString: Untagged
@@ -567,6 +568,39 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!114 &5945687506946393148
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5851732115985965470}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: fea8e86789ee0447787d27a210b0b90d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: EventPlannerSim.UI::EventPlannerSim.UI.Phone.PhoneOverlayController
+  phoneContainer: {fileID: 0}
+  homeScreen: {fileID: 1012575135261275833}
+  appContentArea: {fileID: 7007773417126344552}
+  canvasGroup: {fileID: 0}
+  backButton: {fileID: 5856805980825616355}
+  closeButton: {fileID: 2189873131139427469}
+  calendarIcon: {fileID: 0}
+  messagesIcon: {fileID: 0}
+  bankIcon: {fileID: 0}
+  contactsIcon: {fileID: 0}
+  reviewsIcon: {fileID: 0}
+  tasksIcon: {fileID: 0}
+  clientsIcon: {fileID: 0}
+  calendarAppView: {fileID: 0}
+  messagesAppView: {fileID: 0}
+  bankAppView: {fileID: 0}
+  contactsAppView: {fileID: 0}
+  reviewsAppView: {fileID: 0}
+  tasksAppView: {fileID: 0}
+  clientsAppView: {fileID: 0}
+  slideAnimationDuration: 0.25
 --- !u!1 &7007773417126344552
 GameObject:
   m_ObjectHideFlags: 0

@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 8200910490796246703}
   - component: {fileID: 1304090045203700301}
   - component: {fileID: 1251226481135421792}
+  - component: {fileID: 1236089226284395082}
   m_Layer: 0
   m_Name: TopBar
   m_TagString: Untagged
@@ -79,6 +80,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &1236089226284395082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 500261809978602313}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: dde6397ab9a2444dca39c43eec934749, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: EventPlannerSim.UI::EventPlannerSim.UI.HUD.HUDController
+  dateText: {fileID: 8821420275377034908}
+  reputationText: {fileID: 6094495815885743979}
+  reputationLabel: {fileID: 0}
+  moneyText: {fileID: 8623594049786191586}
+  phoneButton: {fileID: 0}
+  mapButton: {fileID: 0}
+  settingsButton: {fileID: 0}
+  workloadIndicator: {fileID: 0}
+  workloadText: {fileID: 0}
+  valueAnimationDuration: 0.4
 --- !u!1 &1841682842858466827
 GameObject:
   m_ObjectHideFlags: 0

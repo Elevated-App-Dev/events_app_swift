@@ -184,6 +184,7 @@ GameObject:
   - component: {fileID: 1015016703904914223}
   - component: {fileID: 3973166382058509800}
   - component: {fileID: 3041358750389562273}
+  - component: {fileID: 7935690802517072441}
   m_Layer: 0
   m_Name: TasksApp
   m_TagString: Untagged
@@ -250,6 +251,24 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &7935690802517072441
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4918440882993467715}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30f3c35217a3e4bdbaf5b9e01791ad2b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: EventPlannerSim.UI::EventPlannerSim.UI.Phone.Apps.TasksAppController
+  tasksContainer: {fileID: 0}
+  eventTaskGroupPrefab: {fileID: 0}
+  noTasksText: {fileID: 0}
+  workHoursSection: {fileID: 0}
+  workHoursText: {fileID: 0}
+  workHoursBar: {fileID: 0}
 --- !u!1 &4924789811434533643
 GameObject:
   m_ObjectHideFlags: 0

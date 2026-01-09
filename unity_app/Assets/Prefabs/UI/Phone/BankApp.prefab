@@ -148,6 +148,7 @@ GameObject:
   - component: {fileID: 7170723317929573479}
   - component: {fileID: 1169204475181124851}
   - component: {fileID: 8916291489532437130}
+  - component: {fileID: 775196349962430471}
   m_Layer: 0
   m_Name: BankApp
   m_TagString: Untagged
@@ -214,6 +215,28 @@ MonoBehaviour:
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
+--- !u!114 &775196349962430471
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4609293586787313007}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 713b26e716a6f403e9b82acf51f84dfa, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: EventPlannerSim.UI::EventPlannerSim.UI.Phone.Apps.BankAppController
+  balanceText: {fileID: 9053365105561826191}
+  pendingInText: {fileID: 0}
+  pendingOutText: {fileID: 0}
+  transactionsContainer: {fileID: 0}
+  transactionItemPrefab: {fileID: 0}
+  daySeparatorPrefab: {fileID: 0}
+  noTransactionsText: {fileID: 0}
+  emergencyFundingSection: {fileID: 0}
+  emergencyFundingButton: {fileID: 0}
+  remainingHelpText: {fileID: 0}
 --- !u!1 &5277420055278239073
 GameObject:
   m_ObjectHideFlags: 0
