@@ -1,0 +1,72 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="7" result="Passed" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-01-09 04:18:42Z" end-time="2026-01-09 04:18:42Z" duration="0.0525733">
+  <test-suite type="TestSuite" id="1000" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="105" result="Passed" start-time="2026-01-09 04:18:42Z" end-time="2026-01-09 04:18:42Z" duration="0.052573" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1115" name="EventPlannerSim.Tests.EditMode.dll" fullname="/Users/d/github/events_app/unity_app/Library/ScriptAssemblies/EventPlannerSim.Tests.EditMode.dll" runstate="Runnable" testcasecount="105" result="Passed" start-time="2026-01-09 04:18:42Z" end-time="2026-01-09 04:18:42Z" duration="0.047284" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="85708" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1116" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="105" result="Passed" start-time="2026-01-09 04:18:42Z" end-time="2026-01-09 04:18:42Z" duration="0.046632" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1117" name="Tests" fullname="EventPlannerSim.Tests" runstate="Runnable" testcasecount="105" result="Passed" start-time="2026-01-09 04:18:42Z" end-time="2026-01-09 04:18:42Z" duration="0.044651" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1118" name="EditMode" fullname="EventPlannerSim.Tests.EditMode" runstate="Runnable" testcasecount="105" result="Passed" start-time="2026-01-09 04:18:42Z" end-time="2026-01-09 04:18:42Z" duration="0.044273" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1008" name="EventPlanningSystemPropertyTests" fullname="EventPlannerSim.Tests.EditMode.EventPlanningSystemPropertyTests" classname="EventPlannerSim.Tests.EditMode.EventPlanningSystemPropertyTests" runstate="Runnable" testcasecount="7" result="Passed" start-time="2026-01-09 04:18:42Z" end-time="2026-01-09 04:18:42Z" duration="0.042394" total="7" passed="7" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1012" name="AcceptInquiry_AllFieldsTransferCorrectly" fullname="EventPlannerSim.Tests.EditMode.EventPlanningSystemPropertyTests.AcceptInquiry_AllFieldsTransferCorrectly" methodname="AcceptInquiry_AllFieldsTransferCorrectly" classname="EventPlannerSim.Tests.EditMode.EventPlanningSystemPropertyTests" runstate="Runnable" seed="1485821891" result="Passed" start-time="2026-01-09 04:18:42Z" end-time="2026-01-09 04:18:42Z" duration="0.012124" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1013" name="AcceptInquiry_ReferralInfoPreserved" fullname="EventPlannerSim.Tests.EditMode.EventPlanningSystemPropertyTests.AcceptInquiry_ReferralInfoPreserved" methodname="AcceptInquiry_ReferralInfoPreserved" classname="EventPlannerSim.Tests.EditMode.EventPlanningSystemPropertyTests" runstate="Runnable" seed="428289836" result="Passed" start-time="2026-01-09 04:18:42Z" end-time="2026-01-09 04:18:42Z" duration="0.000408" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1014" name="GenerateEventTitle_CorrectFormat" fullname="EventPlannerSim.Tests.EditMode.EventPlanningSystemPropertyTests.GenerateEventTitle_CorrectFormat" methodname="GenerateEventTitle_CorrectFormat" classname="EventPlannerSim.Tests.EditMode.EventPlanningSystemPropertyTests" runstate="Runnable" seed="1416335808" result="Passed" start-time="2026-01-09 04:18:42Z" end-time="2026-01-09 04:18:42Z" duration="0.000276" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1015" name="GenerateEventTitle_HandlesEdgeCases" fullname="EventPlannerSim.Tests.EditMode.EventPlanningSystemPropertyTests.GenerateEventTitle_HandlesEdgeCases" methodname="GenerateEventTitle_HandlesEdgeCases" classname="EventPlannerSim.Tests.EditMode.EventPlanningSystemPropertyTests" runstate="Runnable" seed="630719687" result="Passed" start-time="2026-01-09 04:18:42Z" end-time="2026-01-09 04:18:42Z" duration="0.000107" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1009" name="GenerateInquiry_AllFieldsPopulated_ForAllStagesAndReputations" fullname="EventPlannerSim.Tests.EditMode.EventPlanningSystemPropertyTests.GenerateInquiry_AllFieldsPopulated_ForAllStagesAndReputations" methodname="GenerateInquiry_AllFieldsPopulated_ForAllStagesAndReputations" classname="EventPlannerSim.Tests.EditMode.EventPlanningSystemPropertyTests" runstate="Runnable" seed="382226621" result="Passed" start-time="2026-01-09 04:18:42Z" end-time="2026-01-09 04:18:42Z" duration="0.018026" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1010" name="GenerateInquiry_BudgetWithinEventTypeRange" fullname="EventPlannerSim.Tests.EditMode.EventPlanningSystemPropertyTests.GenerateInquiry_BudgetWithinEventTypeRange" methodname="GenerateInquiry_BudgetWithinEventTypeRange" classname="EventPlannerSim.Tests.EditMode.EventPlanningSystemPropertyTests" runstate="Runnable" seed="651705043" result="Passed" start-time="2026-01-09 04:18:42Z" end-time="2026-01-09 04:18:42Z" duration="0.001007" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1011" name="GenerateInquiry_PersonalityDistributionByStage" fullname="EventPlannerSim.Tests.EditMode.EventPlanningSystemPropertyTests.GenerateInquiry_PersonalityDistributionByStage" methodname="GenerateInquiry_PersonalityDistributionByStage" classname="EventPlannerSim.Tests.EditMode.EventPlanningSystemPropertyTests" runstate="Runnable" seed="325377417" result="Passed" start-time="2026-01-09 04:18:42Z" end-time="2026-01-09 04:18:42Z" duration="0.002410" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: ./unity_app/unity_test_results/EventPlanningTests.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

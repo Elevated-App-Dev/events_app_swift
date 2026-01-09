@@ -147,51 +147,51 @@ This implementation plan breaks down the Event Planning Simulator into discrete 
     - **Property 17: Employee Compensation by Level**
     - **Validates: Requirements R16**
 
-- [ ] 9. Event Planning System Implementation
-  - [ ] 9.1 Implement IEventPlanningSystem interface and EventPlanningSystemImpl
+- [x] 9. Event Planning System Implementation
+  - [x] 9.1 Implement IEventPlanningSystem interface and EventPlanningSystemImpl
     - GenerateInquiry with stage/reputation modifiers
     - AcceptInquiry creating EventData
     - _Requirements: R5.1-R5.8_
-  - [ ] 9.2 Write property test for client inquiry completeness
+  - [x] 9.2 Write property test for client inquiry completeness
     - **Property 3: Client Inquiry Completeness**
     - **Validates: Requirements R5**
-  - [ ] 9.3 Write property test for event creation from inquiry
+  - [x] 9.3 Write property test for event creation from inquiry
     - **Property 4: Event Creation from Inquiry**
     - **Validates: Requirements R5**
-  - [ ] 9.4 Implement event title generation
+  - [x] 9.4 Implement event title generation
     - "[ClientName]'s [SubCategory]" format
     - _Requirements: R6.18_
-  - [ ] 9.5 Write property test for event title format
+  - [x] 9.5 Write property test for event title format
     - **Property 6: Event Title Format**
     - **Validates: Requirements R6.18**
-  - [ ] 9.6 Implement workload capacity calculation
+  - [x] 9.6 Implement workload capacity calculation
     - GetWorkloadStatus with stage-specific thresholds
     - Stage 1 simplified (soft cap at 3)
     - Stage 2+ full tier system
     - _Requirements: R5.9-R5.19_
-  - [ ] 9.7 Write property test for workload capacity and penalties
+  - [x] 9.7 Write property test for workload capacity and penalties
     - **Property 5: Workload Capacity and Penalties**
     - **Validates: Requirements R5.9-R5.18**
-  - [ ] 9.8 Implement overlapping event preparation penalty
+  - [x] 9.8 Implement overlapping event preparation penalty
     - 5% per overlapping event
     - _Requirements: R5.17_
-  - [ ] 9.9 Write property test for overlapping preparation penalty
+  - [x] 9.9 Write property test for overlapping preparation penalty
     - **Property 25: Overlapping Event Preparation Penalty**
     - **Validates: Requirements R5.17**
-  - [ ] 9.10 Implement vendor booking with budget deduction
+  - [x] 9.10 Implement vendor booking with budget deduction
     - BookVendor method
     - _Requirements: R8.1-R8.7_
-  - [ ] 9.11 Write property test for vendor booking budget deduction
+  - [x] 9.11 Write property test for vendor booking budget deduction
     - **Property 9: Vendor Booking Budget Deduction**
     - **Validates: Requirements R8**
-  - [ ] 9.12 Implement venue booking with capacity validation
+  - [x] 9.12 Implement venue booking with capacity validation
     - BookVenue method
     - _Requirements: R9.1-R9.7_
-  - [ ] 9.13 Write property test for venue capacity validation
+  - [x] 9.13 Write property test for venue capacity validation
     - **Property 10: Venue Capacity Validation**
     - **Validates: Requirements R9**
 
-- [ ] 10. Checkpoint - Event Planning Core
+- [x] 10. Checkpoint - Event Planning Core
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 11. Referral System Implementation
