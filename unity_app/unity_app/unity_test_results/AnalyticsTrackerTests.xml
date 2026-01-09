@@ -1,0 +1,168 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="23" result="Passed" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.0407798">
+  <test-suite type="TestSuite" id="1000" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="398" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.040780" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1419" name="EventPlannerSim.Tests.EditMode.dll" fullname="/Users/d/github/events_app/unity_app/Library/ScriptAssemblies/EventPlannerSim.Tests.EditMode.dll" runstate="Runnable" testcasecount="398" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.035179" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="39529" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1420" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="398" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.034305" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1421" name="Tests" fullname="EventPlannerSim.Tests" runstate="Runnable" testcasecount="398" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.033685" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1422" name="EditMode" fullname="EventPlannerSim.Tests.EditMode" runstate="Runnable" testcasecount="398" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.033049" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1029" name="AnalyticsTrackerTests" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" testcasecount="23" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.025055" total="23" passed="23" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1030" name="Constructor_ThrowsOnNullServicesManager" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.Constructor_ThrowsOnNullServicesManager" methodname="Constructor_ThrowsOnNullServicesManager" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="560252320" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.007999" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1049" name="TrackAdSkipped_TracksAdSkippedEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackAdSkipped_TracksAdSkippedEvent" methodname="TrackAdSkipped_TracksAdSkippedEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="1496040383" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.003392" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1047" name="TrackAdWatched_TracksAdWatchedEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackAdWatched_TracksAdWatchedEvent" methodname="TrackAdWatched_TracksAdWatchedEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="1663529522" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000222" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1048" name="TrackAdWatched_WithAdPlacement_TracksCorrectly" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackAdWatched_WithAdPlacement_TracksCorrectly" methodname="TrackAdWatched_WithAdPlacement_TracksCorrectly" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="1323098763" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000186" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1036" name="TrackEventAccepted_TracksEventAcceptedEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackEventAccepted_TracksEventAcceptedEvent" methodname="TrackEventAccepted_TracksEventAcceptedEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="2097152657" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000370" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1037" name="TrackEventCompleted_TracksEventCompletedEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackEventCompleted_TracksEventCompletedEvent" methodname="TrackEventCompleted_TracksEventCompletedEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="1709021688" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000417" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1038" name="TrackEventFailed_TracksEventFailedEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackEventFailed_TracksEventFailedEvent" methodname="TrackEventFailed_TracksEventFailedEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="106049742" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000161" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1050" name="TrackFamilyHelpUsed_TracksFamilyHelpUsedEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackFamilyHelpUsed_TracksFamilyHelpUsedEvent" methodname="TrackFamilyHelpUsed_TracksFamilyHelpUsedEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="1957816538" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000129" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1051" name="TrackFinancialCrisis_TracksFinancialCrisisEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackFinancialCrisis_TracksFinancialCrisisEvent" methodname="TrackFinancialCrisis_TracksFinancialCrisisEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="2020946219" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000147" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1052" name="TrackFinancialCrisis_WithBusinessStage_TracksCorrectly" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackFinancialCrisis_WithBusinessStage_TracksCorrectly" methodname="TrackFinancialCrisis_WithBusinessStage_TracksCorrectly" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="1552818217" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000098" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1045" name="TrackPurchaseCompleted_TracksPurchaseCompletedEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackPurchaseCompleted_TracksPurchaseCompletedEvent" methodname="TrackPurchaseCompleted_TracksPurchaseCompletedEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="761289096" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000146" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1046" name="TrackPurchaseFailed_TracksPurchaseFailedEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackPurchaseFailed_TracksPurchaseFailedEvent" methodname="TrackPurchaseFailed_TracksPurchaseFailedEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="1547506280" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000133" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1044" name="TrackPurchaseInitiated_TracksPurchaseInitiatedEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackPurchaseInitiated_TracksPurchaseInitiatedEvent" methodname="TrackPurchaseInitiated_TracksPurchaseInitiatedEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="1796685312" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000117" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1032" name="TrackSessionEnd_TracksSessionEndEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackSessionEnd_TracksSessionEndEvent" methodname="TrackSessionEnd_TracksSessionEndEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="990103518" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000311" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1031" name="TrackSessionStart_TracksSessionStartEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackSessionStart_TracksSessionStartEvent" methodname="TrackSessionStart_TracksSessionStartEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="1547379343" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000171" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1041" name="TrackStage3PathChosen_TracksStage3PathChosenEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackStage3PathChosen_TracksStage3PathChosenEvent" methodname="TrackStage3PathChosen_TracksStage3PathChosenEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="1201234195" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000142" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1039" name="TrackStageAdvanced_TracksStageAdvancedEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackStageAdvanced_TracksStageAdvancedEvent" methodname="TrackStageAdvanced_TracksStageAdvancedEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="564950143" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000151" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1040" name="TrackStageAdvanced_WithBusinessStage_TracksCorrectly" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackStageAdvanced_WithBusinessStage_TracksCorrectly" methodname="TrackStageAdvanced_WithBusinessStage_TracksCorrectly" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="487025521" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000097" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1034" name="TrackTutorialCompleted_TracksTutorialCompletedEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackTutorialCompleted_TracksTutorialCompletedEvent" methodname="TrackTutorialCompleted_TracksTutorialCompletedEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="1969261930" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000079" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1035" name="TrackTutorialSkipped_TracksTutorialSkippedEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackTutorialSkipped_TracksTutorialSkippedEvent" methodname="TrackTutorialSkipped_TracksTutorialSkippedEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="2139796588" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000073" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1033" name="TrackTutorialStarted_TracksTutorialStartedEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackTutorialStarted_TracksTutorialStartedEvent" methodname="TrackTutorialStarted_TracksTutorialStartedEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="2053421311" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000075" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1042" name="TrackVendorBooked_TracksVendorBookedEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackVendorBooked_TracksVendorBookedEvent" methodname="TrackVendorBooked_TracksVendorBookedEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="984402656" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000196" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1043" name="TrackVenueBooked_TracksVenueBookedEvent" fullname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests.TrackVenueBooked_TracksVenueBookedEvent" methodname="TrackVenueBooked_TracksVenueBookedEvent" classname="EventPlannerSim.Tests.EditMode.AnalyticsTrackerTests" runstate="Runnable" seed="633334956" result="Passed" start-time="2026-01-09 06:50:33Z" end-time="2026-01-09 06:50:33Z" duration="0.000154" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: ./unity_app/unity_test_results/AnalyticsTrackerTests.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

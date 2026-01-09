@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="35" result="Passed" total="35" passed="35" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.0349625">
+  <test-suite type="TestSuite" id="1000" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="241" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.034963" total="35" passed="35" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1256" name="EventPlannerSim.Tests.EditMode.dll" fullname="/Users/d/github/events_app/unity_app/Library/ScriptAssemblies/EventPlannerSim.Tests.EditMode.dll" runstate="Runnable" testcasecount="241" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.029632" total="35" passed="35" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="15604" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1257" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="241" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.029069" total="35" passed="35" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1258" name="Tests" fullname="EventPlannerSim.Tests" runstate="Runnable" testcasecount="241" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.028688" total="35" passed="35" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1259" name="EditMode" fullname="EventPlannerSim.Tests.EditMode" runstate="Runnable" testcasecount="241" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.028357" total="35" passed="35" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1001" name="AudioManagerTests" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" testcasecount="35" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.023560" total="35" passed="35" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1002" name="Constructor_InitializesWithDefaultValues" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.Constructor_InitializesWithDefaultValues" methodname="Constructor_InitializesWithDefaultValues" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="1939082394" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.008664" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1003" name="Constructor_WithCustomValues_SetsCorrectly" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.Constructor_WithCustomValues_SetsCorrectly" methodname="Constructor_WithCustomValues_SetsCorrectly" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="1263123488" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000793" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1035" name="GetEffectiveMusicVolume_WhenMuted_ReturnsZero" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.GetEffectiveMusicVolume_WhenMuted_ReturnsZero" methodname="GetEffectiveMusicVolume_WhenMuted_ReturnsZero" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="147949138" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000194" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1036" name="GetEffectiveSFXVolume_WhenMuted_ReturnsZero" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.GetEffectiveSFXVolume_WhenMuted_ReturnsZero" methodname="GetEffectiveSFXVolume_WhenMuted_ReturnsZero" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="68020138" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000115" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1029" name="PauseAudio_AlreadyPaused_DoesNotFireEvent" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.PauseAudio_AlreadyPaused_DoesNotFireEvent" methodname="PauseAudio_AlreadyPaused_DoesNotFireEvent" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="642018029" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000371" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1027" name="PauseAudio_FiresOnPauseChangedEvent" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.PauseAudio_FiresOnPauseChangedEvent" methodname="PauseAudio_FiresOnPauseChangedEvent" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="12007434" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000187" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1025" name="PauseAudio_PausesPlayback" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.PauseAudio_PausesPlayback" methodname="PauseAudio_PausesPlayback" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="1689778766" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000141" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1031" name="PauseResume_PreservesCurrentTrack" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.PauseResume_PreservesCurrentTrack" methodname="PauseResume_PreservesCurrentTrack" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="412150016" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000608" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1033" name="PlayEventFailure_PlaysFailureAudio" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.PlayEventFailure_PlaysFailureAudio" methodname="PlayEventFailure_PlaysFailureAudio" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="1279367702" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000194" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1032" name="PlayEventSuccess_PlaysSuccessAudio" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.PlayEventSuccess_PlaysSuccessAudio" methodname="PlayEventSuccess_PlaysSuccessAudio" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="934726825" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000181" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1007" name="PlayMusic_DifferentTrack_ChangesTrack" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.PlayMusic_DifferentTrack_ChangesTrack" methodname="PlayMusic_DifferentTrack_ChangesTrack" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="1300191884" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000066" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1005" name="PlayMusic_FiresOnMusicChangedEvent" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.PlayMusic_FiresOnMusicChangedEvent" methodname="PlayMusic_FiresOnMusicChangedEvent" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="1663138137" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000086" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1006" name="PlayMusic_SameTrack_DoesNotFireEvent" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.PlayMusic_SameTrack_DoesNotFireEvent" methodname="PlayMusic_SameTrack_DoesNotFireEvent" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="862773558" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000081" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1004" name="PlayMusic_SetsCurrentTrack" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.PlayMusic_SetsCurrentTrack" methodname="PlayMusic_SetsCurrentTrack" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="1448217639" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000065" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1034" name="PlayMusicForContext_MapsContextsCorrectly" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.PlayMusicForContext_MapsContextsCorrectly" methodname="PlayMusicForContext_MapsContextsCorrectly" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="392201795" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000309" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1015" name="PlaySFX_Failure_ForEventFailure" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.PlaySFX_Failure_ForEventFailure" methodname="PlaySFX_Failure_ForEventFailure" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="807454342" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000091" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1011" name="PlaySFX_FiresOnSFXPlayedEvent" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.PlaySFX_FiresOnSFXPlayedEvent" methodname="PlaySFX_FiresOnSFXPlayedEvent" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="599669842" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000087" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1014" name="PlaySFX_Success_ForEventSuccess" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.PlaySFX_Success_ForEventSuccess" methodname="PlaySFX_Success_ForEventSuccess" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="446907522" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000082" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1012" name="PlaySFX_WhenMuted_DoesNotFireEvent" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.PlaySFX_WhenMuted_DoesNotFireEvent" methodname="PlaySFX_WhenMuted_DoesNotFireEvent" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="205516182" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000067" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1013" name="PlaySFX_WhenPaused_DoesNotFireEvent" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.PlaySFX_WhenPaused_DoesNotFireEvent" methodname="PlaySFX_WhenPaused_DoesNotFireEvent" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="320422338" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000064" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1028" name="ResumeAudio_FiresOnPauseChangedEvent" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.ResumeAudio_FiresOnPauseChangedEvent" methodname="ResumeAudio_FiresOnPauseChangedEvent" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="1716190855" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000098" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1030" name="ResumeAudio_NotPaused_DoesNotFireEvent" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.ResumeAudio_NotPaused_DoesNotFireEvent" methodname="ResumeAudio_NotPaused_DoesNotFireEvent" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="1137169909" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000070" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1026" name="ResumeAudio_ResumesPlayback" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.ResumeAudio_ResumesPlayback" methodname="ResumeAudio_ResumesPlayback" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="1739570128" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000073" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1017" name="SetMusicVolume_ClampsToValidRange" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.SetMusicVolume_ClampsToValidRange" methodname="SetMusicVolume_ClampsToValidRange" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="1047313399" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000066" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1016" name="SetMusicVolume_SetsVolumeCorrectly" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.SetMusicVolume_SetsVolumeCorrectly" methodname="SetMusicVolume_SetsVolumeCorrectly" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="826164498" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000052" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1022" name="SetMuteAll_False_RestoresPreviousVolumes" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.SetMuteAll_False_RestoresPreviousVolumes" methodname="SetMuteAll_False_RestoresPreviousVolumes" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="430055270" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000069" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1023" name="SetMuteAll_FiresOnMuteChangedEvent" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.SetMuteAll_FiresOnMuteChangedEvent" methodname="SetMuteAll_FiresOnMuteChangedEvent" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="1936305677" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000108" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1024" name="SetMuteAll_SameState_DoesNotFireEvent" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.SetMuteAll_SameState_DoesNotFireEvent" methodname="SetMuteAll_SameState_DoesNotFireEvent" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="44245597" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000068" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1021" name="SetMuteAll_True_MutesAudio" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.SetMuteAll_True_MutesAudio" methodname="SetMuteAll_True_MutesAudio" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="1044802398" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000064" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1019" name="SetSFXVolume_ClampsToValidRange" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.SetSFXVolume_ClampsToValidRange" methodname="SetSFXVolume_ClampsToValidRange" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="1954909282" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000063" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1018" name="SetSFXVolume_SetsVolumeCorrectly" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.SetSFXVolume_SetsVolumeCorrectly" methodname="SetSFXVolume_SetsVolumeCorrectly" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="923348430" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000049" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1020" name="SetVolume_FiresOnVolumeChangedEvent" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.SetVolume_FiresOnVolumeChangedEvent" methodname="SetVolume_FiresOnVolumeChangedEvent" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="1478876259" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000231" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1009" name="StopMusic_FiresOnMusicChangedWithNull" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.StopMusic_FiresOnMusicChangedWithNull" methodname="StopMusic_FiresOnMusicChangedWithNull" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="1712287134" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000151" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1010" name="StopMusic_NoMusicPlaying_DoesNothing" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.StopMusic_NoMusicPlaying_DoesNothing" methodname="StopMusic_NoMusicPlaying_DoesNothing" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="156585401" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000068" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1008" name="StopMusic_StopsCurrentTrack" fullname="EventPlannerSim.Tests.EditMode.AudioManagerTests.StopMusic_StopsCurrentTrack" methodname="StopMusic_StopsCurrentTrack" classname="EventPlannerSim.Tests.EditMode.AudioManagerTests" runstate="Runnable" seed="297254213" result="Passed" start-time="2026-01-09 05:54:39Z" end-time="2026-01-09 05:54:39Z" duration="0.000068" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: ./unity_app/unity_test_results/AudioManagerTests.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

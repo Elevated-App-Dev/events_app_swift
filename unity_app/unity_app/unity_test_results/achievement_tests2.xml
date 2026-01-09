@@ -1,0 +1,192 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="27" result="Passed" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.0396165">
+  <test-suite type="TestSuite" id="1000" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="293" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.039617" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1310" name="EventPlannerSim.Tests.EditMode.dll" fullname="/Users/d/github/events_app/unity_app/Library/ScriptAssemblies/EventPlannerSim.Tests.EditMode.dll" runstate="Runnable" testcasecount="293" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.034489" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="21098" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1311" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="293" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.034032" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1312" name="Tests" fullname="EventPlannerSim.Tests" runstate="Runnable" testcasecount="293" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.033657" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1313" name="EditMode" fullname="EventPlannerSim.Tests.EditMode" runstate="Runnable" testcasecount="293" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.033312" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1001" name="AchievementSystemTests" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" testcasecount="27" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.030745" total="27" passed="27" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1004" name="CheckAndAward_AwardsNonTrackableAchievement" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.CheckAndAward_AwardsNonTrackableAchievement" methodname="CheckAndAward_AwardsNonTrackableAchievement" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="2041334253" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.008810" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1006" name="CheckAndAward_DoesNotAwardAlreadyEarned" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.CheckAndAward_DoesNotAwardAlreadyEarned" methodname="CheckAndAward_DoesNotAwardAlreadyEarned" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="646177395" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.002190" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1007" name="CheckAndAward_DoesNotAwardTrackableWithoutProgress" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.CheckAndAward_DoesNotAwardTrackableWithoutProgress" methodname="CheckAndAward_DoesNotAwardTrackableWithoutProgress" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="1440984605" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000147" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1005" name="CheckAndAward_FiresOnAchievementEarnedEvent" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.CheckAndAward_FiresOnAchievementEarnedEvent" methodname="CheckAndAward_FiresOnAchievementEarnedEvent" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="99899347" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.001350" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1003" name="Constructor_AllAchievementsStartNotEarned" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.Constructor_AllAchievementsStartNotEarned" methodname="Constructor_AllAchievementsStartNotEarned" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="645519089" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000642" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1002" name="Constructor_InitializesAllAchievements" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.Constructor_InitializesAllAchievements" methodname="Constructor_InitializesAllAchievements" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="657364419" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000586" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1020" name="GetAllAchievements_HidesSecretDescriptionBeforeEarned" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.GetAllAchievements_HidesSecretDescriptionBeforeEarned" methodname="GetAllAchievements_HidesSecretDescriptionBeforeEarned" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="423152155" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000462" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1021" name="GetAllAchievements_ShowsSecretDescriptionAfterEarned" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.GetAllAchievements_ShowsSecretDescriptionAfterEarned" methodname="GetAllAchievements_ShowsSecretDescriptionAfterEarned" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="1887631550" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000186" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1018" name="GetCategory_ReturnsChallengeForChallengeAchievements" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.GetCategory_ReturnsChallengeForChallengeAchievements" methodname="GetCategory_ReturnsChallengeForChallengeAchievements" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="1713707367" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000172" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1017" name="GetCategory_ReturnsMasteryForMasteryAchievements" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.GetCategory_ReturnsMasteryForMasteryAchievements" methodname="GetCategory_ReturnsMasteryForMasteryAchievements" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="1052779783" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000108" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1016" name="GetCategory_ReturnsProgressionForProgressionAchievements" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.GetCategory_ReturnsProgressionForProgressionAchievements" methodname="GetCategory_ReturnsProgressionForProgressionAchievements" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="1241799733" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000100" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1019" name="GetCategory_ReturnsSecretForSecretAchievements" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.GetCategory_ReturnsSecretForSecretAchievements" methodname="GetCategory_ReturnsSecretForSecretAchievements" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="1928960026" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000076" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1027" name="GetDefinition_ReturnsCorrectDefinition" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.GetDefinition_ReturnsCorrectDefinition" methodname="GetDefinition_ReturnsCorrectDefinition" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="137928415" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.001959" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1028" name="GetDefinition_TrackableAchievementsHaveCorrectTarget" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.GetDefinition_TrackableAchievementsHaveCorrectTarget" methodname="GetDefinition_TrackableAchievementsHaveCorrectTarget" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="1440596395" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000165" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1025" name="GetEarnedAchievements_ReturnsOnlyEarned" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.GetEarnedAchievements_ReturnsOnlyEarned" methodname="GetEarnedAchievements_ReturnsOnlyEarned" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="1742879653" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000217" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1015" name="GetProgress_Returns100PercentForCompleted" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.GetProgress_Returns100PercentForCompleted" methodname="GetProgress_Returns100PercentForCompleted" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="1980577798" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000655" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1013" name="GetProgress_ReturnsCorrectDisplayString" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.GetProgress_ReturnsCorrectDisplayString" methodname="GetProgress_ReturnsCorrectDisplayString" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="2001803361" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000121" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1014" name="GetProgress_ReturnsCorrectPercentage" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.GetProgress_ReturnsCorrectPercentage" methodname="GetProgress_ReturnsCorrectPercentage" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="1198422759" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000072" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1022" name="GetSaveData_ReturnsCorrectData" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.GetSaveData_ReturnsCorrectData" methodname="GetSaveData_ReturnsCorrectData" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="1582337002" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.001271" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1010" name="IncrementProgress_AwardsWhenTargetReached" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.IncrementProgress_AwardsWhenTargetReached" methodname="IncrementProgress_AwardsWhenTargetReached" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="1969769136" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000119" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1011" name="IncrementProgress_CapsAtTarget" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.IncrementProgress_CapsAtTarget" methodname="IncrementProgress_CapsAtTarget" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="1642173083" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000074" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1012" name="IncrementProgress_DoesNothingForEarnedAchievement" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.IncrementProgress_DoesNothingForEarnedAchievement" methodname="IncrementProgress_DoesNothingForEarnedAchievement" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="518646352" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000128" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1009" name="IncrementProgress_FiresOnProgressUpdatedEvent" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.IncrementProgress_FiresOnProgressUpdatedEvent" methodname="IncrementProgress_FiresOnProgressUpdatedEvent" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="1076063984" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000177" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1008" name="IncrementProgress_IncreasesProgressCorrectly" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.IncrementProgress_IncreasesProgressCorrectly" methodname="IncrementProgress_IncreasesProgressCorrectly" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="56212070" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000077" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1023" name="Initialize_RestoresStateFromSaveData" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.Initialize_RestoresStateFromSaveData" methodname="Initialize_RestoresStateFromSaveData" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="358287319" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000651" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1024" name="ResetAll_ClearsAllProgress" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.ResetAll_ClearsAllProgress" methodname="ResetAll_ClearsAllProgress" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="1104516934" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000091" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1026" name="SyncWithPlatform_CanBeCalledWithoutError" fullname="EventPlannerSim.Tests.EditMode.AchievementSystemTests.SyncWithPlatform_CanBeCalledWithoutError" methodname="SyncWithPlatform_CanBeCalledWithoutError" classname="EventPlannerSim.Tests.EditMode.AchievementSystemTests" runstate="Runnable" seed="388649383" result="Passed" start-time="2026-01-09 06:08:54Z" end-time="2026-01-09 06:08:54Z" duration="0.000399" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: ./unity_app/unity_test_results/achievement_tests2.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

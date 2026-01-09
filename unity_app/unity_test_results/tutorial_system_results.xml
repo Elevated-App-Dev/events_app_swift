@@ -1,0 +1,240 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="35" result="Passed" total="35" passed="35" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.0428336">
+  <test-suite type="TestSuite" id="1000" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="206" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.042834" total="35" passed="35" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1220" name="EventPlannerSim.Tests.EditMode.dll" fullname="/Users/d/github/events_app/unity_app/Library/ScriptAssemblies/EventPlannerSim.Tests.EditMode.dll" runstate="Runnable" testcasecount="206" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.037294" total="35" passed="35" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="13412" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1221" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="206" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.034770" total="35" passed="35" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1222" name="Tests" fullname="EventPlannerSim.Tests" runstate="Runnable" testcasecount="206" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.033794" total="35" passed="35" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1223" name="EditMode" fullname="EventPlannerSim.Tests.EditMode" runstate="Runnable" testcasecount="206" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.032857" total="35" passed="35" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1155" name="TutorialSystemTests" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" testcasecount="35" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.029333" total="35" passed="35" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1163" name="AdvanceStep_CompletesWhenReachingComplete" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.AdvanceStep_CompletesWhenReachingComplete" methodname="AdvanceStep_CompletesWhenReachingComplete" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="418355849" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.010240" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1162" name="AdvanceStep_DoesNothingIfNotActive" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.AdvanceStep_DoesNothingIfNotActive" methodname="AdvanceStep_DoesNothingIfNotActive" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1573733456" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000605" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1161" name="AdvanceStep_FiresOnStepAdvancedEvent" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.AdvanceStep_FiresOnStepAdvancedEvent" methodname="AdvanceStep_FiresOnStepAdvancedEvent" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1810671550" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000154" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1160" name="AdvanceStep_ProgressesThroughAllSteps" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.AdvanceStep_ProgressesThroughAllSteps" methodname="AdvanceStep_ProgressesThroughAllSteps" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1634328869" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000166" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1170" name="ClearHighlights_RemovesAllHighlights" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.ClearHighlights_RemovesAllHighlights" methodname="ClearHighlights_RemovesAllHighlights" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="2120535097" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000299" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1179" name="CurrentStage_ClampedToValidRange" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.CurrentStage_ClampedToValidRange" methodname="CurrentStage_ClampedToValidRange" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="322364839" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000183" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1177" name="GetCurrentStepInstruction_ReturnsCorrectInstructions" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.GetCurrentStepInstruction_ReturnsCorrectInstructions" methodname="GetCurrentStepInstruction_ReturnsCorrectInstructions" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="109218852" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.001078" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1178" name="GetCurrentStepTitle_ReturnsCorrectTitles" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.GetCurrentStepTitle_ReturnsCorrectTitles" methodname="GetCurrentStepTitle_ReturnsCorrectTitles" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="706752140" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000142" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1183" name="GetShownTips_ReturnsCorrectTips" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.GetShownTips_ReturnsCorrectTips" methodname="GetShownTips_ReturnsCorrectTips" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1310075185" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000407" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1173" name="GetTipText_ReturnsCorrectTextForKnownTips" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.GetTipText_ReturnsCorrectTextForKnownTips" methodname="GetTipText_ReturnsCorrectTextForKnownTips" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1350854135" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000110" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1174" name="GetTipText_ReturnsNullForUnknownTips" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.GetTipText_ReturnsNullForUnknownTips" methodname="GetTipText_ReturnsNullForUnknownTips" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="2033537218" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000094" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1181" name="GetWeatherTipKey_ReturnsStageAppropriateTip" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.GetWeatherTipKey_ReturnsStageAppropriateTip" methodname="GetWeatherTipKey_ReturnsStageAppropriateTip" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1875908561" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000117" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1175" name="HideContextualTip_ClearsCurrentTip" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.HideContextualTip_ClearsCurrentTip" methodname="HideContextualTip_ClearsCurrentTip" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1486437011" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000124" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1168" name="HighlightElements_FiresOnElementsHighlightedEvent" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.HighlightElements_FiresOnElementsHighlightedEvent" methodname="HighlightElements_FiresOnElementsHighlightedEvent" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1402316745" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000661" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1171" name="HighlightElements_HandlesNullGracefully" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.HighlightElements_HandlesNullGracefully" methodname="HighlightElements_HandlesNullGracefully" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1752861725" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000108" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1169" name="HighlightElements_ReplacesPreviousHighlights" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.HighlightElements_ReplacesPreviousHighlights" methodname="HighlightElements_ReplacesPreviousHighlights" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="437261585" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000188" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1167" name="HighlightElements_SetsHighlightedElementsCorrectly" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.HighlightElements_SetsHighlightedElementsCorrectly" methodname="HighlightElements_SetsHighlightedElementsCorrectly" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="2126470679" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000192" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1182" name="LoadState_RestoresStateCorrectly" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.LoadState_RestoresStateCorrectly" methodname="LoadState_RestoresStateCorrectly" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1590050599" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000253" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1184" name="ResetTutorial_ClearsAllState" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.ResetTutorial_ClearsAllState" methodname="ResetTutorial_ClearsAllState" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1462352132" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000200" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1180" name="ShouldShowStage2Content_ReturnsCorrectValue" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.ShouldShowStage2Content_ReturnsCorrectValue" methodname="ShouldShowStage2Content_ReturnsCorrectValue" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1527455019" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000130" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1172" name="ShowContextualTip_DisplaysCorrectTip" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.ShowContextualTip_DisplaysCorrectTip" methodname="ShowContextualTip_DisplaysCorrectTip" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1703467952" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000175" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1176" name="ShowContextualTip_MarksTipAsShown" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.ShowContextualTip_MarksTipAsShown" methodname="ShowContextualTip_MarksTipAsShown" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1273765231" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000064" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1166" name="SkipTutorial_ClearsHighlightsAndTips" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.SkipTutorial_ClearsHighlightsAndTips" methodname="SkipTutorial_ClearsHighlightsAndTips" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1523202101" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000131" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1164" name="SkipTutorial_CompletesImmediately" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.SkipTutorial_CompletesImmediately" methodname="SkipTutorial_CompletesImmediately" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="58806597" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000085" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1165" name="SkipTutorial_FiresOnTutorialSkippedEvent" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.SkipTutorial_FiresOnTutorialSkippedEvent" methodname="SkipTutorial_FiresOnTutorialSkippedEvent" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="925814126" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000111" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1158" name="StartTutorial_DoesNothingIfAlreadyActive" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.StartTutorial_DoesNothingIfAlreadyActive" methodname="StartTutorial_DoesNothingIfAlreadyActive" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="805912407" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000122" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1159" name="StartTutorial_DoesNothingIfAlreadyComplete" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.StartTutorial_DoesNothingIfAlreadyComplete" methodname="StartTutorial_DoesNothingIfAlreadyComplete" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="678290664" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000089" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1157" name="StartTutorial_FiresOnTutorialStartedEvent" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.StartTutorial_FiresOnTutorialStartedEvent" methodname="StartTutorial_FiresOnTutorialStartedEvent" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1357745261" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000077" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1156" name="StartTutorial_InitializesTutorialCorrectly" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.StartTutorial_InitializesTutorialCorrectly" methodname="StartTutorial_InitializesTutorialCorrectly" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="429948843" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000105" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1189" name="TutorialStepProgression_GetAllSteps_ReturnsAllStepsInOrder" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.TutorialStepProgression_GetAllSteps_ReturnsAllStepsInOrder" methodname="TutorialStepProgression_GetAllSteps_ReturnsAllStepsInOrder" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1769807299" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000482" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1190" name="TutorialStepProgression_GetDefaultStepData_ReturnsDataForAllSteps" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.TutorialStepProgression_GetDefaultStepData_ReturnsDataForAllSteps" methodname="TutorialStepProgression_GetDefaultStepData_ReturnsDataForAllSteps" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="369554624" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.001470" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1185" name="TutorialStepProgression_GetNextStep_ReturnsCorrectSteps" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.TutorialStepProgression_GetNextStep_ReturnsCorrectSteps" methodname="TutorialStepProgression_GetNextStep_ReturnsCorrectSteps" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1623766475" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000151" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1186" name="TutorialStepProgression_GetPreviousStep_ReturnsCorrectSteps" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.TutorialStepProgression_GetPreviousStep_ReturnsCorrectSteps" methodname="TutorialStepProgression_GetPreviousStep_ReturnsCorrectSteps" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="844980667" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000132" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1188" name="TutorialStepProgression_GetProgressPercent_ReturnsCorrectPercentages" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.TutorialStepProgression_GetProgressPercent_ReturnsCorrectPercentages" methodname="TutorialStepProgression_GetProgressPercent_ReturnsCorrectPercentages" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="1825944582" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.001795" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1187" name="TutorialStepProgression_GetStepIndex_ReturnsCorrectIndices" fullname="EventPlannerSim.Tests.EditMode.TutorialSystemTests.TutorialStepProgression_GetStepIndex_ReturnsCorrectIndices" methodname="TutorialStepProgression_GetStepIndex_ReturnsCorrectIndices" classname="EventPlannerSim.Tests.EditMode.TutorialSystemTests" runstate="Runnable" seed="437918239" result="Passed" start-time="2026-01-09 05:47:28Z" end-time="2026-01-09 05:47:28Z" duration="0.000113" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: /Users/d/github/events_app/unity_app/unity_test_results/tutorial_system_results.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

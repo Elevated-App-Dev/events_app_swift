@@ -224,6 +224,22 @@ namespace EventPlannerSim.Systems
         /// <param name="pressCoverage">Press coverage status.</param>
         /// <returns>Reputation change (capped at -50 for failures).</returns>
         int CalculateCelebrityReputationChange(float satisfaction, PressCoverage pressCoverage);
+
+        /// <summary>
+        /// Check if the Stage 3 milestone sequence should be triggered.
+        /// Requirements: R17.1
+        /// </summary>
+        /// <param name="player">The player data.</param>
+        /// <param name="milestoneProgress">Current milestone progress.</param>
+        /// <returns>True if milestone sequence should be triggered.</returns>
+        bool ShouldTriggerStage3Milestone(PlayerData player, MilestoneProgress milestoneProgress);
+
+        /// <summary>
+        /// Advance the player to the next stage.
+        /// </summary>
+        /// <param name="player">The player data to advance.</param>
+        /// <returns>True if advancement was successful.</returns>
+        bool AdvanceToNextStage(PlayerData player);
     }
 
     /// <summary>

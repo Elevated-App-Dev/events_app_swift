@@ -137,6 +137,20 @@ namespace EventPlannerSim.Data
         public MilestoneProgress milestoneProgress = new MilestoneProgress();
 
         /// <summary>
+        /// Timestamp when the player started their journey (stored as ticks for serialization).
+        /// </summary>
+        public long journeyStartTimestamp;
+
+        /// <summary>
+        /// Gets or sets the journey start time as DateTime.
+        /// </summary>
+        public DateTime JourneyStartTime
+        {
+            get => journeyStartTimestamp > 0 ? new DateTime(journeyStartTimestamp) : DateTime.Now;
+            set => journeyStartTimestamp = value.Ticks;
+        }
+
+        /// <summary>
         /// Gets or sets the last saved time as DateTime.
         /// </summary>
         public DateTime LastSavedTime

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="44" result="Passed" total="44" passed="44" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.0581741">
+  <test-suite type="TestSuite" id="1000" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="639" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.058174" total="44" passed="44" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1672" name="EventPlannerSim.Tests.EditMode.dll" fullname="/Users/d/github/events_app/unity_app/Library/ScriptAssemblies/EventPlannerSim.Tests.EditMode.dll" runstate="Runnable" testcasecount="639" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.049665" total="44" passed="44" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="74542" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1673" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="621" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.047390" total="44" passed="44" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1674" name="Tests" fullname="EventPlannerSim.Tests" runstate="Runnable" testcasecount="621" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.045637" total="44" passed="44" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1675" name="EditMode" fullname="EventPlannerSim.Tests.EditMode" runstate="Runnable" testcasecount="621" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.039963" total="44" passed="44" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1550" name="GameDateDefensiveTests" fullname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests" classname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests" runstate="Runnable" testcasecount="9" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.017907" total="9" passed="9" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1553" name="AddDays_LargeNumber_HandlesYearOverflow" fullname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests.AddDays_LargeNumber_HandlesYearOverflow" methodname="AddDays_LargeNumber_HandlesYearOverflow" classname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests" runstate="Runnable" seed="299735393" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.007325" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1551" name="AddDays_NegativeDays_SubtractsCorrectly" fullname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests.AddDays_NegativeDays_SubtractsCorrectly" methodname="AddDays_NegativeDays_SubtractsCorrectly" classname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests" runstate="Runnable" seed="1892479731" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000161" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1552" name="AddDays_ZeroDays_ReturnsSameDate" fullname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests.AddDays_ZeroDays_ReturnsSameDate" methodname="AddDays_ZeroDays_ReturnsSameDate" classname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests" runstate="Runnable" seed="1051842014" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000789" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1557" name="Comparison_DifferentDates_CompareCorrectly" fullname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests.Comparison_DifferentDates_CompareCorrectly" methodname="Comparison_DifferentDates_CompareCorrectly" classname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests" runstate="Runnable" seed="2138254739" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000349" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1555" name="DaysBetween_ReversedDates_ReturnsNegative" fullname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests.DaysBetween_ReversedDates_ReturnsNegative" methodname="DaysBetween_ReversedDates_ReturnsNegative" classname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests" runstate="Runnable" seed="1603851498" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.001361" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1554" name="DaysBetween_SameDate_ReturnsZero" fullname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests.DaysBetween_SameDate_ReturnsZero" methodname="DaysBetween_SameDate_ReturnsZero" classname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests" runstate="Runnable" seed="1055492330" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000104" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1556" name="Equality_SameDates_AreEqual" fullname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests.Equality_SameDates_AreEqual" methodname="Equality_SameDates_AreEqual" classname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests" runstate="Runnable" seed="367068123" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000191" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1559" name="TotalDays_EndOfFirstYear_Returns360" fullname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests.TotalDays_EndOfFirstYear_Returns360" methodname="TotalDays_EndOfFirstYear_Returns360" classname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests" runstate="Runnable" seed="262424522" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000052" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1558" name="TotalDays_FirstDay_ReturnsOne" fullname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests.TotalDays_FirstDay_ReturnsOne" methodname="TotalDays_FirstDay_ReturnsOne" classname="EventPlannerSim.Tests.EditMode.GameDateDefensiveTests" runstate="Runnable" seed="2096606577" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000051" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1513" name="SatisfactionCalculatorDefensiveTests" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" testcasecount="18" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.007500" total="18" passed="18" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1517" name="Calculate_CategoryScoresOver100_HandledGracefully" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.Calculate_CategoryScoresOver100_HandledGracefully" methodname="Calculate_CategoryScoresOver100_HandledGracefully" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="1518941837" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.001521" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1522" name="Calculate_LargeRandomEventModifier_ClampsTo100" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.Calculate_LargeRandomEventModifier_ClampsTo100" methodname="Calculate_LargeRandomEventModifier_ClampsTo100" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="1627274901" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000111" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1519" name="Calculate_NaNCategoryScores_HandledGracefully" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.Calculate_NaNCategoryScores_HandledGracefully" methodname="Calculate_NaNCategoryScores_HandledGracefully" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="860809204" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.001010" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1518" name="Calculate_NegativeCategoryScores_HandledGracefully" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.Calculate_NegativeCategoryScores_HandledGracefully" methodname="Calculate_NegativeCategoryScores_HandledGracefully" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="466726930" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000245" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1521" name="Calculate_NegativeRandomEventModifier_HandledGracefully" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.Calculate_NegativeRandomEventModifier_HandledGracefully" methodname="Calculate_NegativeRandomEventModifier_HandledGracefully" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="140700755" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000122" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1515" name="Calculate_NullClientData_ThrowsArgumentNullException" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.Calculate_NullClientData_ThrowsArgumentNullException" methodname="Calculate_NullClientData_ThrowsArgumentNullException" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="2069629663" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000639" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1514" name="Calculate_NullEventData_ThrowsArgumentNullException" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.Calculate_NullEventData_ThrowsArgumentNullException" methodname="Calculate_NullEventData_ThrowsArgumentNullException" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="1133703826" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000162" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1516" name="Calculate_NullEventResults_HandledGracefully" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.Calculate_NullEventResults_HandledGracefully" methodname="Calculate_NullEventResults_HandledGracefully" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="861911034" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000375" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1520" name="Calculate_ZeroRandomEventModifier_ResultsInZeroSatisfaction" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.Calculate_ZeroRandomEventModifier_ResultsInZeroSatisfaction" methodname="Calculate_ZeroRandomEventModifier_ResultsInZeroSatisfaction" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="406863673" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000116" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1530" name="CalculateCategoryScore_InvalidCategory_ReturnsDefaultScore" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.CalculateCategoryScore_InvalidCategory_ReturnsDefaultScore" methodname="CalculateCategoryScore_InvalidCategory_ReturnsDefaultScore" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="979710252" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000124" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1528" name="CalculateCategoryScore_NullEventData_ReturnsZero" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.CalculateCategoryScore_NullEventData_ReturnsZero" methodname="CalculateCategoryScore_NullEventData_ReturnsZero" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="1937788400" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000072" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1529" name="CalculateCategoryScore_NullEventResults_ReturnsZero" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.CalculateCategoryScore_NullEventResults_ReturnsZero" methodname="CalculateCategoryScore_NullEventResults_ReturnsZero" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="1656880724" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000078" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1531" name="ClampSatisfaction_EdgeCases_ClampsCorrectly" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.ClampSatisfaction_EdgeCases_ClampsCorrectly" methodname="ClampSatisfaction_EdgeCases_ClampsCorrectly" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="1159432483" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000141" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1525" name="GetOverageTolerance_AllPersonalities_ReturnValidTolerances" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.GetOverageTolerance_AllPersonalities_ReturnValidTolerances" methodname="GetOverageTolerance_AllPersonalities_ReturnValidTolerances" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="417072422" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000238" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1526" name="GetOverageTolerance_InvalidPersonality_ReturnsDefaultTolerance" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.GetOverageTolerance_InvalidPersonality_ReturnsDefaultTolerance" methodname="GetOverageTolerance_InvalidPersonality_ReturnsDefaultTolerance" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="2039726878" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000066" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1523" name="GetPersonalityThreshold_AllPersonalities_ReturnValidThresholds" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.GetPersonalityThreshold_AllPersonalities_ReturnValidThresholds" methodname="GetPersonalityThreshold_AllPersonalities_ReturnValidThresholds" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="1740466474" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000141" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1524" name="GetPersonalityThreshold_InvalidPersonality_ReturnsDefaultThreshold" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.GetPersonalityThreshold_InvalidPersonality_ReturnsDefaultThreshold" methodname="GetPersonalityThreshold_InvalidPersonality_ReturnsDefaultThreshold" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="755577669" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000063" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1527" name="IsOverageWithinTolerance_NegativeOverage_ReturnsTrue" fullname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests.IsOverageWithinTolerance_NegativeOverage_ReturnsTrue" methodname="IsOverageWithinTolerance_NegativeOverage_ReturnsTrue" classname="EventPlannerSim.Tests.EditMode.SatisfactionCalculatorDefensiveTests" runstate="Runnable" seed="1460958315" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000082" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+            </test-suite>
+            <test-suite type="TestFixture" id="1532" name="TimeSystemDefensiveTests" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" testcasecount="17" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.004272" total="17" passed="17" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1537" name="AdvanceTime_NegativeStage_ClampedToStage1" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests.AdvanceTime_NegativeStage_ClampedToStage1" methodname="AdvanceTime_NegativeStage_ClampedToStage1" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" seed="1225021237" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000534" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1533" name="AdvanceTime_NegativeTime_DoesNotAdvance" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests.AdvanceTime_NegativeTime_DoesNotAdvance" methodname="AdvanceTime_NegativeTime_DoesNotAdvance" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" seed="1546253260" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000169" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1536" name="AdvanceTime_Stage0_ClampedToStage1" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests.AdvanceTime_Stage0_ClampedToStage1" methodname="AdvanceTime_Stage0_ClampedToStage1" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" seed="1103275671" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000071" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1538" name="AdvanceTime_StageOver5_ClampedToStage5" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests.AdvanceTime_StageOver5_ClampedToStage5" methodname="AdvanceTime_StageOver5_ClampedToStage5" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" seed="794684088" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000076" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1539" name="AdvanceTime_VeryLargeTime_HandledGracefully" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests.AdvanceTime_VeryLargeTime_HandledGracefully" methodname="AdvanceTime_VeryLargeTime_HandledGracefully" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" seed="1068989278" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000137" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1535" name="AdvanceTime_WhenPaused_DoesNotAdvance" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests.AdvanceTime_WhenPaused_DoesNotAdvance" methodname="AdvanceTime_WhenPaused_DoesNotAdvance" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" seed="16176501" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000081" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1534" name="AdvanceTime_ZeroTime_DoesNotAdvance" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests.AdvanceTime_ZeroTime_DoesNotAdvance" methodname="AdvanceTime_ZeroTime_DoesNotAdvance" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" seed="20521394" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000072" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1540" name="GetTimeRate_AllValidStages_ReturnPositiveRates" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests.GetTimeRate_AllValidStages_ReturnPositiveRates" methodname="GetTimeRate_AllValidStages_ReturnPositiveRates" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" seed="1810670346" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000110" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1541" name="GetTimeRate_HigherStages_HaveFasterRates" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests.GetTimeRate_HigherStages_HaveFasterRates" methodname="GetTimeRate_HigherStages_HaveFasterRates" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" seed="924560595" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000113" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1549" name="Pause_MultipleTimes_HandledGracefully" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests.Pause_MultipleTimes_HandledGracefully" methodname="Pause_MultipleTimes_HandledGracefully" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" seed="389870396" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000084" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1548" name="PauseResume_TogglesCorrectly" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests.PauseResume_TogglesCorrectly" methodname="PauseResume_TogglesCorrectly" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" seed="1016143904" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000079" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1543" name="ScheduleEvent_AllComplexities_ScheduleFutureDates" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests.ScheduleEvent_AllComplexities_ScheduleFutureDates" methodname="ScheduleEvent_AllComplexities_ScheduleFutureDates" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" seed="1857624405" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000296" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1542" name="ScheduleEvent_InvalidComplexity_ClampedToValid" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests.ScheduleEvent_InvalidComplexity_ClampedToValid" methodname="ScheduleEvent_InvalidComplexity_ClampedToValid" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" seed="542310998" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000075" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1547" name="SetAccumulatedSeconds_Negative_ClampedToZero" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests.SetAccumulatedSeconds_Negative_ClampedToZero" methodname="SetAccumulatedSeconds_Negative_ClampedToZero" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" seed="698353458" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000092" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1546" name="SkipToDate_FutureDate_UpdatesCorrectly" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests.SkipToDate_FutureDate_UpdatesCorrectly" methodname="SkipToDate_FutureDate_UpdatesCorrectly" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" seed="2079259369" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000125" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1544" name="SkipToDate_PastDate_DoesNotChange" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests.SkipToDate_PastDate_DoesNotChange" methodname="SkipToDate_PastDate_DoesNotChange" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" seed="639042030" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000106" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1545" name="SkipToDate_SameDate_DoesNotChange" fullname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests.SkipToDate_SameDate_DoesNotChange" methodname="SkipToDate_SameDate_DoesNotChange" classname="EventPlannerSim.Tests.EditMode.TimeSystemDefensiveTests" runstate="Runnable" seed="1784699152" result="Passed" start-time="2026-01-09 08:30:06Z" end-time="2026-01-09 08:30:06Z" duration="0.000082" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: ./unity_app/unity_test_results/systems_defensive_tests.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

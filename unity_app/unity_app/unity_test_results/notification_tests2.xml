@@ -1,0 +1,180 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="25" result="Passed" total="25" passed="25" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-01-09 06:01:02Z" end-time="2026-01-09 06:01:03Z" duration="0.0415695">
+  <test-suite type="TestSuite" id="1000" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="266" result="Passed" start-time="2026-01-09 06:01:02Z" end-time="2026-01-09 06:01:03Z" duration="0.041570" total="25" passed="25" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1282" name="EventPlannerSim.Tests.EditMode.dll" fullname="/Users/d/github/events_app/unity_app/Library/ScriptAssemblies/EventPlannerSim.Tests.EditMode.dll" runstate="Runnable" testcasecount="266" result="Passed" start-time="2026-01-09 06:01:02Z" end-time="2026-01-09 06:01:03Z" duration="0.035606" total="25" passed="25" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="18118" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1283" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="266" result="Passed" start-time="2026-01-09 06:01:02Z" end-time="2026-01-09 06:01:03Z" duration="0.034254" total="25" passed="25" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1284" name="Tests" fullname="EventPlannerSim.Tests" runstate="Runnable" testcasecount="266" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.031554" total="25" passed="25" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1285" name="EditMode" fullname="EventPlannerSim.Tests.EditMode" runstate="Runnable" testcasecount="266" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.030587" total="25" passed="25" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1086" name="NotificationSystemTests" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" testcasecount="25" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.027522" total="25" passed="25" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1107" name="CancelAllNotifications_RemovesAllNotifications" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.CancelAllNotifications_RemovesAllNotifications" methodname="CancelAllNotifications_RemovesAllNotifications" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="1071915159" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.010276" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1106" name="CancelNotification_FiresOnNotificationCancelledEvent" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.CancelNotification_FiresOnNotificationCancelledEvent" methodname="CancelNotification_FiresOnNotificationCancelledEvent" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="673390611" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000357" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1105" name="CancelNotification_RemovesNotification" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.CancelNotification_RemovesNotification" methodname="CancelNotification_RemovesNotification" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="1005243425" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000298" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1109" name="CanSendNotification_DisabledType_ReturnsFalse" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.CanSendNotification_DisabledType_ReturnsFalse" methodname="CanSendNotification_DisabledType_ReturnsFalse" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="2121734734" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000129" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1087" name="Constructor_Default_AllNotificationsOff" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.Constructor_Default_AllNotificationsOff" methodname="Constructor_Default_AllNotificationsOff" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="15880071" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000084" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1088" name="Constructor_WithSettings_UsesProvidedSettings" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.Constructor_WithSettings_UsesProvidedSettings" methodname="Constructor_WithSettings_UsesProvidedSettings" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="1551466820" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000116" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1093" name="GetNotificationPriority_EventDeadline_HasHighestPriority" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.GetNotificationPriority_EventDeadline_HasHighestPriority" methodname="GetNotificationPriority_EventDeadline_HasHighestPriority" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="1562647896" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000061" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1094" name="GetNotificationPriority_NewInquiry_HasLowestPriority" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.GetNotificationPriority_NewInquiry_HasLowestPriority" methodname="GetNotificationPriority_NewInquiry_HasLowestPriority" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="80112891" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000057" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1092" name="GetNotificationPriority_ReturnsCorrectOrder" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.GetNotificationPriority_ReturnsCorrectOrder" methodname="GetNotificationPriority_ReturnsCorrectOrder" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="379625910" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.001466" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1100" name="GetTodayNotificationCount_ReturnsCorrectCount" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.GetTodayNotificationCount_ReturnsCorrectCount" methodname="GetTodayNotificationCount_ReturnsCorrectCount" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="1466644050" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000175" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1101" name="ResetDailyCounters_ResetsCount" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.ResetDailyCounters_ResetsCount" methodname="ResetDailyCounters_ResetsCount" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="1302706419" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.001646" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1111" name="ScheduledNotification_Constructor_SetsAllProperties" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.ScheduledNotification_Constructor_SetsAllProperties" methodname="ScheduledNotification_Constructor_SetsAllProperties" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="625410302" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.001669" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1110" name="ScheduledNotification_GeneratesUniqueIds" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.ScheduledNotification_GeneratesUniqueIds" methodname="ScheduledNotification_GeneratesUniqueIds" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="1313691475" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000189" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1097" name="ScheduleNotification_At10AM_NotAdjusted" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.ScheduleNotification_At10AM_NotAdjusted" methodname="ScheduleNotification_At10AM_NotAdjusted" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="1116601072" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000191" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1095" name="ScheduleNotification_At11PM_MovesTo8AMNextDay" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.ScheduleNotification_At11PM_MovesTo8AMNextDay" methodname="ScheduleNotification_At11PM_MovesTo8AMNextDay" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="2028693424" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000194" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1096" name="ScheduleNotification_At3AM_MovesTo8AMSameDay" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.ScheduleNotification_At3AM_MovesTo8AMSameDay" methodname="ScheduleNotification_At3AM_MovesTo8AMSameDay" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="274736928" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000160" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1098" name="ScheduleNotification_AtExactly10PM_MovesToNextDay" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.ScheduleNotification_AtExactly10PM_MovesToNextDay" methodname="ScheduleNotification_AtExactly10PM_MovesToNextDay" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="505615425" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000123" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1108" name="ScheduleNotification_DisabledType_ReturnsNull" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.ScheduleNotification_DisabledType_ReturnsNull" methodname="ScheduleNotification_DisabledType_ReturnsNull" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="1718309708" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000100" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1099" name="ScheduleNotification_ExceedsDailyLimit_ReturnsNull" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.ScheduleNotification_ExceedsDailyLimit_ReturnsNull" methodname="ScheduleNotification_ExceedsDailyLimit_ReturnsNull" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="537529198" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000508" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1104" name="ScheduleNotification_FiresOnNotificationScheduledEvent" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.ScheduleNotification_FiresOnNotificationScheduledEvent" methodname="ScheduleNotification_FiresOnNotificationScheduledEvent" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="1733691609" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000178" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1103" name="ScheduleNotification_ReturnsValidId" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.ScheduleNotification_ReturnsValidId" methodname="ScheduleNotification_ReturnsValidId" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="2049951285" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000266" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1102" name="ScheduleNotification_SecondNewInquiry_ReturnsNull" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.ScheduleNotification_SecondNewInquiry_ReturnsNull" methodname="ScheduleNotification_SecondNewInquiry_ReturnsNull" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="1813934432" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000111" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1090" name="SetNotificationEnabled_False_DisablesNotificationType" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.SetNotificationEnabled_False_DisablesNotificationType" methodname="SetNotificationEnabled_False_DisablesNotificationType" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="1615294171" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000054" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1091" name="SetNotificationEnabled_FiresOnSettingsChangedEvent" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.SetNotificationEnabled_FiresOnSettingsChangedEvent" methodname="SetNotificationEnabled_FiresOnSettingsChangedEvent" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="75112052" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000260" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1089" name="SetNotificationEnabled_True_EnablesNotificationType" fullname="EventPlannerSim.Tests.EditMode.NotificationSystemTests.SetNotificationEnabled_True_EnablesNotificationType" methodname="SetNotificationEnabled_True_EnablesNotificationType" classname="EventPlannerSim.Tests.EditMode.NotificationSystemTests" runstate="Runnable" seed="791012899" result="Passed" start-time="2026-01-09 06:01:03Z" end-time="2026-01-09 06:01:03Z" duration="0.000063" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: ./unity_app/unity_test_results/notification_tests2.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

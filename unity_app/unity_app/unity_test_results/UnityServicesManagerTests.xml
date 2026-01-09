@@ -1,0 +1,286 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="35" result="Failed(Child)" total="35" passed="31" failed="4" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.0562354">
+  <test-suite type="TestSuite" id="1000" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="375" result="Failed" site="Child" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.056235" total="35" passed="31" failed="4" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <failure>
+      <message><![CDATA[One or more child tests had errors]]></message>
+    </failure>
+    <test-suite type="Assembly" id="1395" name="EventPlannerSim.Tests.EditMode.dll" fullname="/Users/d/github/events_app/unity_app/Library/ScriptAssemblies/EventPlannerSim.Tests.EditMode.dll" runstate="Runnable" testcasecount="375" result="Failed" site="Child" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.046735" total="35" passed="31" failed="4" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="37478" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <failure>
+        <message><![CDATA[One or more child tests had errors]]></message>
+      </failure>
+      <test-suite type="TestSuite" id="1396" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="375" result="Failed" site="Child" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.041963" total="35" passed="31" failed="4" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <failure>
+          <message><![CDATA[One or more child tests had errors]]></message>
+        </failure>
+        <test-suite type="TestSuite" id="1397" name="Tests" fullname="EventPlannerSim.Tests" runstate="Runnable" testcasecount="375" result="Failed" site="Child" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.037385" total="35" passed="31" failed="4" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <failure>
+            <message><![CDATA[One or more child tests had errors]]></message>
+          </failure>
+          <test-suite type="TestSuite" id="1398" name="EditMode" fullname="EventPlannerSim.Tests.EditMode" runstate="Runnable" testcasecount="375" result="Failed" site="Child" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.033561" total="35" passed="31" failed="4" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <failure>
+              <message><![CDATA[One or more child tests had errors]]></message>
+            </failure>
+            <test-suite type="TestFixture" id="1330" name="UnityServicesManagerTests" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" testcasecount="35" result="Failed" site="Child" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.027886" total="35" passed="31" failed="4" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <failure>
+                <message><![CDATA[One or more child tests had errors]]></message>
+              </failure>
+              <test-case id="1363" name="AdWatchedParams_CreatesCorrectParameters" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.AdWatchedParams_CreatesCorrectParameters" methodname="AdWatchedParams_CreatesCorrectParameters" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="530629925" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.008238" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1356" name="AnalyticsEvents_AllDefinedEventsAreValid" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.AnalyticsEvents_AllDefinedEventsAreValid" methodname="AnalyticsEvents_AllDefinedEventsAreValid" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="867639756" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000395" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1357" name="AnalyticsEvents_GetAllEventsReturns19Events" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.AnalyticsEvents_GetAllEventsReturns19Events" methodname="AnalyticsEvents_GetAllEventsReturns19Events" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1425580729" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000622" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1355" name="ClearEventLog_ClearsAllEvents" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.ClearEventLog_ClearsAllEvents" methodname="ClearEventLog_ClearsAllEvents" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="50922817" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000467" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1331" name="Constructor_CreatesUninitializedManager" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.Constructor_CreatesUninitializedManager" methodname="Constructor_CreatesUninitializedManager" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1792509271" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000130" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1358" name="EventAcceptedParams_CreatesCorrectParameters" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.EventAcceptedParams_CreatesCorrectParameters" methodname="EventAcceptedParams_CreatesCorrectParameters" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="95807494" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000138" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1359" name="EventCompletedParams_CreatesCorrectParameters" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.EventCompletedParams_CreatesCorrectParameters" methodname="EventCompletedParams_CreatesCorrectParameters" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="706177101" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000337" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1354" name="GetEventLog_ReturnsCopyOfEvents" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.GetEventLog_ReturnsCopyOfEvents" methodname="GetEventLog_ReturnsCopyOfEvents" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1478829567" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000904" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1350" name="GetRemoteConfig_HandlesTypeConversion" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.GetRemoteConfig_HandlesTypeConversion" methodname="GetRemoteConfig_HandlesTypeConversion" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1193528420" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000400" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1347" name="GetRemoteConfig_ReturnsCachedValueWhenInitialized" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.GetRemoteConfig_ReturnsCachedValueWhenInitialized" methodname="GetRemoteConfig_ReturnsCachedValueWhenInitialized" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="609804471" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000068" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1348" name="GetRemoteConfig_ReturnsDefaultForUnknownKey" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.GetRemoteConfig_ReturnsDefaultForUnknownKey" methodname="GetRemoteConfig_ReturnsDefaultForUnknownKey" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="751259464" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000154" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1351" name="GetRemoteConfig_ReturnsDefaultOnTypeMismatch" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.GetRemoteConfig_ReturnsDefaultOnTypeMismatch" methodname="GetRemoteConfig_ReturnsDefaultOnTypeMismatch" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="10405284" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000261" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1346" name="GetRemoteConfig_ReturnsDefaultWhenNotInitialized" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.GetRemoteConfig_ReturnsDefaultWhenNotInitialized" methodname="GetRemoteConfig_ReturnsDefaultWhenNotInitialized" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1073909726" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000060" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1335" name="HasAnalyticsConsent_DefaultsToFalse" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.HasAnalyticsConsent_DefaultsToFalse" methodname="HasAnalyticsConsent_DefaultsToFalse" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1999443176" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000051" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1334" name="Initialize_CanBeCalledMultipleTimesSafely" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.Initialize_CanBeCalledMultipleTimesSafely" methodname="Initialize_CanBeCalledMultipleTimesSafely" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1017585668" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000170" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1333" name="Initialize_FiresOnInitializedEvent" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.Initialize_FiresOnInitializedEvent" methodname="Initialize_FiresOnInitializedEvent" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="140879515" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000110" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1332" name="Initialize_SetsIsInitializedToTrue" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.Initialize_SetsIsInitializedToTrue" methodname="Initialize_SetsIsInitializedToTrue" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="13315528" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000051" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1352" name="LogException_HandlesNullException" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.LogException_HandlesNullException" methodname="LogException_HandlesNullException" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="2022941936" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000498" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1353" name="LogException_LogsExceptionDetails" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.LogException_LogsExceptionDetails" methodname="LogException_LogsExceptionDetails" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1043531348" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000397" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1365" name="SessionEndParams_CreatesCorrectParameters" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.SessionEndParams_CreatesCorrectParameters" methodname="SessionEndParams_CreatesCorrectParameters" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="246915408" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000096" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1364" name="SessionStartParams_CreatesCorrectParameters" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.SessionStartParams_CreatesCorrectParameters" methodname="SessionStartParams_CreatesCorrectParameters" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="22885131" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000087" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1337" name="SetAnalyticsConsent_CanRevokeConsent" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.SetAnalyticsConsent_CanRevokeConsent" methodname="SetAnalyticsConsent_CanRevokeConsent" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="2056224472" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000141" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1336" name="SetAnalyticsConsent_UpdatesConsentStatus" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.SetAnalyticsConsent_UpdatesConsentStatus" methodname="SetAnalyticsConsent_UpdatesConsentStatus" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1640820430" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000153" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1349" name="SetRemoteConfig_UpdatesCachedValue" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.SetRemoteConfig_UpdatesCachedValue" methodname="SetRemoteConfig_UpdatesCachedValue" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1344577196" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000097" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1360" name="StageAdvancedParams_CreatesCorrectParameters" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.StageAdvancedParams_CreatesCorrectParameters" methodname="StageAdvancedParams_CreatesCorrectParameters" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1361596152" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000146" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1338" name="TrackEvent_DoesNothingWhenNotInitialized" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.TrackEvent_DoesNothingWhenNotInitialized" methodname="TrackEvent_DoesNothingWhenNotInitialized" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1761616908" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000078" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1339" name="TrackEvent_DoesNothingWithoutConsent" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.TrackEvent_DoesNothingWithoutConsent" methodname="TrackEvent_DoesNothingWithoutConsent" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1511853767" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000067" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1341" name="TrackEvent_FiresOnEventTrackedEvent" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.TrackEvent_FiresOnEventTrackedEvent" methodname="TrackEvent_FiresOnEventTrackedEvent" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1824649476" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000162" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1345" name="TrackEvent_HandlesEmptyEventName" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.TrackEvent_HandlesEmptyEventName" methodname="TrackEvent_HandlesEmptyEventName" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1013822683" result="Failed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.002797" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Expected: 0
+  But was:  1
+]]></message>
+                  <stack-trace><![CDATA[at EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.TrackEvent_HandlesEmptyEventName () [0x00028] in /Users/d/github/events_app/unity_app/Assets/Scripts/Tests/EditMode/UnityServicesManagerTests.cs:248
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1344" name="TrackEvent_HandlesNullEventName" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.TrackEvent_HandlesNullEventName" methodname="TrackEvent_HandlesNullEventName" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1170438573" result="Failed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000155" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Expected: 0
+  But was:  1
+]]></message>
+                  <stack-trace><![CDATA[at EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.TrackEvent_HandlesNullEventName () [0x00024] in /Users/d/github/events_app/unity_app/Assets/Scripts/Tests/EditMode/UnityServicesManagerTests.cs:233
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1342" name="TrackEvent_IncludesParameters" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.TrackEvent_IncludesParameters" methodname="TrackEvent_IncludesParameters" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="227298487" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000348" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1343" name="TrackEvent_RejectsInvalidEventNames" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.TrackEvent_RejectsInvalidEventNames" methodname="TrackEvent_RejectsInvalidEventNames" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1175247637" result="Failed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000127" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Expected: 0
+  But was:  1
+]]></message>
+                  <stack-trace><![CDATA[at EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.TrackEvent_RejectsInvalidEventNames () [0x00028] in /Users/d/github/events_app/unity_app/Assets/Scripts/Tests/EditMode/UnityServicesManagerTests.cs:218
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1340" name="TrackEvent_TracksValidEventWithConsent" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.TrackEvent_TracksValidEventWithConsent" methodname="TrackEvent_TracksValidEventWithConsent" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="125443165" result="Failed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000115" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <failure>
+                  <message><![CDATA[  Expected: 1
+  But was:  2
+]]></message>
+                  <stack-trace><![CDATA[at EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.TrackEvent_TracksValidEventWithConsent () [0x00028] in /Users/d/github/events_app/unity_app/Assets/Scripts/Tests/EditMode/UnityServicesManagerTests.cs:165
+]]></stack-trace>
+                </failure>
+              </test-case>
+              <test-case id="1361" name="VendorBookedParams_CreatesCorrectParameters" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.VendorBookedParams_CreatesCorrectParameters" methodname="VendorBookedParams_CreatesCorrectParameters" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="697813127" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000154" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1362" name="VenueBookedParams_CreatesCorrectParameters" fullname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests.VenueBookedParams_CreatesCorrectParameters" methodname="VenueBookedParams_CreatesCorrectParameters" classname="EventPlannerSim.Tests.EditMode.UnityServicesManagerTests" runstate="Runnable" seed="1407740792" result="Passed" start-time="2026-01-09 06:46:26Z" end-time="2026-01-09 06:46:26Z" duration="0.000120" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: ./unity_app/unity_test_results/UnityServicesManagerTests.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

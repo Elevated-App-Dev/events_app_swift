@@ -475,5 +475,39 @@ namespace EventPlannerSim.Systems
 
             return finalChange;
         }
+
+        /// <inheritdoc/>
+        public bool ShouldTriggerStage3Milestone(PlayerData player, MilestoneProgress milestoneProgress)
+        {
+            // Don't trigger if already seen and path chosen
+            if (milestoneProgress.hasSeenStage3Milestone && milestoneProgress.hasChosenPath)
+            {
+                return false;
+            }
+
+            // Trigger when player reaches Stage 3 (SmallCompany)
+            return player.stage == BusinessStage.SmallCompany;
+        }
+
+        /// <inheritdoc/>
+        public bool AdvanceToNextStage(PlayerData player)
+        {
+            if (!CanAdvanceStage(player))
+            {
+                return false;
+            }
+
+            // Advance to next stage
+            player.stage = player.stage switch
+            {
+                BusinessStage.Solo => BusinessStage.Employee,
+                BusinessStage.Employee => BusinessStage.SmallCompany,
+                BusinessStage.SmallCompany => BusinessStage.Established,
+                BusinessStage.Established => BusinessStage.Premier,
+                _ => player.stage
+            };
+
+            return true;
+        }
     }
 }

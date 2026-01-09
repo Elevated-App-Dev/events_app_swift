@@ -53,6 +53,12 @@ namespace EventPlannerSim.Data
         public string failureConsequence;
 
         /// <summary>
+        /// Whether this is a critical task that requires notification.
+        /// Critical tasks trigger deadline notifications (R36.2).
+        /// </summary>
+        public bool isCritical = false;
+
+        /// <summary>
         /// Whether company help was used to complete this task (Stage 2 only).
         /// Using company help reduces event profit by 10%.
         /// </summary>

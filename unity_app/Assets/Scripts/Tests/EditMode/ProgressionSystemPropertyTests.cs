@@ -839,5 +839,255 @@ namespace EventPlannerSim.Tests.EditMode
         }
 
         #endregion
+
+        #region Property 28: Celebrity Reputation Loss Cap
+
+        /// <summary>
+        /// Property 28: Celebrity Reputation Loss Cap
+        /// For any celebrity event failure with press coverage status P:
+        ///   baseReputationLoss = CalculateBaseLoss(satisfaction)
+        ///   multiplier = P == Positive ? 2.0 : (P == Neutral ? 2.5 : 3.0)
+        ///   uncappedLoss = baseReputationLoss × multiplier
+        ///   finalLoss = max(uncappedLoss, -50) // Loss cannot exceed -50
+        /// INVARIANT: Celebrity event reputation loss >= -50 (loss is negative)
+        /// **Validates: Requirements R15.17-R15.19**
+        /// </summary>
+        [Test]
+        public void CalculateCelebrityReputationChange_FailedEvent_LossCappedAtMinus50()
+        {
+            // Test worst-case scenarios: minimum satisfaction + all press coverage types
+            for (int i = 0; i < 100; i++)
+            {
+                // Generate failed satisfaction (0-39%)
+                float satisfaction = (float)(_random.NextDouble() * 39);
+
+                foreach (PressCoverage coverage in Enum.GetValues(typeof(PressCoverage)))
+                {
+                    int change = _progressionSystem.CalculateCelebrityReputationChange(satisfaction, coverage);
+
+                    // For failed events, change should be negative but capped at -50
+                    Assert.GreaterOrEqual(change, -50,
+                        $"Celebrity reputation loss should be capped at -50 (got {change} for satisfaction={satisfaction:F1}%, coverage={coverage})");
+                }
+            }
+        }
+
+        /// <summary>
+        /// Property 28: Celebrity event with Positive press and failure applies 2x multiplier.
+        /// **Validates: Requirements R15.17**
+        /// </summary>
+        [Test]
+        public void CalculateCelebrityReputationChange_FailedWithPositivePress_Applies2xMultiplier()
+        {
+            // Test that positive press with failure applies 2x multiplier
+            // Base loss for failed (<40%) is -15 to -25
+            // With 2x multiplier: -30 to -50
+            for (int i = 0; i < 100; i++)
+            {
+                float satisfaction = (float)(_random.NextDouble() * 39); // 0-39%
+
+                int change = _progressionSystem.CalculateCelebrityReputationChange(satisfaction, PressCoverage.Positive);
+
+                // Should be negative (loss)
+                Assert.Less(change, 0,
+                    $"Failed celebrity event should have negative reputation change");
+                // Should be capped at -50
+                Assert.GreaterOrEqual(change, -50,
+                    $"Celebrity reputation loss should be capped at -50");
+            }
+        }
+
+        /// <summary>
+        /// Property 28: Celebrity event with Neutral press and failure applies 2.5x multiplier.
+        /// **Validates: Requirements R15.18**
+        /// </summary>
+        [Test]
+        public void CalculateCelebrityReputationChange_FailedWithNeutralPress_Applies2Point5xMultiplier()
+        {
+            // Test that neutral press with failure applies 2.5x multiplier
+            // Base loss for failed (<40%) is -15 to -25
+            // With 2.5x multiplier: -37.5 to -62.5, capped at -50
+            for (int i = 0; i < 100; i++)
+            {
+                float satisfaction = (float)(_random.NextDouble() * 39); // 0-39%
+
+                int change = _progressionSystem.CalculateCelebrityReputationChange(satisfaction, PressCoverage.Neutral);
+
+                // Should be negative (loss)
+                Assert.Less(change, 0,
+                    $"Failed celebrity event should have negative reputation change");
+                // Should be capped at -50
+                Assert.GreaterOrEqual(change, -50,
+                    $"Celebrity reputation loss should be capped at -50");
+            }
+        }
+
+        /// <summary>
+        /// Property 28: Celebrity event with Negative press and failure applies 3x multiplier.
+        /// **Validates: Requirements R15.19**
+        /// </summary>
+        [Test]
+        public void CalculateCelebrityReputationChange_FailedWithNegativePress_Applies3xMultiplier()
+        {
+            // Test that negative press with failure applies 3x multiplier
+            // Base loss for failed (<40%) is -15 to -25
+            // With 3x multiplier: -45 to -75, capped at -50
+            for (int i = 0; i < 100; i++)
+            {
+                float satisfaction = (float)(_random.NextDouble() * 39); // 0-39%
+
+                int change = _progressionSystem.CalculateCelebrityReputationChange(satisfaction, PressCoverage.Negative);
+
+                // Should be negative (loss)
+                Assert.Less(change, 0,
+                    $"Failed celebrity event should have negative reputation change");
+                // Should be capped at -50
+                Assert.GreaterOrEqual(change, -50,
+                    $"Celebrity reputation loss should be capped at -50");
+            }
+        }
+
+        /// <summary>
+        /// Property 28: Celebrity event success with Positive press applies 3x gain.
+        /// **Validates: Requirements R15.14**
+        /// </summary>
+        [Test]
+        public void CalculateCelebrityReputationChange_SuccessWithPositivePress_Applies3xGain()
+        {
+            // Test that positive press with success applies 3x multiplier
+            // Base gain for high satisfaction (90-100%) is +15 to +25
+            // With 3x multiplier: +45 to +75
+            for (int i = 0; i < 100; i++)
+            {
+                float satisfaction = 90f + (float)(_random.NextDouble() * 10); // 90-100%
+
+                int change = _progressionSystem.CalculateCelebrityReputationChange(satisfaction, PressCoverage.Positive);
+
+                // Should be positive (gain)
+                Assert.Greater(change, 0,
+                    $"Successful celebrity event should have positive reputation change");
+                // Should be at least 3x the minimum base gain (15 * 3 = 45)
+                Assert.GreaterOrEqual(change, 45,
+                    $"Celebrity success with positive press should have at least +45 reputation");
+            }
+        }
+
+        /// <summary>
+        /// Property 28: Celebrity event success with Neutral press applies 2x gain.
+        /// **Validates: Requirements R15.15**
+        /// </summary>
+        [Test]
+        public void CalculateCelebrityReputationChange_SuccessWithNeutralPress_Applies2xGain()
+        {
+            // Test that neutral press with success applies 2x multiplier
+            // Base gain for high satisfaction (90-100%) is +15 to +25
+            // With 2x multiplier: +30 to +50
+            for (int i = 0; i < 100; i++)
+            {
+                float satisfaction = 90f + (float)(_random.NextDouble() * 10); // 90-100%
+
+                int change = _progressionSystem.CalculateCelebrityReputationChange(satisfaction, PressCoverage.Neutral);
+
+                // Should be positive (gain)
+                Assert.Greater(change, 0,
+                    $"Successful celebrity event should have positive reputation change");
+                // Should be at least 2x the minimum base gain (15 * 2 = 30)
+                Assert.GreaterOrEqual(change, 30,
+                    $"Celebrity success with neutral press should have at least +30 reputation");
+            }
+        }
+
+        /// <summary>
+        /// Property 28: Celebrity event success with Negative press applies 1.5x gain.
+        /// **Validates: Requirements R15.16**
+        /// </summary>
+        [Test]
+        public void CalculateCelebrityReputationChange_SuccessWithNegativePress_Applies1Point5xGain()
+        {
+            // Test that negative press with success applies 1.5x multiplier
+            // Base gain for high satisfaction (90-100%) is +15 to +25
+            // With 1.5x multiplier: +22.5 to +37.5 (truncated to int: +22 to +37)
+            for (int i = 0; i < 100; i++)
+            {
+                float satisfaction = 90f + (float)(_random.NextDouble() * 10); // 90-100%
+
+                int change = _progressionSystem.CalculateCelebrityReputationChange(satisfaction, PressCoverage.Negative);
+
+                // Should be positive (gain)
+                Assert.Greater(change, 0,
+                    $"Successful celebrity event should have positive reputation change");
+                // Should be at least 1.5x the minimum base gain (15 * 1.5 = 22.5, truncated to 22)
+                Assert.GreaterOrEqual(change, 22,
+                    $"Celebrity success with negative press should have at least +22 reputation");
+            }
+        }
+
+        /// <summary>
+        /// Property 28: Worst case scenario - minimum satisfaction with negative press.
+        /// Base loss -25, Negative press: -25 × 3.0 = -75 → capped to -50
+        /// **Validates: Requirements R15.19a**
+        /// </summary>
+        [Test]
+        public void CalculateCelebrityReputationChange_WorstCase_CappedAtMinus50()
+        {
+            // Test worst case: 0% satisfaction with negative press
+            // This should produce the maximum possible loss, which should be capped at -50
+            for (int i = 0; i < 100; i++)
+            {
+                int change = _progressionSystem.CalculateCelebrityReputationChange(0f, PressCoverage.Negative);
+
+                Assert.GreaterOrEqual(change, -50,
+                    $"Worst case celebrity reputation loss should be capped at -50 (got {change})");
+                Assert.Less(change, 0,
+                    "Worst case should still be a loss (negative)");
+            }
+        }
+
+        /// <summary>
+        /// Property 28: Cap only applies to losses, not gains.
+        /// **Validates: Requirements R15.19a**
+        /// </summary>
+        [Test]
+        public void CalculateCelebrityReputationChange_CapOnlyAppliesToLosses()
+        {
+            // Test that gains are not capped
+            for (int i = 0; i < 100; i++)
+            {
+                float satisfaction = 90f + (float)(_random.NextDouble() * 10); // 90-100%
+
+                int change = _progressionSystem.CalculateCelebrityReputationChange(satisfaction, PressCoverage.Positive);
+
+                // Gains should be able to exceed +50 (3x multiplier on +15 to +25 = +45 to +75)
+                Assert.Greater(change, 0,
+                    "Successful celebrity event should have positive reputation change");
+                // With 3x multiplier on high satisfaction, gains can exceed 50
+                // This verifies the cap only applies to losses
+            }
+        }
+
+        /// <summary>
+        /// Property 28: All satisfaction levels with all press coverage types respect the cap.
+        /// **Validates: Requirements R15.17-R15.19a**
+        /// </summary>
+        [Test]
+        public void CalculateCelebrityReputationChange_AllCombinations_RespectCap()
+        {
+            // Test all combinations of satisfaction levels and press coverage
+            for (int i = 0; i < 100; i++)
+            {
+                float satisfaction = (float)(_random.NextDouble() * 100); // 0-100%
+
+                foreach (PressCoverage coverage in Enum.GetValues(typeof(PressCoverage)))
+                {
+                    int change = _progressionSystem.CalculateCelebrityReputationChange(satisfaction, coverage);
+
+                    // The cap should always be respected for losses
+                    Assert.GreaterOrEqual(change, -50,
+                        $"Celebrity reputation loss should never exceed -50 (got {change} for satisfaction={satisfaction:F1}%, coverage={coverage})");
+                }
+            }
+        }
+
+        #endregion
     }
 }

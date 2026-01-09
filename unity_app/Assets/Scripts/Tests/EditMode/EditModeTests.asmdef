@@ -5,6 +5,7 @@
         "EventPlannerSim.Core",
         "EventPlannerSim.Data",
         "EventPlannerSim.Systems",
+        "EventPlannerSim.Managers",
         "UnityEngine.TestRunner",
         "UnityEditor.TestRunner"
     ],

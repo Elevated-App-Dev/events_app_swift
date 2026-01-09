@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="6" result="Passed" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-01-09 08:26:28Z" end-time="2026-01-09 08:26:28Z" duration="0.0378668">
+  <test-suite type="TestSuite" id="1000" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="583" result="Passed" start-time="2026-01-09 08:26:28Z" end-time="2026-01-09 08:26:28Z" duration="0.037867" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1612" name="EventPlannerSim.Tests.EditMode.dll" fullname="/Users/d/github/events_app/unity_app/Library/ScriptAssemblies/EventPlannerSim.Tests.EditMode.dll" runstate="Runnable" testcasecount="583" result="Passed" start-time="2026-01-09 08:26:28Z" end-time="2026-01-09 08:26:28Z" duration="0.027969" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="73058" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestFixture" id="1001" name="ProgressionSystemReferralGoodTierTests" fullname="ProgressionSystemReferralGoodTierTests" classname="ProgressionSystemReferralGoodTierTests" runstate="Runnable" testcasecount="6" result="Passed" start-time="2026-01-09 08:26:28Z" end-time="2026-01-09 08:26:28Z" duration="0.022516" total="6" passed="6" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-case id="1003" name="ApplyEventResult_Exactly75Percent_Has50PercentReferralChance" fullname="ProgressionSystemReferralGoodTierTests.ApplyEventResult_Exactly75Percent_Has50PercentReferralChance" methodname="ApplyEventResult_Exactly75Percent_Has50PercentReferralChance" classname="ProgressionSystemReferralGoodTierTests" runstate="Runnable" seed="921856341" result="Passed" start-time="2026-01-09 08:26:28Z" end-time="2026-01-09 08:26:28Z" duration="0.008963" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1006" name="ApplyEventResult_GoodSatisfaction_CanTriggerReferral" fullname="ProgressionSystemReferralGoodTierTests.ApplyEventResult_GoodSatisfaction_CanTriggerReferral" methodname="ApplyEventResult_GoodSatisfaction_CanTriggerReferral" classname="ProgressionSystemReferralGoodTierTests" runstate="Runnable" seed="837158297" result="Passed" start-time="2026-01-09 08:26:28Z" end-time="2026-01-09 08:26:28Z" duration="0.004499" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1002" name="ApplyEventResult_GoodSatisfaction_Has50PercentReferralChance" fullname="ProgressionSystemReferralGoodTierTests.ApplyEventResult_GoodSatisfaction_Has50PercentReferralChance" methodname="ApplyEventResult_GoodSatisfaction_Has50PercentReferralChance" classname="ProgressionSystemReferralGoodTierTests" runstate="Runnable" seed="1763128658" result="Passed" start-time="2026-01-09 08:26:28Z" end-time="2026-01-09 08:26:28Z" duration="0.000386" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1004" name="ApplyEventResult_JustBelow75Percent_HasZeroReferralChance" fullname="ProgressionSystemReferralGoodTierTests.ApplyEventResult_JustBelow75Percent_HasZeroReferralChance" methodname="ApplyEventResult_JustBelow75Percent_HasZeroReferralChance" classname="ProgressionSystemReferralGoodTierTests" runstate="Runnable" seed="1056489887" result="Passed" start-time="2026-01-09 08:26:28Z" end-time="2026-01-09 08:26:28Z" duration="0.000367" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1005" name="ApplyEventResult_JustBelow90Percent_Has50PercentReferralChance" fullname="ProgressionSystemReferralGoodTierTests.ApplyEventResult_JustBelow90Percent_Has50PercentReferralChance" methodname="ApplyEventResult_JustBelow90Percent_Has50PercentReferralChance" classname="ProgressionSystemReferralGoodTierTests" runstate="Runnable" seed="501955074" result="Passed" start-time="2026-01-09 08:26:28Z" end-time="2026-01-09 08:26:28Z" duration="0.000074" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+        </test-case>
+        <test-case id="1007" name="ApplyEventResult_OkaySatisfaction_HasZeroReferralChance" fullname="ProgressionSystemReferralGoodTierTests.ApplyEventResult_OkaySatisfaction_HasZeroReferralChance" methodname="ApplyEventResult_OkaySatisfaction_HasZeroReferralChance" classname="ProgressionSystemReferralGoodTierTests" runstate="Runnable" seed="503636127" result="Passed" start-time="2026-01-09 08:26:28Z" end-time="2026-01-09 08:26:28Z" duration="0.000543" asserts="0">
+          <properties>
+            <property name="retryIteration" value="0" />
+            <property name="repeatIteration" value="0" />
+          </properties>
+          <output><![CDATA[Saving results to: ./unity_app/unity_test_results/referral_good_tier_tests.xml
+]]></output>
+        </test-case>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

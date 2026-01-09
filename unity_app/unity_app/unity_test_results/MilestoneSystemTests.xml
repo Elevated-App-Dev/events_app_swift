@@ -1,0 +1,162 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="22" result="Passed" total="22" passed="22" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.0447016">
+  <test-suite type="TestSuite" id="1000" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="514" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.044702" total="22" passed="22" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1539" name="EventPlannerSim.Tests.EditMode.dll" fullname="/Users/d/github/events_app/unity_app/Library/ScriptAssemblies/EventPlannerSim.Tests.EditMode.dll" runstate="Runnable" testcasecount="514" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.037743" total="22" passed="22" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="55958" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1540" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="514" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.036063" total="22" passed="22" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1541" name="Tests" fullname="EventPlannerSim.Tests" runstate="Runnable" testcasecount="514" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.032920" total="22" passed="22" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1542" name="EditMode" fullname="EventPlannerSim.Tests.EditMode" runstate="Runnable" testcasecount="514" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.031307" total="22" passed="22" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1204" name="MilestoneSystemTests" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" testcasecount="22" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.025047" total="22" passed="22" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1225" name="CanSkipSequence_FirstPlaythrough_ReturnsFalse" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.CanSkipSequence_FirstPlaythrough_ReturnsFalse" methodname="CanSkipSequence_FirstPlaythrough_ReturnsFalse" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="205473281" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.006743" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1226" name="CanSkipSequence_SubsequentPlaythrough_ReturnsTrue" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.CanSkipSequence_SubsequentPlaythrough_ReturnsTrue" methodname="CanSkipSequence_SubsequentPlaythrough_ReturnsTrue" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="2104791146" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000238" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1224" name="CompleteMilestoneSequence_UpdatesProgress" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.CompleteMilestoneSequence_UpdatesProgress" methodname="CompleteMilestoneSequence_UpdatesProgress" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="1264146266" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000099" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1211" name="GenerateCareerSummary_CalculatesTotalMoneyEarned" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.GenerateCareerSummary_CalculatesTotalMoneyEarned" methodname="GenerateCareerSummary_CalculatesTotalMoneyEarned" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="830490850" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.004058" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1209" name="GenerateCareerSummary_NoEvents_ReturnsDefaultValues" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.GenerateCareerSummary_NoEvents_ReturnsDefaultValues" methodname="GenerateCareerSummary_NoEvents_ReturnsDefaultValues" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="63627291" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000350" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1210" name="GenerateCareerSummary_NullEvents_ReturnsDefaultValues" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.GenerateCareerSummary_NullEvents_ReturnsDefaultValues" methodname="GenerateCareerSummary_NullEvents_ReturnsDefaultValues" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="1369775494" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000091" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1208" name="GenerateCareerSummary_WithEvents_ReturnsCorrectStats" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.GenerateCareerSummary_WithEvents_ReturnsCorrectStats" methodname="GenerateCareerSummary_WithEvents_ReturnsCorrectStats" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="1303141864" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000296" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1222" name="GetCorporateNarrative_ContainsRequiredScenes" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.GetCorporateNarrative_ContainsRequiredScenes" methodname="GetCorporateNarrative_ContainsRequiredScenes" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="248810087" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000597" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1221" name="GetCorporateNarrative_ReturnsFourElements" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.GetCorporateNarrative_ReturnsFourElements" methodname="GetCorporateNarrative_ReturnsFourElements" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="586812355" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000165" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1223" name="GetCreditsSequence_ContainsCreditsAndContinuation" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.GetCreditsSequence_ContainsCreditsAndContinuation" methodname="GetCreditsSequence_ContainsCreditsAndContinuation" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="678271258" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000330" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1220" name="GetEntrepreneurNarrative_ContainsRequiredScenes" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.GetEntrepreneurNarrative_ContainsRequiredScenes" methodname="GetEntrepreneurNarrative_ContainsRequiredScenes" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="1212338456" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000381" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1219" name="GetEntrepreneurNarrative_ReturnsFourElements" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.GetEntrepreneurNarrative_ReturnsFourElements" methodname="GetEntrepreneurNarrative_ReturnsFourElements" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="467486176" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000099" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1215" name="ProcessPathChoice_Corporate_ReturnsCorporateNarrative" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.ProcessPathChoice_Corporate_ReturnsCorporateNarrative" methodname="ProcessPathChoice_Corporate_ReturnsCorporateNarrative" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="2083283247" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000703" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1214" name="ProcessPathChoice_Entrepreneur_ReturnsEntrepreneurNarrative" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.ProcessPathChoice_Entrepreneur_ReturnsEntrepreneurNarrative" methodname="ProcessPathChoice_Entrepreneur_ReturnsEntrepreneurNarrative" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="945086429" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000139" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1216" name="ProcessPathChoice_FirstTime_ShouldAwardAchievement" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.ProcessPathChoice_FirstTime_ShouldAwardAchievement" methodname="ProcessPathChoice_FirstTime_ShouldAwardAchievement" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="255690819" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000068" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1218" name="ProcessPathChoice_IncludesCreditsSequence" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.ProcessPathChoice_IncludesCreditsSequence" methodname="ProcessPathChoice_IncludesCreditsSequence" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="388072237" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000141" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1217" name="ProcessPathChoice_SubsequentTime_ShouldNotAwardAchievement" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.ProcessPathChoice_SubsequentTime_ShouldNotAwardAchievement" methodname="ProcessPathChoice_SubsequentTime_ShouldNotAwardAchievement" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="875202957" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000063" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1207" name="ShouldTriggerMilestone_NotStage3_ReturnsFalse" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.ShouldTriggerMilestone_NotStage3_ReturnsFalse" methodname="ShouldTriggerMilestone_NotStage3_ReturnsFalse" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="1128048016" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000165" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1206" name="ShouldTriggerMilestone_Stage3AlreadySeen_ReturnsFalse" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.ShouldTriggerMilestone_Stage3AlreadySeen_ReturnsFalse" methodname="ShouldTriggerMilestone_Stage3AlreadySeen_ReturnsFalse" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="2056118836" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000072" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1205" name="ShouldTriggerMilestone_Stage3NotSeen_ReturnsTrue" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.ShouldTriggerMilestone_Stage3NotSeen_ReturnsTrue" methodname="ShouldTriggerMilestone_Stage3NotSeen_ReturnsTrue" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="1747612187" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000066" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1213" name="TriggerMilestoneSequence_AlreadyCompleted_DoesNotShow" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.TriggerMilestoneSequence_AlreadyCompleted_DoesNotShow" methodname="TriggerMilestoneSequence_AlreadyCompleted_DoesNotShow" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="961250715" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000161" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1212" name="TriggerMilestoneSequence_ValidTrigger_ReturnsSequenceData" fullname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests.TriggerMilestoneSequence_ValidTrigger_ReturnsSequenceData" methodname="TriggerMilestoneSequence_ValidTrigger_ReturnsSequenceData" classname="EventPlannerSim.Tests.EditMode.MilestoneSystemTests" runstate="Runnable" seed="1224022742" result="Passed" start-time="2026-01-09 07:57:02Z" end-time="2026-01-09 07:57:02Z" duration="0.000881" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: unity_app/unity_test_results/MilestoneSystemTests.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>
