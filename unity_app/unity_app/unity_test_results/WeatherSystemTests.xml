@@ -1,0 +1,96 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="11" result="Passed" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.068847">
+  <test-suite type="TestSuite" id="1000" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="158" result="Passed" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.068847" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1170" name="EventPlannerSim.Tests.EditMode.dll" fullname="/Users/d/github/events_app/unity_app/Library/ScriptAssemblies/EventPlannerSim.Tests.EditMode.dll" runstate="Runnable" testcasecount="158" result="Passed" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.061138" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="99357" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1171" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="158" result="Passed" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.059995" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1172" name="Tests" fullname="EventPlannerSim.Tests" runstate="Runnable" testcasecount="158" result="Passed" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.058856" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1173" name="EditMode" fullname="EventPlannerSim.Tests.EditMode" runstate="Runnable" testcasecount="158" result="Passed" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.057822" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1149" name="WeatherSystemPropertyTests" fullname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests" classname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests" runstate="Runnable" testcasecount="11" result="Passed" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.053800" total="11" passed="11" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1150" name="WeatherForecast_CalculateAccuracy_ReturnsCorrectAccuracyByDaysOut" fullname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests.WeatherForecast_CalculateAccuracy_ReturnsCorrectAccuracyByDaysOut" methodname="WeatherForecast_CalculateAccuracy_ReturnsCorrectAccuracyByDaysOut" classname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests" runstate="Runnable" seed="837321916" result="Passed" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.008641" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1155" name="WeatherForecast_GetSimplifiedRisk_ReturnsCorrectRiskLevel" fullname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests.WeatherForecast_GetSimplifiedRisk_ReturnsCorrectRiskLevel" methodname="WeatherForecast_GetSimplifiedRisk_ReturnsCorrectRiskLevel" classname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests" runstate="Runnable" seed="902087232" result="Passed" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.001135" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1158" name="WeatherSystem_AdvanceDay_MaintainsSevenForecasts" fullname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests.WeatherSystem_AdvanceDay_MaintainsSevenForecasts" methodname="WeatherSystem_AdvanceDay_MaintainsSevenForecasts" classname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests" runstate="Runnable" seed="1885855904" result="Passed" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.007973" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1154" name="WeatherSystem_CurrentDayForecast_HasActualWeatherRevealed" fullname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests.WeatherSystem_CurrentDayForecast_HasActualWeatherRevealed" methodname="WeatherSystem_CurrentDayForecast_HasActualWeatherRevealed" classname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests" runstate="Runnable" seed="841876623" result="Passed" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.002035" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1153" name="WeatherSystem_ForecastAccuracy_MatchesDaysOut" fullname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests.WeatherSystem_ForecastAccuracy_MatchesDaysOut" methodname="WeatherSystem_ForecastAccuracy_MatchesDaysOut" classname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests" runstate="Runnable" seed="1929658906" result="Passed" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.002061" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1159" name="WeatherSystem_GeneratedForecasts_HaveValidWeatherTypes" fullname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests.WeatherSystem_GeneratedForecasts_HaveValidWeatherTypes" methodname="WeatherSystem_GeneratedForecasts_HaveValidWeatherTypes" classname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests" runstate="Runnable" seed="2137231217" result="Passed" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.005202" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1152" name="WeatherSystem_GetForecast_CoversConsecutiveDays" fullname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests.WeatherSystem_GetForecast_CoversConsecutiveDays" methodname="WeatherSystem_GetForecast_CoversConsecutiveDays" classname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests" runstate="Runnable" seed="443650806" result="Passed" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.004117" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1151" name="WeatherSystem_GetForecast_Returns7DayForecast" fullname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests.WeatherSystem_GetForecast_Returns7DayForecast" methodname="WeatherSystem_GetForecast_Returns7DayForecast" classname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests" runstate="Runnable" seed="7287080" result="Passed" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.000713" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1160" name="WeatherSystem_SeasonalPatterns_AreDistinct" fullname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests.WeatherSystem_SeasonalPatterns_AreDistinct" methodname="WeatherSystem_SeasonalPatterns_AreDistinct" classname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests" runstate="Runnable" seed="892137395" result="Passed" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.011590" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1156" name="WeatherSystem_Stage1_AlwaysShows100PercentAccuracy" fullname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests.WeatherSystem_Stage1_AlwaysShows100PercentAccuracy" methodname="WeatherSystem_Stage1_AlwaysShows100PercentAccuracy" classname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests" runstate="Runnable" seed="1683717789" result="Passed" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.001061" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1157" name="WeatherSystem_Stage2Plus_ShowsVariableAccuracy" fullname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests.WeatherSystem_Stage2Plus_ShowsVariableAccuracy" methodname="WeatherSystem_Stage2Plus_ShowsVariableAccuracy" classname="EventPlannerSim.Tests.EditMode.WeatherSystemPropertyTests" runstate="Runnable" seed="1843252552" result="Passed" start-time="2026-01-09 04:55:20Z" end-time="2026-01-09 04:55:20Z" duration="0.000802" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: ./unity_app/unity_test_results/WeatherSystemTests.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

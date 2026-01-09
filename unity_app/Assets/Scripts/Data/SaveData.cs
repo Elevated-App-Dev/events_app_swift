@@ -238,58 +238,6 @@ namespace EventPlannerSim.Data
         }
     }
 
-
-    /// <summary>
-    /// Weather system state data for serialization.
-    /// </summary>
-    [Serializable]
-    public class WeatherSystemData
-    {
-        /// <summary>
-        /// 7-day rolling weather forecast.
-        /// </summary>
-        public List<WeatherForecast> forecasts = new List<WeatherForecast>();
-
-        /// <summary>
-        /// Current season affecting weather probabilities.
-        /// </summary>
-        public string currentSeason = "Spring";
-    }
-
-    /// <summary>
-    /// Weather forecast for a specific date.
-    /// </summary>
-    [Serializable]
-    public class WeatherForecast
-    {
-        public GameDate date;
-        public WeatherType predictedWeather;
-        public float accuracy; // 0.7 at 7 days, 0.9 at 2 days, 1.0 day-of
-        public WeatherType actualWeather; // Revealed on day-of
-
-        /// <summary>
-        /// Stage 1 simplified display.
-        /// </summary>
-        public WeatherRisk GetSimplifiedRisk() => predictedWeather switch
-        {
-            WeatherType.Clear or WeatherType.Cloudy => WeatherRisk.Good,
-            WeatherType.LightRain => WeatherRisk.Risky,
-            _ => WeatherRisk.Bad
-        };
-    }
-
-    /// <summary>
-    /// Weather warning for outdoor event booking decisions.
-    /// </summary>
-    [Serializable]
-    public class WeatherWarning
-    {
-        public WeatherRisk riskLevel;
-        public string warningMessage;
-        public string suggestedAction;
-        public float satisfactionPenaltyIfIgnored;
-    }
-
     /// <summary>
     /// Stage 3 milestone progress tracking.
     /// </summary>

@@ -223,22 +223,22 @@ This implementation plan breaks down the Event Planning Simulator into discrete 
   - [x] 12.3 Implement CheckMitigation for contingency budget
     - _Requirements: R7.15-R7.17_
 
-- [ ] 13. Weather System Implementation
-  - [ ] 13.1 Implement IWeatherSystem interface and WeatherSystemImpl
+- [x] 13. Weather System Implementation
+  - [x] 13.1 Implement IWeatherSystem interface and WeatherSystemImpl
     - GetForecast, GetForecastForDate
     - GetSimplifiedRisk for Stage 1
     - _Requirements: R32.1-R32.7_
-  - [ ] 13.2 Implement WeatherForecast with accuracy by days out
+  - [x] 13.2 Implement WeatherForecast with accuracy by days out
     - 70% at 7 days, 90% at 2 days, 100% day-of
     - _Requirements: R32.7_
-  - [ ] 13.3 Write property test for weather forecast accuracy
+  - [x] 13.3 Write property test for weather forecast accuracy
     - **Property 22: Weather Forecast Accuracy**
     - **Validates: Requirements R32**
-  - [ ] 13.4 Implement CheckOutdoorEventRisk with warnings
+  - [x] 13.4 Implement CheckOutdoorEventRisk with warnings
     - WeatherWarning generation
     - _Requirements: R32.5-R32.6, R32.9-R32.11_
 
-- [ ] 14. Checkpoint - Game Systems Complete
+- [x] 14. Checkpoint - Game Systems Complete
   - Ensure all tests pass, ask the user if questions arise.
 
 - [ ] 15. Map System Implementation
