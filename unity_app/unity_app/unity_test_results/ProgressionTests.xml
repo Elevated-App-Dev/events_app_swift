@@ -1,0 +1,102 @@
+<?xml version="1.0" encoding="utf-8"?>
+<test-run id="2" testcasecount="12" result="Passed" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0" engine-version="3.5.0.0" clr-version="4.0.30319.42000" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.0322548">
+  <test-suite type="TestSuite" id="1000" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="76" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.032255" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+    <properties>
+      <property name="platform" value="EditMode" />
+    </properties>
+    <test-suite type="Assembly" id="1085" name="EventPlannerSim.Tests.EditMode.dll" fullname="/Users/d/github/events_app/unity_app/Library/ScriptAssemblies/EventPlannerSim.Tests.EditMode.dll" runstate="Runnable" testcasecount="76" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.027085" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+      <properties>
+        <property name="_PID" value="80492" />
+        <property name="_APPDOMAIN" value="Unity Child Domain" />
+        <property name="platform" value="EditMode" />
+        <property name="EditorOnly" value="True" />
+      </properties>
+      <test-suite type="TestSuite" id="1086" name="EventPlannerSim" fullname="EventPlannerSim" runstate="Runnable" testcasecount="76" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.026499" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+        <properties />
+        <test-suite type="TestSuite" id="1087" name="Tests" fullname="EventPlannerSim.Tests" runstate="Runnable" testcasecount="76" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.025998" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+          <properties />
+          <test-suite type="TestSuite" id="1088" name="EditMode" fullname="EventPlannerSim.Tests.EditMode" runstate="Runnable" testcasecount="76" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.025604" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+            <properties />
+            <test-suite type="TestFixture" id="1014" name="ProgressionSystemPropertyTests" fullname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests" classname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests" runstate="Runnable" testcasecount="12" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.024237" total="12" passed="12" failed="0" inconclusive="0" skipped="0" asserts="0">
+              <properties />
+              <test-case id="1020" name="ApplyEventResult_BoundaryValues_CorrectTier" fullname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests.ApplyEventResult_BoundaryValues_CorrectTier" methodname="ApplyEventResult_BoundaryValues_CorrectTier" classname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests" runstate="Runnable" seed="1323898234" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.008677" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1023" name="ApplyEventResult_FailedSatisfaction_GeneratesNegativeReview" fullname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests.ApplyEventResult_FailedSatisfaction_GeneratesNegativeReview" methodname="ApplyEventResult_FailedSatisfaction_GeneratesNegativeReview" classname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests" runstate="Runnable" seed="143412714" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.000398" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1019" name="ApplyEventResult_FailedSatisfaction_ReturnsSevereNegativeReputation" fullname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests.ApplyEventResult_FailedSatisfaction_ReturnsSevereNegativeReputation" methodname="ApplyEventResult_FailedSatisfaction_ReturnsSevereNegativeReputation" classname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests" runstate="Runnable" seed="1040190099" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.000469" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1016" name="ApplyEventResult_GoodSatisfaction_ReturnsModeratePositiveReputation" fullname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests.ApplyEventResult_GoodSatisfaction_ReturnsModeratePositiveReputation" methodname="ApplyEventResult_GoodSatisfaction_ReturnsModeratePositiveReputation" classname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests" runstate="Runnable" seed="1277244052" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.000492" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1021" name="ApplyEventResult_HighSatisfaction_HasReferralProbability" fullname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests.ApplyEventResult_HighSatisfaction_HasReferralProbability" methodname="ApplyEventResult_HighSatisfaction_HasReferralProbability" classname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests" runstate="Runnable" seed="250712495" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.000577" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1015" name="ApplyEventResult_HighSatisfaction_ReturnsPositiveReputation" fullname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests.ApplyEventResult_HighSatisfaction_ReturnsPositiveReputation" methodname="ApplyEventResult_HighSatisfaction_ReturnsPositiveReputation" classname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests" runstate="Runnable" seed="172180570" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.000467" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1025" name="ApplyEventResult_NewReputation_CorrectlyCalculated" fullname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests.ApplyEventResult_NewReputation_CorrectlyCalculated" methodname="ApplyEventResult_NewReputation_CorrectlyCalculated" classname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests" runstate="Runnable" seed="1186879350" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.002090" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1024" name="ApplyEventResult_NonFailedSatisfaction_NoNegativeReview" fullname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests.ApplyEventResult_NonFailedSatisfaction_NoNegativeReview" methodname="ApplyEventResult_NonFailedSatisfaction_NoNegativeReview" classname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests" runstate="Runnable" seed="1975448667" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.000310" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1022" name="ApplyEventResult_OkaySatisfaction_NoReferral" fullname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests.ApplyEventResult_OkaySatisfaction_NoReferral" methodname="ApplyEventResult_OkaySatisfaction_NoReferral" classname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests" runstate="Runnable" seed="420406016" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.000626" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1017" name="ApplyEventResult_OkaySatisfaction_ReturnsSmallPositiveReputation" fullname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests.ApplyEventResult_OkaySatisfaction_ReturnsSmallPositiveReputation" methodname="ApplyEventResult_OkaySatisfaction_ReturnsSmallPositiveReputation" classname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests" runstate="Runnable" seed="212914630" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.000432" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1018" name="ApplyEventResult_PoorSatisfaction_ReturnsNegativeReputation" fullname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests.ApplyEventResult_PoorSatisfaction_ReturnsNegativeReputation" methodname="ApplyEventResult_PoorSatisfaction_ReturnsNegativeReputation" classname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests" runstate="Runnable" seed="230333091" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.000452" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+              </test-case>
+              <test-case id="1026" name="ApplyEventResult_ReputationNeverNegative" fullname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests.ApplyEventResult_ReputationNeverNegative" methodname="ApplyEventResult_ReputationNeverNegative" classname="EventPlannerSim.Tests.EditMode.ProgressionSystemPropertyTests" runstate="Runnable" seed="598159301" result="Passed" start-time="2026-01-09 04:02:58Z" end-time="2026-01-09 04:02:58Z" duration="0.000156" asserts="0">
+                <properties>
+                  <property name="retryIteration" value="0" />
+                  <property name="repeatIteration" value="0" />
+                </properties>
+                <output><![CDATA[Saving results to: ./unity_app/unity_test_results/ProgressionTests.xml
+]]></output>
+              </test-case>
+            </test-suite>
+          </test-suite>
+        </test-suite>
+      </test-suite>
+    </test-suite>
+  </test-suite>
+</test-run>

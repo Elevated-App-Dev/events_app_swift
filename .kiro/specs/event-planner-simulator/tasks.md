@@ -122,28 +122,28 @@ This implementation plan breaks down the Event Planning Simulator into discrete 
 - [x] 7. Checkpoint - Core Calculators
   - Ensure all tests pass, ask the user if questions arise.
 
-- [ ] 8. Progression System Implementation
-  - [ ] 8.1 Implement IProgressionSystem interface and ProgressionSystemImpl
+- [-] 8. Progression System Implementation
+  - [x] 8.1 Implement IProgressionSystem interface and ProgressionSystemImpl
     - ApplyEventResult with reputation changes
     - CanAdvanceStage with stage requirements
     - _Requirements: R14.1-R14.12_
-  - [ ] 8.2 Write property test for reputation change by satisfaction
+  - [x] 8.2 Write property test for reputation change by satisfaction
     - **Property 15: Reputation Change by Satisfaction**
     - **Validates: Requirements R14**
-  - [ ] 8.3 Implement personality distribution by stage
+  - [x] 8.3 Implement personality distribution by stage
     - GetPersonalityDistribution method
     - _Requirements: R14.13_
-  - [ ] 8.4 Implement Stage 2 performance review evaluation
+  - [x] 8.4 Implement Stage 2 performance review evaluation
     - EvaluatePerformance method
     - Positive/negative/neutral outcomes
     - _Requirements: R16.5-R16.10_
-  - [ ] 8.5 Write property test for performance review evaluation
+  - [x] 8.5 Write property test for performance review evaluation
     - **Property 18: Performance Review Evaluation**
     - **Validates: Requirements R16**
-  - [ ] 8.6 Implement employee compensation calculation
+  - [x] 8.6 Implement employee compensation calculation
     - GetCompensation by level
     - _Requirements: R16.3_
-  - [ ] 8.7 Write property test for employee compensation
+  - [x] 8.7 Write property test for employee compensation
     - **Property 17: Employee Compensation by Level**
     - **Validates: Requirements R16**
 
@@ -407,6 +407,24 @@ This implementation plan breaks down the Event Planning Simulator into discrete 
 
 - [ ] 32. Final Checkpoint
   - Ensure all tests pass, ask the user if questions arise.
+
+- [ ] 33. Defensive Edge Case Tests (Polish)
+  - [ ] 33.1 Add invalid input tests for ProgressionSystem
+    - Satisfaction > 100% or negative values
+    - Employee level 0, negative, or > 5
+    - Empty event list for performance review
+    - Events with 0 tasks
+    - _Requirements: R14, R16_
+  - [ ] 33.2 Add missing referral probability test for good tier
+    - Verify 75-89% satisfaction has 50% referral chance
+    - _Requirements: R14.3_
+  - [ ] 33.3 Add consecutive review state transition tests
+    - Neutral review effect on consecutive negative count
+    - Alternating positive/negative review sequences
+    - _Requirements: R16.9_
+  - [ ] 33.4 Review other systems for similar defensive tests
+    - SatisfactionCalculator, TimeSystem, SaveSystem
+    - Add invalid input handling where missing
 
 ## Notes
 
