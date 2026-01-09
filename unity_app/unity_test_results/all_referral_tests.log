@@ -7,21 +7,23 @@ Darwin version:          25.2.0
 Architecture:            arm64
 Running under Rosetta:   NO
 Available memory:        16384 MB
-Date:                    2026-01-09T04:29:35Z
+Date:                    2026-01-09T04:37:06Z
 [Licensing::Module] Trying to connect to existing licensing client channel...
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-d" at "2026-01-09T04:29:35.485436Z"
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-d" at "2026-01-09T04:37:06.450579Z"
 Launching external process: /Applications/Unity/Hub/Editor/6000.3.3f1/Unity.app/Contents/Resources/PackageManager/Server/UnityPackageManager
 
 COMMAND LINE ARGUMENTS:
 /Applications/Unity/Hub/Editor/6000.3.3f1/Unity.app/Contents/MacOS/Unity
+-runTests
 -batchmode
 -projectPath
-/Users/d/github/events_app/unity_app
--buildTarget
-StandaloneOSX
+./unity_app
+-testResults
+./unity_app/unity_test_results/AllReferralTests.xml
+-testFilter
+ReferralSystemPropertyTests
 -logFile
-/Users/d/github/events_app/unity_app/unity_test_results/compile_check.log
--quit
+./unity_app/unity_test_results/all_referral_tests.log
 Successfully changed project path to: /Users/d/github/events_app/unity_app
 /Users/d/github/events_app/unity_app
 [UnityMemory] Configuration Parameters - Can be set up in boot.config
@@ -61,7 +63,7 @@ Successfully changed project path to: /Users/d/github/events_app/unity_app
     "memorysetup-temp-allocator-size-gfx=262144"
 Player connection [8425745472]  Target information:
 
-Player connection [8425745472]  * "[IP] 192.168.1.213 [Port] 55504 [Flags] 2 [Guid] 3141311519 [EditorId] 3141311519 [Version] 1048832 [Id] OSXEditor(0,Ds-MacBook-Pro.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
+Player connection [8425745472]  * "[IP] 192.168.1.213 [Port] 55504 [Flags] 2 [Guid] 3298860425 [EditorId] 3298860425 [Version] 1048832 [Id] OSXEditor(0,Ds-MacBook-Pro.local) [Debug] 1 [PackageName] OSXEditor [ProjectName] Editor" 
 
 Player connection [8425745472] Host joined multi-casting on [225.0.0.222:54997]...
 Player connection [8425745472] Host joined alternative multi-casting on [225.0.0.222:34997]...
@@ -70,12 +72,12 @@ Input System module state changed to: Initialized.
 [Physics::Module] Id: 0xdecafbad
 [Licensing::Client] Handshaking with LicensingClient:
   Version:                 1.17.4+4293ba1
-  Session Id:              3b46680477cd4c24ae8e1cb57219573f
+  Session Id:              d7bdea4753d94d4dab51e3d4d656805d
   Correlation Id:          e811f35ce1a4b2ff2be81f823bb9cac5
-  External correlation Id: 4114851441521277541
+  External correlation Id: 8377214964554844720
   Machine Id:              1nSngSMHR7v3M0Pl9Rvq6OV6AsI=
-[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-d" (connect: 0.00s, validation: 0.00s, handshake: 0.41s)
-[Licensing::IpcConnector] Successfully connected to: "LicenseClient-d-notifications" at "2026-01-09T04:29:35.896065Z"
+[Licensing::Module] Successfully connected to LicensingClient on channel: "LicenseClient-d" (connect: 0.00s, validation: 0.00s, handshake: 0.36s)
+[Licensing::IpcConnector] Successfully connected to: "LicenseClient-d-notifications" at "2026-01-09T04:37:06.8104Z"
 [Licensing::Module] Error: Access token is unavailable; failed to update
 [Licensing::Client] Successfully resolved entitlement details
 [Licensing::Module] License group:
@@ -84,9 +86,8 @@ Input System module state changed to: Initialized.
   Type: Assigned
   Expiration: Unlimited
 [Licensing::Client] Successfully updated license, isAsync: True, time: 0.00
-[Licensing::Client] Successfully resolved entitlement details
-[Licensing::Module] Licensing Background thread has ended after 0.41s
-[Package Manager] Connected to IPC stream "Upm-89061" after 0.4 seconds.
+[Licensing::Module] Licensing Background thread has ended after 0.36s
+[Package Manager] Connected to IPC stream "Upm-93117" after 0.3 seconds.
 [Licensing::Client] Successfully resolved entitlement details
 Library Redirect Path: Library/
 [Physics::Module] Selected backend.
@@ -95,7 +96,6 @@ Library Redirect Path: Library/
 [Physics::Module] SDK Version: 4.1.2
 [Physics::Module] Integration Version: 1.0.0
 [Physics::Module] Threading Mode: Multi-Threaded
-Targeting platform: StandaloneOSX
 Refreshing native plugins compatible for Editor in 0.00 ms, found 0 plugins.
 Preloading 0 native plugins for Editor in 0.00 ms.
 Initialize engine version: 6000.3.3f1 (ef04196de0d6)
@@ -117,7 +117,7 @@ Initialize mono
 Mono path[0] = '/Applications/Unity/Hub/Editor/6000.3.3f1/Unity.app/Contents/Resources/Scripting/Managed'
 Mono path[1] = '/Applications/Unity/Hub/Editor/6000.3.3f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/lib/mono/unityjit-macos'
 Mono config path = '/Applications/Unity/Hub/Editor/6000.3.3f1/Unity.app/Contents/Resources/Scripting/MonoBleedingEdge/etc'
-Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56061
+Using monoOptions --debugger-agent=transport=dt_socket,embedding=1,server=y,suspend=n,address=127.0.0.1:56117
 Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
 Using cacheserver namespaces - metadata:defaultmetadata, artifacts:defaultartifacts
 ImportWorker Server TCP listen port: 0
@@ -132,16 +132,16 @@ Register platform support module: /Applications/Unity/Hub/Editor/6000.3.3f1/Play
 Register platform support module: /Applications/Unity/Hub/Editor/6000.3.3f1/PlaybackEngines/AndroidPlayer/UnityEditor.Android.Extensions.dll
 Register platform support module: /Applications/Unity/Hub/Editor/6000.3.3f1/PlaybackEngines/iOSSupport/UnityEditor.iOS.Extensions.dll
 Register platform support module: /Applications/Unity/Hub/Editor/6000.3.3f1/PlaybackEngines/AppleTVSupport/UnityEditor.AppleTV.Extensions.dll
-Registered in 0.010067 seconds.
-- Loaded All Assemblies, in  0.403 seconds
+Registered in 0.004057 seconds.
+- Loaded All Assemblies, in  0.365 seconds
 [usbmuxd] Start listen thread
 [usbmuxd] Listen thread started
 [usbmuxd] Send listen message
 Native extension for AppleTV target not found
 Native extension for iOS target not found
 Native extension for Android target not found
-Android Extension - Scanning For ADB Devices 3098 ms
-objc[89061]: Class XcodeScriptingDelegate is implemented in both /Applications/Unity/Hub/Editor/6000.3.3f1/PlaybackEngines/AppleTVSupport/arm64/UnityEditor.iOS.Native.dylib (0x15c218610) and /Applications/Unity/Hub/Editor/6000.3.3f1/PlaybackEngines/VisionOSPlayer/arm64/UnityEditor.VisionOS.Native.dylib (0x15c254610). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
+Android Extension - Scanning For ADB Devices 3085 ms
+objc[93117]: Class XcodeScriptingDelegate is implemented in both /Applications/Unity/Hub/Editor/6000.3.3f1/PlaybackEngines/AppleTVSupport/arm64/UnityEditor.iOS.Native.dylib (0x15e4d8610) and /Applications/Unity/Hub/Editor/6000.3.3f1/PlaybackEngines/VisionOSPlayer/arm64/UnityEditor.VisionOS.Native.dylib (0x15e514610). This may cause spurious casting failures and mysterious crashes. One of the duplicates must be removed or renamed.
 [usbmuxd] Start listen thread
 [usbmuxd] Listen thread started
 [usbmuxd] Send listen message
@@ -149,35 +149,35 @@ Native extension for VisionOS target not found
 Native extension for OSXStandalone target not found
 Native extension for WebGL target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  3.524 seconds
-Domain Reload Profiling: 3928ms
-	BeginReloadAssembly (140ms)
+- Finished resetting the current domain, in  3.471 seconds
+Domain Reload Profiling: 3836ms
+	BeginReloadAssembly (130ms)
 		ExecutionOrderSort (0ms)
 		DisableScriptedObjects (0ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (3ms)
-	RebuildCommonClasses (34ms)
-	RebuildNativeTypeToScriptingClass (11ms)
-	initialDomainReloadingComplete (44ms)
-	LoadAllAssembliesAndSetupDomain (175ms)
-		LoadAssemblies (139ms)
+		CreateAndSetChildDomain (14ms)
+	RebuildCommonClasses (32ms)
+	RebuildNativeTypeToScriptingClass (10ms)
+	initialDomainReloadingComplete (38ms)
+	LoadAllAssembliesAndSetupDomain (154ms)
+		LoadAssemblies (118ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
-		AnalyzeDomain (168ms)
-			TypeCache.Refresh (167ms)
-				TypeCache.ScanAssembly (152ms)
+		AnalyzeDomain (149ms)
+			TypeCache.Refresh (146ms)
+				TypeCache.ScanAssembly (132ms)
 			BuildScriptInfoCaches (0ms)
 			ResolveRequiredComponents (1ms)
-	FinalizeReload (3525ms)
+	FinalizeReload (3472ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (3494ms)
+		SetupLoadedEditorAssemblies (3442ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (3240ms)
+			InitializePlatformSupportModulesInManaged (3205ms)
 			SetLoadedEditorAssemblies (4ms)
-			BeforeProcessingInitializeOnLoad (80ms)
-			ProcessInitializeOnLoadAttributes (108ms)
-			ProcessInitializeOnLoadMethodAttributes (61ms)
+			BeforeProcessingInitializeOnLoad (71ms)
+			ProcessInitializeOnLoadAttributes (103ms)
+			ProcessInitializeOnLoadMethodAttributes (59ms)
 			AfterProcessingInitializeOnLoad (0ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
@@ -202,7 +202,7 @@ Package Manager log level set to [2]
     com.unity.modules.hierarchycore@1.0.0 (location: /Applications/Unity/Hub/Editor/6000.3.3f1/Unity.app/Contents/Resources/PackageManager/BuiltInPackages/com.unity.modules.hierarchycore)
     com.unity.ext.nunit@2.0.5 (location: /Users/d/github/events_app/unity_app/Library/PackageCache/com.unity.ext.nunit@d8c07649098d)
 [Subsystems] No new subsystems found in resolved package list.
-[Package Manager] Done registering packages in 0.01 seconds
+[Package Manager] Done registering packages in 0.00 seconds
 Assembly for Assembly Definition File 'Assets/Scripts/Tests/PlayMode/PlayModeTests.asmdef' will not be compiled, because it has no scripts associated with it.
 UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
 UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
@@ -266,17 +266,17 @@ UnityEditor.Scripting.ScriptCompilation.EditorCompilationInterface:CompileScript
 [40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Routing.EndpointMiddleware[1]
       Executed endpoint 'gRPC - /UnityILPP.PostProcessing/Ping'
 [40m[32minfo[39m[22m[49m: Microsoft.AspNetCore.Hosting.Diagnostics[2]
-      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc - - 200 - application/grpc 42.4806ms
+      Request finished HTTP/2 POST http://ilpp/UnityILPP.PostProcessing/Ping application/grpc - - 200 - application/grpc 39.1284ms
 Starting: /Applications/Unity/Hub/Editor/6000.3.3f1/Unity.app/Contents/Resources/BuildPipeline/bee_backend --ipc --defer-dag-verification --dagfile="Library/Bee/200b0aE.dag" --continue-on-failure --profile="Library/Bee/backend1.traceevents" ScriptAssemblies
 WorkingDir: /Users/d/github/events_app/unity_app
 DisplayProgressbar: Compiling Scripts
-ExitCode: 0 Duration: 0s50ms
+ExitCode: 0 Duration: 0s49ms
 *** Tundra build success (0.03 seconds), 0 items updated, 205 evaluated
 Total cache size 1184640
-AssetDatabase: script compilation time: 0.631513s
-Total cache size after purge 1184640, took 00:00:00.0065375
+Total cache size after purge 1184640, took 00:00:00.0059269
+AssetDatabase: script compilation time: 0.561146s
 Begin MonoManager ReloadAssembly
-- Loaded All Assemblies, in  0.267 seconds
+- Loaded All Assemblies, in  0.255 seconds
 Refreshing native plugins compatible for Editor in 0.00 ms, found 0 plugins.
 Native extension for AppleTV target not found
 Native extension for iOS target not found
@@ -285,89 +285,154 @@ Native extension for VisionOS target not found
 Native extension for OSXStandalone target not found
 Native extension for WebGL target not found
 Mono: successfully reloaded assembly
-- Finished resetting the current domain, in  0.330 seconds
-Domain Reload Profiling: 597ms
-	BeginReloadAssembly (116ms)
+- Finished resetting the current domain, in  0.324 seconds
+Domain Reload Profiling: 579ms
+	BeginReloadAssembly (109ms)
 		ExecutionOrderSort (0ms)
-		DisableScriptedObjects (6ms)
+		DisableScriptedObjects (7ms)
 		BackupInstance (0ms)
 		ReleaseScriptingObjects (0ms)
-		CreateAndSetChildDomain (46ms)
+		CreateAndSetChildDomain (39ms)
 	RebuildCommonClasses (27ms)
 	RebuildNativeTypeToScriptingClass (11ms)
 	initialDomainReloadingComplete (14ms)
-	LoadAllAssembliesAndSetupDomain (99ms)
-		LoadAssemblies (117ms)
+	LoadAllAssembliesAndSetupDomain (95ms)
+		LoadAssemblies (113ms)
 		RebuildTransferFunctionScriptingTraits (0ms)
 		AnalyzeDomain (24ms)
 			TypeCache.Refresh (21ms)
 				TypeCache.ScanAssembly (14ms)
 			BuildScriptInfoCaches (2ms)
 			ResolveRequiredComponents (0ms)
-	FinalizeReload (330ms)
+	FinalizeReload (324ms)
 		ReleaseScriptCaches (0ms)
 		RebuildScriptCaches (0ms)
-		SetupLoadedEditorAssemblies (245ms)
+		SetupLoadedEditorAssemblies (240ms)
 			LogAssemblyErrors (0ms)
-			InitializePlatformSupportModulesInManaged (32ms)
+			InitializePlatformSupportModulesInManaged (31ms)
 			SetLoadedEditorAssemblies (2ms)
-			BeforeProcessingInitializeOnLoad (101ms)
-			ProcessInitializeOnLoadAttributes (85ms)
-			ProcessInitializeOnLoadMethodAttributes (24ms)
+			BeforeProcessingInitializeOnLoad (98ms)
+			ProcessInitializeOnLoadAttributes (81ms)
+			ProcessInitializeOnLoadMethodAttributes (27ms)
 			AfterProcessingInitializeOnLoad (1ms)
 			EditorAssembliesLoaded (0ms)
 		ExecutionOrderSort2 (0ms)
 		AwakeInstancesAfterBackupRestoration (3ms)
-Asset Pipeline Refresh (id=ccea6ed64932d4d47ad79820ce16c670): Total: 1.351 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
+Asset Pipeline Refresh (id=5a46ee9cee79d45038d3bc3b79e85867): Total: 1.246 seconds - Initiated by InitialRefreshV2(ForceSynchronousImport)
 	Summary:
 		Imports: total=0 (actual=0, local cache=0, cache server=0)
-		Asset DB Process Time: managed=0 ms, native=430 ms
-		Asset DB Callback time: managed=8 ms, native=7 ms
-		Scripting: domain reloads=1, domain reload time=267 ms, compile time=633 ms, other=4 ms
+		Asset DB Process Time: managed=0 ms, native=409 ms
+		Asset DB Callback time: managed=8 ms, native=5 ms
+		Scripting: domain reloads=1, domain reload time=255 ms, compile time=562 ms, other=4 ms
 		Project Asset Count: scripts=122, non-scripts=25
 		Asset File Changes: new=0, changed=0, moved=0, deleted=0
 		Scan Filter Count: 1
-	InvokeCustomDependenciesCallbacks: 0.000ms
-	InvokePackagesCallback: 8.158ms
-	ApplyChangesToAssetFolders: 0.116ms
-	Scan: 51.528ms
+	InvokeCustomDependenciesCallbacks: 0.001ms
+	InvokePackagesCallback: 6.448ms
+	ApplyChangesToAssetFolders: 0.103ms
+	Scan: 38.917ms
 	OnSourceAssetsModified: 0.001ms
-	CategorizeAssetsWithTransientArtifact: 2.426ms
-	ProcessAssetsWithTransientArtifactChanges: 3.416ms
-	CategorizeAssets: 0.807ms
-	ImportOutOfDateAssets: 332.574ms (-300.737ms without children)
-		CompileScripts: 632.808ms
+	CategorizeAssetsWithTransientArtifact: 2.611ms
+	ProcessAssetsWithTransientArtifactChanges: 3.549ms
+	CategorizeAssets: 0.767ms
+	ImportOutOfDateAssets: 326.205ms (-236.452ms without children)
+		CompileScripts: 562.074ms
 		ReloadNativeAssets: 0.000ms
-		UnloadImportedAssets: 0.172ms
+		UnloadImportedAssets: 0.149ms
 		EnsureUptoDateAssetsAreRegisteredWithGuidPM: 0.030ms
 		InitializingProgressBar: 0.000ms
-		PostProcessAllAssetNotificationsAddChangedAssets: 0.000ms
-		OnDemandSchedulerStart: 0.301ms
-	PostProcessAllAssets: 8.970ms
+		OnDemandSchedulerStart: 0.404ms
+	PostProcessAllAssets: 8.767ms
 	GatherAllCurrentPrimaryArtifactRevisions: 0.000ms
-	UnloadStreamsBegin: 0.751ms
+	UnloadStreamsBegin: 0.622ms
 	PersistCurrentRevisions: 0.004ms
-	UnloadStreamsEnd: 0.000ms
-	GenerateScriptTypeHashes: 0.000ms
-	Untracked: 942.679ms
+	UnloadStreamsEnd: 0.001ms
+	GenerateScriptTypeHashes: 0.001ms
+	Untracked: 858.253ms
 
 Application.AssetDatabase Initial Refresh End
 Launching external process: /Applications/Unity/Hub/Editor/6000.3.3f1/Unity.app/Contents/Helpers/UnityShaderCompiler
 Launched and connected shader compiler UnityShaderCompiler after 0.06 seconds
-Scanning for USB devices : 0.054ms
+Scanning for USB devices : 0.047ms
 Initializing Unity extensions:
 [MODES] ModeService[none].Initialize
 [MODES] ModeService[none].LoadModes
 [MODES] Loading mode Default (0) for mode-current-id-EventPlannerSim
 Unloading 3 Unused Serialized files (Serialized files now loaded: 0)
-Unloading 448 unused Assets / (1.1 MB). Loaded Objects now: 1050.
-Memory consumption went from 105.5 MB to 104.4 MB.
-Total: 4.951042 ms (FindLiveObjects: 0.044209 ms CreateObjectMapping: 0.013709 ms MarkObjects: 4.376334 ms  DeleteObjects: 0.516208 ms)
+Unloading 451 unused Assets / (1.0 MB). Loaded Objects now: 1053.
+Memory consumption went from 101.8 MB to 100.9 MB.
+Total: 5.421917 ms (FindLiveObjects: 0.043125 ms CreateObjectMapping: 0.015042 ms MarkObjects: 4.761583 ms  DeleteObjects: 0.601542 ms)
 
-Batchmode quit successfully invoked - shutting down!
-Curl error 42: Callback aborted
-Killing ADB server in 0.037939 seconds.
-Thread 0x16e39b000 may have been prematurely finalized
+[Project] Loading completed in 6.249 seconds
+	Project init time: 				5.990 seconds
+		Template init time: 		0.000 seconds
+		Package Manager init time: 		0.302 seconds
+		Asset Database init time: 		0.185 seconds
+		Global illumination init time: 	0.003 seconds
+		Assemblies load time: 			3.848 seconds
+		Unity extensions init time: 	0.002 seconds
+		Asset Database refresh time: 	1.247 seconds
+	Scene opening time: 			0.100 seconds
+##utp:{"type":"ProjectInfo","version":2,"phase":"Immediate","time":1767933432671,"processId":93117,"projectLoad":6.2487041670000009,"projectInit":5.990373375,"templateInit":0.0,"packageManagerInit":0.30165675,"assetDatabaseInit":0.184571833,"globalIlluminationInit":0.00287025,"assembliesLoad":3.847749792,"unityExtensionsInit":0.002035792,"assetDatabaseRefresh":1.24673725,"sceneOpening":0.100200084}
+##utp:{"type":"EditorInfo","version":2,"phase":"Immediate","time":1767933432671,"processId":93117,"editorVersion":"6000.3.3f1 (ef04196de0d6)","branch":"6000.3/staging","buildType":"Release","platform":"OSX"}
+Subscribe to USB device events
+Asset Pipeline Refresh (id=21b9e091f76324b0abfbb774dbb6e22d): Total: 0.019 seconds - Initiated by RefreshV2(NoUpdateAssetOptions)
+Running tests for ExecutionSettings with details:
+targetPlatform = 
+playerHeartbeatTimeout = 600
+filters[0] = 
+   Filter with settings:
+   testMode = EditMode
+   targetPlatform = 
+   testNames = null
+   groupNames = ReferralSystemPropertyTests
+   categoryNames = null
+   assemblyNames = null
+ignoreTests = {}
+featureFlags = null
+
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+UnityEditor.TestTools.TestRunner.CommandLineTest.Executer:InitializeAndExecuteRun (string[]) (at ./Library/PackageCache/com.unity.test-framework@0b7a23ab2e1d/UnityEditor.TestRunner/CommandLineTest/Executer.cs:53)
+UnityEditor.TestTools.TestRunner.CommandLineTest.TestStarter:InitializeAndExecuteRun () (at ./Library/PackageCache/com.unity.test-framework@0b7a23ab2e1d/UnityEditor.TestRunner/CommandLineTest/TestStarter.cs:64)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:392)
+
+(Filename: ./Library/PackageCache/com.unity.test-framework@0b7a23ab2e1d/UnityEditor.TestRunner/CommandLineTest/Executer.cs Line: 53)
+
+[Indexing] Starting Initial Indexing for Assets
+[UnityConnectServicesConfig] config is NOT valid, switching to default
+Created GICache directory at /Users/d/Library/Caches/com.unity3d.UnityEditor/GiCache. Took: 0.004s, timestamps: [6.251 - 6.254]
+Unloading 1 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 1 unused Assets / (43.9 KB). Loaded Objects now: 1109.
+Memory consumption went from 99.2 MB to 99.1 MB.
+Total: 5.156333 ms (FindLiveObjects: 0.026791 ms CreateObjectMapping: 0.007834 ms MarkObjects: 5.105792 ms  DeleteObjects: 0.015375 ms)
+
+Saving results to: ./unity_app/unity_test_results/AllReferralTests.xml
+Unloading 0 Unused Serialized files (Serialized files now loaded: 0)
+Unloading 0 unused Assets / (0 B). Loaded Objects now: 1109.
+Memory consumption went from 93.9 MB to 93.9 MB.
+Total: 5.101125 ms (FindLiveObjects: 0.028791 ms CreateObjectMapping: 0.008084 ms MarkObjects: 5.060083 ms  DeleteObjects: 0.003833 ms)
+
+DisplayProgressbar: Undo
+Test run completed. Exiting with code 0 (Ok). Run completed.
+UnityEngine.Debug:ExtractStackTraceNoAlloc (byte*,int,string)
+UnityEngine.StackTraceUtility:ExtractStackTrace () (at /Users/bokken/build/output/unity/unity/Runtime/Export/Scripting/StackTrace.cs:35)
+UnityEngine.DebugLogHandler:Internal_Log (UnityEngine.LogType,UnityEngine.LogOption,string,UnityEngine.Object)
+UnityEngine.DebugLogHandler:LogFormat (UnityEngine.LogType,UnityEngine.Object,string,object[])
+UnityEngine.Logger:Log (UnityEngine.LogType,object)
+UnityEngine.Debug:Log (object)
+UnityEditor.TestTools.TestRunner.CommandLineTest.Executer:ExitApplication (UnityEditor.TestTools.TestRunner.CommandLineTest.Executer/ReturnCodes,string) (at ./Library/PackageCache/com.unity.test-framework@0b7a23ab2e1d/UnityEditor.TestRunner/CommandLineTest/Executer.cs:81)
+UnityEditor.TestTools.TestRunner.CommandLineTest.Executer:ExitIfRunIsCompleted () (at ./Library/PackageCache/com.unity.test-framework@0b7a23ab2e1d/UnityEditor.TestRunner/CommandLineTest/Executer.cs:74)
+UnityEditor.EditorApplication:Internal_CallUpdateFunctions () (at /Users/bokken/build/output/unity/unity/Editor/Mono/EditorApplication.cs:392)
+
+(Filename: ./Library/PackageCache/com.unity.test-framework@0b7a23ab2e1d/UnityEditor.TestRunner/CommandLineTest/Executer.cs Line: 81)
+
+Killing ADB server in 0.035242 seconds.
+Thread 0x16c15b000 may have been prematurely finalized
 Input System module state changed to: ShutdownInProgress.
 Input System polling thread exited.
 Input System module state changed to: Shutdown.
@@ -375,8 +440,8 @@ Input System module state changed to: Shutdown.
 [Physics::Module] Id: 0xf2b8ea05
 [Licensing::IpcConnector] LicenseClient-d-notifications channel disconnected successfully.
 [Licensing::IpcConnector] LicenseClient-d channel disconnected successfully.
-Thread 0x16e76f000 may have been prematurely finalized
-Thread 0x16e7fb000 may have been prematurely finalized
+Thread 0x16c4a3000 may have been prematurely finalized
+Thread 0x16c52f000 may have been prematurely finalized
 AcceleratorClientConnectionCallback - disconnected - :0
 [40m[32minfo[39m[22m[49m: Microsoft.Hosting.Lifetime[0]
       Application is shutting down...
@@ -388,5 +453,3 @@ debugger-agent: Unable to listen on 43
 [usbmuxd] Stop listen thread
 [usbmuxd] Error: 
 [usbmuxd] Listen thread exiting
-Exiting batchmode successfully now!
-[Package Manager] Server process was shutdown
