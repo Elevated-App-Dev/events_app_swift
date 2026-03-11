@@ -1,0 +1,1086 @@
+// !$*UTF8*$!
+{
+	archiveVersion = 1;
+	classes = {
+	};
+	objectVersion = 77;
+	objects = {
+
+/* Begin PBXBuildFile section */
+		033C8CF42F61457D003BADE3 /* FamilyHelpResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8C9B2F61457D003BADE3 /* FamilyHelpResult.swift */; };
+		033C8CF52F61457D003BADE3 /* ProgressionSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CE72F61457D003BADE3 /* ProgressionSystemProtocol.swift */; };
+		033C8CF62F61457D003BADE3 /* BusinessEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CAD2F61457D003BADE3 /* BusinessEnums.swift */; };
+		033C8CF72F61457D003BADE3 /* SatisfactionCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CD22F61457D003BADE3 /* SatisfactionCalculator.swift */; };
+		033C8CF82F61457D003BADE3 /* ConsequenceEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CAF2F61457D003BADE3 /* ConsequenceEnums.swift */; };
+		033C8CF92F61457D003BADE3 /* PhoneSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CE52F61457D003BADE3 /* PhoneSystemProtocol.swift */; };
+		033C8CFA2F61457D003BADE3 /* AchievementEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CAC2F61457D003BADE3 /* AchievementEnums.swift */; };
+		033C8CFB2F61457D003BADE3 /* RandomEventResult.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CA32F61457D003BADE3 /* RandomEventResult.swift */; };
+		033C8CFC2F61457D003BADE3 /* GameDate.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8C9C2F61457D003BADE3 /* GameDate.swift */; };
+		033C8CFD2F61457D003BADE3 /* ProgressionEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CB72F61457D003BADE3 /* ProgressionEnums.swift */; };
+		033C8CFE2F61457D003BADE3 /* EventPhaseCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CC62F61457D003BADE3 /* EventPhaseCalculator.swift */; };
+		033C8CFF2F61457D003BADE3 /* TimeSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CD52F61457D003BADE3 /* TimeSystem.swift */; };
+		033C8D002F61457D003BADE3 /* WeatherSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CD72F61457D003BADE3 /* WeatherSystem.swift */; };
+		033C8D012F61457D003BADE3 /* VendorRelationship.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CA72F61457D003BADE3 /* VendorRelationship.swift */; };
+		033C8D022F61457D003BADE3 /* NotificationEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CB52F61457D003BADE3 /* NotificationEnums.swift */; };
+		033C8D032F61457D003BADE3 /* GameSettings.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8C9D2F61457D003BADE3 /* GameSettings.swift */; };
+		033C8D042F61457D003BADE3 /* ConsequenceSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CDB2F61457D003BADE3 /* ConsequenceSystemProtocol.swift */; };
+		033C8D052F61457D003BADE3 /* ClientInquiry.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8C972F61457D003BADE3 /* ClientInquiry.swift */; };
+		033C8D062F61457D003BADE3 /* MarketingEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CB32F61457D003BADE3 /* MarketingEnums.swift */; };
+		033C8D072F61457D003BADE3 /* GameContext.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CDE2F61457D003BADE3 /* GameContext.swift */; };
+		033C8D082F61457D003BADE3 /* PlayerData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CA22F61457D003BADE3 /* PlayerData.swift */; };
+		033C8D092F61457D003BADE3 /* ClientEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CAE2F61457D003BADE3 /* ClientEnums.swift */; };
+		033C8D0A2F61457D003BADE3 /* StaffSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CEB2F61457D003BADE3 /* StaffSystemProtocol.swift */; };
+		033C8D0B2F61457D003BADE3 /* SaveData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CA42F61457D003BADE3 /* SaveData.swift */; };
+		033C8D0C2F61457D003BADE3 /* VendorEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CBB2F61457D003BADE3 /* VendorEnums.swift */; };
+		033C8D0D2F61457D003BADE3 /* AchievementData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8C952F61457D003BADE3 /* AchievementData.swift */; };
+		033C8D0E2F61457D003BADE3 /* MonetizationEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CB42F61457D003BADE3 /* MonetizationEnums.swift */; };
+		033C8D0F2F61457D003BADE3 /* MonetizationSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CCB2F61457D003BADE3 /* MonetizationSystem.swift */; };
+		033C8D102F61457D003BADE3 /* SettingsEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CB82F61457D003BADE3 /* SettingsEnums.swift */; };
+		033C8D112F61457D003BADE3 /* WorkHoursData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CAA2F61457D003BADE3 /* WorkHoursData.swift */; };
+		033C8D122F61457D003BADE3 /* ConsequenceSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CC42F61457D003BADE3 /* ConsequenceSystem.swift */; };
+		033C8D132F61457D003BADE3 /* MapSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CDF2F61457D003BADE3 /* MapSystemProtocol.swift */; };
+		033C8D142F61457D003BADE3 /* StaffSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CD42F61457D003BADE3 /* StaffSystem.swift */; };
+		033C8D152F61457D003BADE3 /* AchievementSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CD92F61457D003BADE3 /* AchievementSystemProtocol.swift */; };
+		033C8D162F61457D003BADE3 /* WeatherSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CEE2F61457D003BADE3 /* WeatherSystemProtocol.swift */; };
+		033C8D172F61457D003BADE3 /* TutorialSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CED2F61457D003BADE3 /* TutorialSystemProtocol.swift */; };
+		033C8D182F61457D003BADE3 /* NotificationSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CCC2F61457D003BADE3 /* NotificationSystem.swift */; };
+		033C8D192F61457D003BADE3 /* MapEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CB22F61457D003BADE3 /* MapEnums.swift */; };
+		033C8D1A2F61457D003BADE3 /* MilestoneSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CCA2F61457D003BADE3 /* MilestoneSystem.swift */; };
+		033C8D1B2F61457D003BADE3 /* TutorialData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CA52F61457D003BADE3 /* TutorialData.swift */; };
+		033C8D1C2F61457D003BADE3 /* PhoneAppEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CB62F61457D003BADE3 /* PhoneAppEnums.swift */; };
+		033C8D1D2F61457D003BADE3 /* EventTypeData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8C9A2F61457D003BADE3 /* EventTypeData.swift */; };
+		033C8D1E2F61457D003BADE3 /* StaffEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CB92F61457D003BADE3 /* StaffEnums.swift */; };
+		033C8D1F2F61457D003BADE3 /* OfficeSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CCD2F61457D003BADE3 /* OfficeSystem.swift */; };
+		033C8D202F61457D003BADE3 /* VenueEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CBC2F61457D003BADE3 /* VenueEnums.swift */; };
+		033C8D212F61457D003BADE3 /* AnalyticsTracker.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CC22F61457D003BADE3 /* AnalyticsTracker.swift */; };
+		033C8D222F61457D003BADE3 /* PhoneAppData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CA12F61457D003BADE3 /* PhoneAppData.swift */; };
+		033C8D232F61457D003BADE3 /* TimeSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CEC2F61457D003BADE3 /* TimeSystemProtocol.swift */; };
+		033C8D242F61457D003BADE3 /* EmergencyFundingSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CC52F61457D003BADE3 /* EmergencyFundingSystem.swift */; };
+		033C8D252F61457D003BADE3 /* VenueData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CA82F61457D003BADE3 /* VenueData.swift */; };
+		033C8D262F61457D003BADE3 /* AudioManagerProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CDA2F61457D003BADE3 /* AudioManagerProtocol.swift */; };
+		033C8D272F61457D003BADE3 /* EventPlanningSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CDD2F61457D003BADE3 /* EventPlanningSystemProtocol.swift */; };
+		033C8D282F61457D003BADE3 /* AnalyticsEvents.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8C962F61457D003BADE3 /* AnalyticsEvents.swift */; };
+		033C8D292F61457D003BADE3 /* MonetizationSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CE22F61457D003BADE3 /* MonetizationSystemProtocol.swift */; };
+		033C8D2A2F61457D003BADE3 /* ProfitCalculatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CE62F61457D003BADE3 /* ProfitCalculatorProtocol.swift */; };
+		033C8D2B2F61457D003BADE3 /* MonetizationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8C9F2F61457D003BADE3 /* MonetizationData.swift */; };
+		033C8D2C2F61457D003BADE3 /* AudioManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CC32F61457D003BADE3 /* AudioManager.swift */; };
+		033C8D2D2F61457D003BADE3 /* NotificationSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CE32F61457D003BADE3 /* NotificationSystemProtocol.swift */; };
+		033C8D2E2F61457D003BADE3 /* ReferralSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CD12F61457D003BADE3 /* ReferralSystem.swift */; };
+		033C8D2F2F61457D003BADE3 /* SaveSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CD32F61457D003BADE3 /* SaveSystem.swift */; };
+		033C8D302F61457D003BADE3 /* SaveSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CEA2F61457D003BADE3 /* SaveSystemProtocol.swift */; };
+		033C8D312F61457D003BADE3 /* WeatherData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CA92F61457D003BADE3 /* WeatherData.swift */; };
+		033C8D322F61457D003BADE3 /* SatisfactionCalculatorProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CE92F61457D003BADE3 /* SatisfactionCalculatorProtocol.swift */; };
+		033C8D332F61457D003BADE3 /* OfficeSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CE42F61457D003BADE3 /* OfficeSystemProtocol.swift */; };
+		033C8D342F61457D003BADE3 /* PhoneSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CCE2F61457D003BADE3 /* PhoneSystem.swift */; };
+		033C8D352F61457D003BADE3 /* VendorData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CA62F61457D003BADE3 /* VendorData.swift */; };
+		033C8D362F61457D003BADE3 /* ProfitCalculator.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CCF2F61457D003BADE3 /* ProfitCalculator.swift */; };
+		033C8D372F61457D003BADE3 /* ProgressionSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CD02F61457D003BADE3 /* ProgressionSystem.swift */; };
+		033C8D382F61457D003BADE3 /* TutorialSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CD62F61457D003BADE3 /* TutorialSystem.swift */; };
+		033C8D392F61457D003BADE3 /* LocationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8C9E2F61457D003BADE3 /* LocationData.swift */; };
+		033C8D3A2F61457D003BADE3 /* EventsApp.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8C922F61457D003BADE3 /* EventsApp.swift */; };
+		033C8D3B2F61457D003BADE3 /* EventTask.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8C992F61457D003BADE3 /* EventTask.swift */; };
+		033C8D3C2F61457D003BADE3 /* WeatherEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CBD2F61457D003BADE3 /* WeatherEnums.swift */; };
+		033C8D3D2F61457D003BADE3 /* EventData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8C982F61457D003BADE3 /* EventData.swift */; };
+		033C8D3E2F61457D003BADE3 /* ReferralSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CE82F61457D003BADE3 /* ReferralSystemProtocol.swift */; };
+		033C8D3F2F61457D003BADE3 /* AchievementSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CC12F61457D003BADE3 /* AchievementSystem.swift */; };
+		033C8D402F61457D003BADE3 /* MilestoneSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CE12F61457D003BADE3 /* MilestoneSystemProtocol.swift */; };
+		033C8D412F61457D003BADE3 /* ContentView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CF12F61457D003BADE3 /* ContentView.swift */; };
+		033C8D422F61457D003BADE3 /* EmergencyFundingSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CDC2F61457D003BADE3 /* EmergencyFundingSystemProtocol.swift */; };
+		033C8D432F61457D003BADE3 /* UIEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CBA2F61457D003BADE3 /* UIEnums.swift */; };
+		033C8D442F61457D003BADE3 /* EventPlanningSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CC72F61457D003BADE3 /* EventPlanningSystem.swift */; };
+		033C8D452F61457D003BADE3 /* MapSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CC82F61457D003BADE3 /* MapSystem.swift */; };
+		033C8D462F61457D003BADE3 /* GameState.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CB12F61457D003BADE3 /* GameState.swift */; };
+		033C8D472F61457D003BADE3 /* GameManager.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8C932F61457D003BADE3 /* GameManager.swift */; };
+		033C8D482F61457D003BADE3 /* MarketingSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CE02F61457D003BADE3 /* MarketingSystemProtocol.swift */; };
+		033C8D492F61457D003BADE3 /* EventEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CB02F61457D003BADE3 /* EventEnums.swift */; };
+		033C8D4A2F61457D003BADE3 /* MarketingSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CC92F61457D003BADE3 /* MarketingSystem.swift */; };
+		033C8D4B2F61457D003BADE3 /* NotificationData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8CA02F61457D003BADE3 /* NotificationData.swift */; };
+		033C8D4D2F614836003BADE3 /* MainMenuView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8D4C2F614836003BADE3 /* MainMenuView.swift */; };
+		033C8D4F2F614837003BADE3 /* GameplayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8D4E2F614837003BADE3 /* GameplayView.swift */; };
+		033C8D512F614838003BADE3 /* PauseOverlay.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8D502F614838003BADE3 /* PauseOverlay.swift */; };
+		033C8D532F614839003BADE3 /* SettingsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8D522F614839003BADE3 /* SettingsView.swift */; };
+		033C8D552F61483A003BADE3 /* LoadingView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8D542F61483A003BADE3 /* LoadingView.swift */; };
+		033C8D582F614F70003BADE3 /* SeedData.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8D572F614F70003BADE3 /* SeedData.swift */; };
+		033C8D5B2F615007003BADE3 /* InquiryListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8D5A2F615007003BADE3 /* InquiryListView.swift */; };
+		033C8D5D2F61503F003BADE3 /* ActiveEventsListView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8D5C2F61503F003BADE3 /* ActiveEventsListView.swift */; };
+		033C8D5F2F615040003BADE3 /* EventDetailView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8D5E2F615040003BADE3 /* EventDetailView.swift */; };
+		033C8D612F615041003BADE3 /* VenuePickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8D602F615041003BADE3 /* VenuePickerView.swift */; };
+		033C8D632F615042003BADE3 /* VendorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8D622F615042003BADE3 /* VendorPickerView.swift */; };
+		033C8D652F61505F003BADE3 /* EventResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8D642F61505F003BADE3 /* EventResultsView.swift */; };
+		033C8D672F615061003BADE3 /* TutorialOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8D662F615061003BADE3 /* TutorialOverlayView.swift */; };
+/* End PBXBuildFile section */
+
+/* Begin PBXContainerItemProxy section */
+		033C8C762F61445B003BADE3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 033C8C5B2F614459003BADE3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 033C8C622F614459003BADE3;
+			remoteInfo = EventApp;
+		};
+		033C8C802F61445B003BADE3 /* PBXContainerItemProxy */ = {
+			isa = PBXContainerItemProxy;
+			containerPortal = 033C8C5B2F614459003BADE3 /* Project object */;
+			proxyType = 1;
+			remoteGlobalIDString = 033C8C622F614459003BADE3;
+			remoteInfo = EventApp;
+		};
+/* End PBXContainerItemProxy section */
+
+/* Begin PBXFileReference section */
+		033C8C632F614459003BADE3 /* EventApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = EventApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
+		033C8C752F61445B003BADE3 /* EventAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EventAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		033C8C7F2F61445B003BADE3 /* EventAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = EventAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		033C8C922F61457D003BADE3 /* EventsApp.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventsApp.swift; sourceTree = "<group>"; };
+		033C8C932F61457D003BADE3 /* GameManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameManager.swift; sourceTree = "<group>"; };
+		033C8C952F61457D003BADE3 /* AchievementData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementData.swift; sourceTree = "<group>"; };
+		033C8C962F61457D003BADE3 /* AnalyticsEvents.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsEvents.swift; sourceTree = "<group>"; };
+		033C8C972F61457D003BADE3 /* ClientInquiry.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientInquiry.swift; sourceTree = "<group>"; };
+		033C8C982F61457D003BADE3 /* EventData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventData.swift; sourceTree = "<group>"; };
+		033C8C992F61457D003BADE3 /* EventTask.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTask.swift; sourceTree = "<group>"; };
+		033C8C9A2F61457D003BADE3 /* EventTypeData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventTypeData.swift; sourceTree = "<group>"; };
+		033C8C9B2F61457D003BADE3 /* FamilyHelpResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = FamilyHelpResult.swift; sourceTree = "<group>"; };
+		033C8C9C2F61457D003BADE3 /* GameDate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameDate.swift; sourceTree = "<group>"; };
+		033C8C9D2F61457D003BADE3 /* GameSettings.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameSettings.swift; sourceTree = "<group>"; };
+		033C8C9E2F61457D003BADE3 /* LocationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LocationData.swift; sourceTree = "<group>"; };
+		033C8C9F2F61457D003BADE3 /* MonetizationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonetizationData.swift; sourceTree = "<group>"; };
+		033C8CA02F61457D003BADE3 /* NotificationData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationData.swift; sourceTree = "<group>"; };
+		033C8CA12F61457D003BADE3 /* PhoneAppData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAppData.swift; sourceTree = "<group>"; };
+		033C8CA22F61457D003BADE3 /* PlayerData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlayerData.swift; sourceTree = "<group>"; };
+		033C8CA32F61457D003BADE3 /* RandomEventResult.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = RandomEventResult.swift; sourceTree = "<group>"; };
+		033C8CA42F61457D003BADE3 /* SaveData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveData.swift; sourceTree = "<group>"; };
+		033C8CA52F61457D003BADE3 /* TutorialData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialData.swift; sourceTree = "<group>"; };
+		033C8CA62F61457D003BADE3 /* VendorData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorData.swift; sourceTree = "<group>"; };
+		033C8CA72F61457D003BADE3 /* VendorRelationship.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorRelationship.swift; sourceTree = "<group>"; };
+		033C8CA82F61457D003BADE3 /* VenueData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueData.swift; sourceTree = "<group>"; };
+		033C8CA92F61457D003BADE3 /* WeatherData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherData.swift; sourceTree = "<group>"; };
+		033C8CAA2F61457D003BADE3 /* WorkHoursData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WorkHoursData.swift; sourceTree = "<group>"; };
+		033C8CAC2F61457D003BADE3 /* AchievementEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementEnums.swift; sourceTree = "<group>"; };
+		033C8CAD2F61457D003BADE3 /* BusinessEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BusinessEnums.swift; sourceTree = "<group>"; };
+		033C8CAE2F61457D003BADE3 /* ClientEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ClientEnums.swift; sourceTree = "<group>"; };
+		033C8CAF2F61457D003BADE3 /* ConsequenceEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsequenceEnums.swift; sourceTree = "<group>"; };
+		033C8CB02F61457D003BADE3 /* EventEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventEnums.swift; sourceTree = "<group>"; };
+		033C8CB12F61457D003BADE3 /* GameState.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameState.swift; sourceTree = "<group>"; };
+		033C8CB22F61457D003BADE3 /* MapEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapEnums.swift; sourceTree = "<group>"; };
+		033C8CB32F61457D003BADE3 /* MarketingEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketingEnums.swift; sourceTree = "<group>"; };
+		033C8CB42F61457D003BADE3 /* MonetizationEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonetizationEnums.swift; sourceTree = "<group>"; };
+		033C8CB52F61457D003BADE3 /* NotificationEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationEnums.swift; sourceTree = "<group>"; };
+		033C8CB62F61457D003BADE3 /* PhoneAppEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneAppEnums.swift; sourceTree = "<group>"; };
+		033C8CB72F61457D003BADE3 /* ProgressionEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionEnums.swift; sourceTree = "<group>"; };
+		033C8CB82F61457D003BADE3 /* SettingsEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsEnums.swift; sourceTree = "<group>"; };
+		033C8CB92F61457D003BADE3 /* StaffEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffEnums.swift; sourceTree = "<group>"; };
+		033C8CBA2F61457D003BADE3 /* UIEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = UIEnums.swift; sourceTree = "<group>"; };
+		033C8CBB2F61457D003BADE3 /* VendorEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorEnums.swift; sourceTree = "<group>"; };
+		033C8CBC2F61457D003BADE3 /* VenueEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenueEnums.swift; sourceTree = "<group>"; };
+		033C8CBD2F61457D003BADE3 /* WeatherEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherEnums.swift; sourceTree = "<group>"; };
+		033C8CC12F61457D003BADE3 /* AchievementSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementSystem.swift; sourceTree = "<group>"; };
+		033C8CC22F61457D003BADE3 /* AnalyticsTracker.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AnalyticsTracker.swift; sourceTree = "<group>"; };
+		033C8CC32F61457D003BADE3 /* AudioManager.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManager.swift; sourceTree = "<group>"; };
+		033C8CC42F61457D003BADE3 /* ConsequenceSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsequenceSystem.swift; sourceTree = "<group>"; };
+		033C8CC52F61457D003BADE3 /* EmergencyFundingSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyFundingSystem.swift; sourceTree = "<group>"; };
+		033C8CC62F61457D003BADE3 /* EventPhaseCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPhaseCalculator.swift; sourceTree = "<group>"; };
+		033C8CC72F61457D003BADE3 /* EventPlanningSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPlanningSystem.swift; sourceTree = "<group>"; };
+		033C8CC82F61457D003BADE3 /* MapSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSystem.swift; sourceTree = "<group>"; };
+		033C8CC92F61457D003BADE3 /* MarketingSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketingSystem.swift; sourceTree = "<group>"; };
+		033C8CCA2F61457D003BADE3 /* MilestoneSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneSystem.swift; sourceTree = "<group>"; };
+		033C8CCB2F61457D003BADE3 /* MonetizationSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonetizationSystem.swift; sourceTree = "<group>"; };
+		033C8CCC2F61457D003BADE3 /* NotificationSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSystem.swift; sourceTree = "<group>"; };
+		033C8CCD2F61457D003BADE3 /* OfficeSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeSystem.swift; sourceTree = "<group>"; };
+		033C8CCE2F61457D003BADE3 /* PhoneSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneSystem.swift; sourceTree = "<group>"; };
+		033C8CCF2F61457D003BADE3 /* ProfitCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitCalculator.swift; sourceTree = "<group>"; };
+		033C8CD02F61457D003BADE3 /* ProgressionSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionSystem.swift; sourceTree = "<group>"; };
+		033C8CD12F61457D003BADE3 /* ReferralSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralSystem.swift; sourceTree = "<group>"; };
+		033C8CD22F61457D003BADE3 /* SatisfactionCalculator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SatisfactionCalculator.swift; sourceTree = "<group>"; };
+		033C8CD32F61457D003BADE3 /* SaveSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveSystem.swift; sourceTree = "<group>"; };
+		033C8CD42F61457D003BADE3 /* StaffSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffSystem.swift; sourceTree = "<group>"; };
+		033C8CD52F61457D003BADE3 /* TimeSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSystem.swift; sourceTree = "<group>"; };
+		033C8CD62F61457D003BADE3 /* TutorialSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSystem.swift; sourceTree = "<group>"; };
+		033C8CD72F61457D003BADE3 /* WeatherSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherSystem.swift; sourceTree = "<group>"; };
+		033C8CD92F61457D003BADE3 /* AchievementSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AchievementSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CDA2F61457D003BADE3 /* AudioManagerProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AudioManagerProtocol.swift; sourceTree = "<group>"; };
+		033C8CDB2F61457D003BADE3 /* ConsequenceSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ConsequenceSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CDC2F61457D003BADE3 /* EmergencyFundingSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmergencyFundingSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CDD2F61457D003BADE3 /* EventPlanningSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventPlanningSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CDE2F61457D003BADE3 /* GameContext.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameContext.swift; sourceTree = "<group>"; };
+		033C8CDF2F61457D003BADE3 /* MapSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MapSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CE02F61457D003BADE3 /* MarketingSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarketingSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CE12F61457D003BADE3 /* MilestoneSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MilestoneSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CE22F61457D003BADE3 /* MonetizationSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MonetizationSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CE32F61457D003BADE3 /* NotificationSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NotificationSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CE42F61457D003BADE3 /* OfficeSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CE52F61457D003BADE3 /* PhoneSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CE62F61457D003BADE3 /* ProfitCalculatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProfitCalculatorProtocol.swift; sourceTree = "<group>"; };
+		033C8CE72F61457D003BADE3 /* ProgressionSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressionSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CE82F61457D003BADE3 /* ReferralSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ReferralSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CE92F61457D003BADE3 /* SatisfactionCalculatorProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SatisfactionCalculatorProtocol.swift; sourceTree = "<group>"; };
+		033C8CEA2F61457D003BADE3 /* SaveSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SaveSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CEB2F61457D003BADE3 /* StaffSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = StaffSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CEC2F61457D003BADE3 /* TimeSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TimeSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CED2F61457D003BADE3 /* TutorialSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CEE2F61457D003BADE3 /* WeatherSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WeatherSystemProtocol.swift; sourceTree = "<group>"; };
+		033C8CF12F61457D003BADE3 /* ContentView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ContentView.swift; sourceTree = "<group>"; };
+		033C8D4C2F614836003BADE3 /* MainMenuView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MainMenuView.swift; sourceTree = "<group>"; };
+		033C8D4E2F614837003BADE3 /* GameplayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameplayView.swift; sourceTree = "<group>"; };
+		033C8D502F614838003BADE3 /* PauseOverlay.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PauseOverlay.swift; sourceTree = "<group>"; };
+		033C8D522F614839003BADE3 /* SettingsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SettingsView.swift; sourceTree = "<group>"; };
+		033C8D542F61483A003BADE3 /* LoadingView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LoadingView.swift; sourceTree = "<group>"; };
+		033C8D572F614F70003BADE3 /* SeedData.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SeedData.swift; sourceTree = "<group>"; };
+		033C8D5A2F615007003BADE3 /* InquiryListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InquiryListView.swift; sourceTree = "<group>"; };
+		033C8D5C2F61503F003BADE3 /* ActiveEventsListView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ActiveEventsListView.swift; sourceTree = "<group>"; };
+		033C8D5E2F615040003BADE3 /* EventDetailView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventDetailView.swift; sourceTree = "<group>"; };
+		033C8D602F615041003BADE3 /* VenuePickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VenuePickerView.swift; sourceTree = "<group>"; };
+		033C8D622F615042003BADE3 /* VendorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorPickerView.swift; sourceTree = "<group>"; };
+		033C8D642F61505F003BADE3 /* EventResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventResultsView.swift; sourceTree = "<group>"; };
+		033C8D662F615061003BADE3 /* TutorialOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialOverlayView.swift; sourceTree = "<group>"; };
+/* End PBXFileReference section */
+
+/* Begin PBXFileSystemSynchronizedRootGroup section */
+		033C8C652F614459003BADE3 /* EventApp */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = EventApp;
+			sourceTree = "<group>";
+		};
+		033C8C782F61445B003BADE3 /* EventAppTests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = EventAppTests;
+			sourceTree = "<group>";
+		};
+		033C8C822F61445B003BADE3 /* EventAppUITests */ = {
+			isa = PBXFileSystemSynchronizedRootGroup;
+			path = EventAppUITests;
+			sourceTree = "<group>";
+		};
+/* End PBXFileSystemSynchronizedRootGroup section */
+
+/* Begin PBXFrameworksBuildPhase section */
+		033C8C602F614459003BADE3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		033C8C722F61445B003BADE3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		033C8C7C2F61445B003BADE3 /* Frameworks */ = {
+			isa = PBXFrameworksBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXFrameworksBuildPhase section */
+
+/* Begin PBXGroup section */
+		033C8C5A2F614459003BADE3 = {
+			isa = PBXGroup;
+			children = (
+				033C8C652F614459003BADE3 /* EventApp */,
+				033C8C782F61445B003BADE3 /* EventAppTests */,
+				033C8C822F61445B003BADE3 /* EventAppUITests */,
+				033C8C642F614459003BADE3 /* Products */,
+				033C8CF32F61457D003BADE3 /* EventsApp */,
+			);
+			sourceTree = "<group>";
+		};
+		033C8C642F614459003BADE3 /* Products */ = {
+			isa = PBXGroup;
+			children = (
+				033C8C632F614459003BADE3 /* EventApp.app */,
+				033C8C752F61445B003BADE3 /* EventAppTests.xctest */,
+				033C8C7F2F61445B003BADE3 /* EventAppUITests.xctest */,
+			);
+			name = Products;
+			sourceTree = "<group>";
+		};
+		033C8C942F61457D003BADE3 /* App */ = {
+			isa = PBXGroup;
+			children = (
+				033C8C922F61457D003BADE3 /* EventsApp.swift */,
+				033C8C932F61457D003BADE3 /* GameManager.swift */,
+			);
+			path = App;
+			sourceTree = "<group>";
+		};
+		033C8CAB2F61457D003BADE3 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				033C8C952F61457D003BADE3 /* AchievementData.swift */,
+				033C8C962F61457D003BADE3 /* AnalyticsEvents.swift */,
+				033C8C972F61457D003BADE3 /* ClientInquiry.swift */,
+				033C8C982F61457D003BADE3 /* EventData.swift */,
+				033C8C992F61457D003BADE3 /* EventTask.swift */,
+				033C8C9A2F61457D003BADE3 /* EventTypeData.swift */,
+				033C8C9B2F61457D003BADE3 /* FamilyHelpResult.swift */,
+				033C8C9C2F61457D003BADE3 /* GameDate.swift */,
+				033C8C9D2F61457D003BADE3 /* GameSettings.swift */,
+				033C8C9E2F61457D003BADE3 /* LocationData.swift */,
+				033C8C9F2F61457D003BADE3 /* MonetizationData.swift */,
+				033C8CA02F61457D003BADE3 /* NotificationData.swift */,
+				033C8CA12F61457D003BADE3 /* PhoneAppData.swift */,
+				033C8CA22F61457D003BADE3 /* PlayerData.swift */,
+				033C8CA32F61457D003BADE3 /* RandomEventResult.swift */,
+				033C8CA42F61457D003BADE3 /* SaveData.swift */,
+				033C8CA52F61457D003BADE3 /* TutorialData.swift */,
+				033C8CA62F61457D003BADE3 /* VendorData.swift */,
+				033C8CA72F61457D003BADE3 /* VendorRelationship.swift */,
+				033C8CA82F61457D003BADE3 /* VenueData.swift */,
+				033C8CA92F61457D003BADE3 /* WeatherData.swift */,
+				033C8CAA2F61457D003BADE3 /* WorkHoursData.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		033C8CBE2F61457D003BADE3 /* Enums */ = {
+			isa = PBXGroup;
+			children = (
+				033C8CAC2F61457D003BADE3 /* AchievementEnums.swift */,
+				033C8CAD2F61457D003BADE3 /* BusinessEnums.swift */,
+				033C8CAE2F61457D003BADE3 /* ClientEnums.swift */,
+				033C8CAF2F61457D003BADE3 /* ConsequenceEnums.swift */,
+				033C8CB02F61457D003BADE3 /* EventEnums.swift */,
+				033C8CB12F61457D003BADE3 /* GameState.swift */,
+				033C8CB22F61457D003BADE3 /* MapEnums.swift */,
+				033C8CB32F61457D003BADE3 /* MarketingEnums.swift */,
+				033C8CB42F61457D003BADE3 /* MonetizationEnums.swift */,
+				033C8CB52F61457D003BADE3 /* NotificationEnums.swift */,
+				033C8CB62F61457D003BADE3 /* PhoneAppEnums.swift */,
+				033C8CB72F61457D003BADE3 /* ProgressionEnums.swift */,
+				033C8CB82F61457D003BADE3 /* SettingsEnums.swift */,
+				033C8CB92F61457D003BADE3 /* StaffEnums.swift */,
+				033C8CBA2F61457D003BADE3 /* UIEnums.swift */,
+				033C8CBB2F61457D003BADE3 /* VendorEnums.swift */,
+				033C8CBC2F61457D003BADE3 /* VenueEnums.swift */,
+				033C8CBD2F61457D003BADE3 /* WeatherEnums.swift */,
+			);
+			path = Enums;
+			sourceTree = "<group>";
+		};
+		033C8CBF2F61457D003BADE3 /* Models */ = {
+			isa = PBXGroup;
+			children = (
+				033C8CAB2F61457D003BADE3 /* Data */,
+				033C8CBE2F61457D003BADE3 /* Enums */,
+			);
+			path = Models;
+			sourceTree = "<group>";
+		};
+		033C8CC02F61457D003BADE3 /* Resources */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = Resources;
+			sourceTree = "<group>";
+		};
+		033C8CD82F61457D003BADE3 /* Implementations */ = {
+			isa = PBXGroup;
+			children = (
+				033C8CC12F61457D003BADE3 /* AchievementSystem.swift */,
+				033C8CC22F61457D003BADE3 /* AnalyticsTracker.swift */,
+				033C8CC32F61457D003BADE3 /* AudioManager.swift */,
+				033C8CC42F61457D003BADE3 /* ConsequenceSystem.swift */,
+				033C8CC52F61457D003BADE3 /* EmergencyFundingSystem.swift */,
+				033C8CC62F61457D003BADE3 /* EventPhaseCalculator.swift */,
+				033C8CC72F61457D003BADE3 /* EventPlanningSystem.swift */,
+				033C8CC82F61457D003BADE3 /* MapSystem.swift */,
+				033C8CC92F61457D003BADE3 /* MarketingSystem.swift */,
+				033C8CCA2F61457D003BADE3 /* MilestoneSystem.swift */,
+				033C8CCB2F61457D003BADE3 /* MonetizationSystem.swift */,
+				033C8CCC2F61457D003BADE3 /* NotificationSystem.swift */,
+				033C8CCD2F61457D003BADE3 /* OfficeSystem.swift */,
+				033C8CCE2F61457D003BADE3 /* PhoneSystem.swift */,
+				033C8CCF2F61457D003BADE3 /* ProfitCalculator.swift */,
+				033C8CD02F61457D003BADE3 /* ProgressionSystem.swift */,
+				033C8CD12F61457D003BADE3 /* ReferralSystem.swift */,
+				033C8CD22F61457D003BADE3 /* SatisfactionCalculator.swift */,
+				033C8CD32F61457D003BADE3 /* SaveSystem.swift */,
+				033C8CD42F61457D003BADE3 /* StaffSystem.swift */,
+				033C8CD52F61457D003BADE3 /* TimeSystem.swift */,
+				033C8CD62F61457D003BADE3 /* TutorialSystem.swift */,
+				033C8CD72F61457D003BADE3 /* WeatherSystem.swift */,
+			);
+			path = Implementations;
+			sourceTree = "<group>";
+		};
+		033C8CEF2F61457D003BADE3 /* Protocols */ = {
+			isa = PBXGroup;
+			children = (
+				033C8CD92F61457D003BADE3 /* AchievementSystemProtocol.swift */,
+				033C8CDA2F61457D003BADE3 /* AudioManagerProtocol.swift */,
+				033C8CDB2F61457D003BADE3 /* ConsequenceSystemProtocol.swift */,
+				033C8CDC2F61457D003BADE3 /* EmergencyFundingSystemProtocol.swift */,
+				033C8CDD2F61457D003BADE3 /* EventPlanningSystemProtocol.swift */,
+				033C8CDE2F61457D003BADE3 /* GameContext.swift */,
+				033C8CDF2F61457D003BADE3 /* MapSystemProtocol.swift */,
+				033C8CE02F61457D003BADE3 /* MarketingSystemProtocol.swift */,
+				033C8CE12F61457D003BADE3 /* MilestoneSystemProtocol.swift */,
+				033C8CE22F61457D003BADE3 /* MonetizationSystemProtocol.swift */,
+				033C8CE32F61457D003BADE3 /* NotificationSystemProtocol.swift */,
+				033C8CE42F61457D003BADE3 /* OfficeSystemProtocol.swift */,
+				033C8CE52F61457D003BADE3 /* PhoneSystemProtocol.swift */,
+				033C8CE62F61457D003BADE3 /* ProfitCalculatorProtocol.swift */,
+				033C8CE72F61457D003BADE3 /* ProgressionSystemProtocol.swift */,
+				033C8CE82F61457D003BADE3 /* ReferralSystemProtocol.swift */,
+				033C8CE92F61457D003BADE3 /* SatisfactionCalculatorProtocol.swift */,
+				033C8CEA2F61457D003BADE3 /* SaveSystemProtocol.swift */,
+				033C8CEB2F61457D003BADE3 /* StaffSystemProtocol.swift */,
+				033C8CEC2F61457D003BADE3 /* TimeSystemProtocol.swift */,
+				033C8CED2F61457D003BADE3 /* TutorialSystemProtocol.swift */,
+				033C8CEE2F61457D003BADE3 /* WeatherSystemProtocol.swift */,
+			);
+			path = Protocols;
+			sourceTree = "<group>";
+		};
+		033C8CF02F61457D003BADE3 /* Systems */ = {
+			isa = PBXGroup;
+			children = (
+				033C8CD82F61457D003BADE3 /* Implementations */,
+				033C8CEF2F61457D003BADE3 /* Protocols */,
+			);
+			path = Systems;
+			sourceTree = "<group>";
+		};
+		033C8CF22F61457D003BADE3 /* Views */ = {
+			isa = PBXGroup;
+			children = (
+				033C8CF12F61457D003BADE3 /* ContentView.swift */,
+				033C8D4C2F614836003BADE3 /* MainMenuView.swift */,
+				033C8D4E2F614837003BADE3 /* GameplayView.swift */,
+				033C8D502F614838003BADE3 /* PauseOverlay.swift */,
+				033C8D522F614839003BADE3 /* SettingsView.swift */,
+				033C8D542F61483A003BADE3 /* LoadingView.swift */,
+				033C8D592F614FEE003BADE3 /* Gameplay */,
+			);
+			path = Views;
+			sourceTree = "<group>";
+		};
+		033C8CF32F61457D003BADE3 /* EventsApp */ = {
+			isa = PBXGroup;
+			children = (
+				033C8C942F61457D003BADE3 /* App */,
+				033C8CBF2F61457D003BADE3 /* Models */,
+				033C8CC02F61457D003BADE3 /* Resources */,
+				033C8CF02F61457D003BADE3 /* Systems */,
+				033C8CF22F61457D003BADE3 /* Views */,
+				033C8D562F614F5B003BADE3 /* Data */,
+			);
+			path = EventsApp;
+			sourceTree = "<group>";
+		};
+		033C8D562F614F5B003BADE3 /* Data */ = {
+			isa = PBXGroup;
+			children = (
+				033C8D572F614F70003BADE3 /* SeedData.swift */,
+			);
+			path = Data;
+			sourceTree = "<group>";
+		};
+		033C8D592F614FEE003BADE3 /* Gameplay */ = {
+			isa = PBXGroup;
+			children = (
+				033C8D5A2F615007003BADE3 /* InquiryListView.swift */,
+				033C8D5C2F61503F003BADE3 /* ActiveEventsListView.swift */,
+				033C8D5E2F615040003BADE3 /* EventDetailView.swift */,
+				033C8D602F615041003BADE3 /* VenuePickerView.swift */,
+				033C8D622F615042003BADE3 /* VendorPickerView.swift */,
+				033C8D642F61505F003BADE3 /* EventResultsView.swift */,
+				033C8D662F615061003BADE3 /* TutorialOverlayView.swift */,
+			);
+			path = Gameplay;
+			sourceTree = "<group>";
+		};
+/* End PBXGroup section */
+
+/* Begin PBXNativeTarget section */
+		033C8C622F614459003BADE3 /* EventApp */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 033C8C892F61445B003BADE3 /* Build configuration list for PBXNativeTarget "EventApp" */;
+			buildPhases = (
+				033C8C5F2F614459003BADE3 /* Sources */,
+				033C8C602F614459003BADE3 /* Frameworks */,
+				033C8C612F614459003BADE3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+			);
+			fileSystemSynchronizedGroups = (
+				033C8C652F614459003BADE3 /* EventApp */,
+			);
+			name = EventApp;
+			packageProductDependencies = (
+			);
+			productName = EventApp;
+			productReference = 033C8C632F614459003BADE3 /* EventApp.app */;
+			productType = "com.apple.product-type.application";
+		};
+		033C8C742F61445B003BADE3 /* EventAppTests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 033C8C8C2F61445B003BADE3 /* Build configuration list for PBXNativeTarget "EventAppTests" */;
+			buildPhases = (
+				033C8C712F61445B003BADE3 /* Sources */,
+				033C8C722F61445B003BADE3 /* Frameworks */,
+				033C8C732F61445B003BADE3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				033C8C772F61445B003BADE3 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				033C8C782F61445B003BADE3 /* EventAppTests */,
+			);
+			name = EventAppTests;
+			packageProductDependencies = (
+			);
+			productName = EventAppTests;
+			productReference = 033C8C752F61445B003BADE3 /* EventAppTests.xctest */;
+			productType = "com.apple.product-type.bundle.unit-test";
+		};
+		033C8C7E2F61445B003BADE3 /* EventAppUITests */ = {
+			isa = PBXNativeTarget;
+			buildConfigurationList = 033C8C8F2F61445B003BADE3 /* Build configuration list for PBXNativeTarget "EventAppUITests" */;
+			buildPhases = (
+				033C8C7B2F61445B003BADE3 /* Sources */,
+				033C8C7C2F61445B003BADE3 /* Frameworks */,
+				033C8C7D2F61445B003BADE3 /* Resources */,
+			);
+			buildRules = (
+			);
+			dependencies = (
+				033C8C812F61445B003BADE3 /* PBXTargetDependency */,
+			);
+			fileSystemSynchronizedGroups = (
+				033C8C822F61445B003BADE3 /* EventAppUITests */,
+			);
+			name = EventAppUITests;
+			packageProductDependencies = (
+			);
+			productName = EventAppUITests;
+			productReference = 033C8C7F2F61445B003BADE3 /* EventAppUITests.xctest */;
+			productType = "com.apple.product-type.bundle.ui-testing";
+		};
+/* End PBXNativeTarget section */
+
+/* Begin PBXProject section */
+		033C8C5B2F614459003BADE3 /* Project object */ = {
+			isa = PBXProject;
+			attributes = {
+				BuildIndependentTargetsInParallel = 1;
+				LastSwiftUpdateCheck = 2630;
+				LastUpgradeCheck = 2630;
+				TargetAttributes = {
+					033C8C622F614459003BADE3 = {
+						CreatedOnToolsVersion = 26.3;
+					};
+					033C8C742F61445B003BADE3 = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = 033C8C622F614459003BADE3;
+					};
+					033C8C7E2F61445B003BADE3 = {
+						CreatedOnToolsVersion = 26.3;
+						TestTargetID = 033C8C622F614459003BADE3;
+					};
+				};
+			};
+			buildConfigurationList = 033C8C5E2F614459003BADE3 /* Build configuration list for PBXProject "EventApp" */;
+			developmentRegion = en;
+			hasScannedForEncodings = 0;
+			knownRegions = (
+				en,
+				Base,
+			);
+			mainGroup = 033C8C5A2F614459003BADE3;
+			minimizedProjectReferenceProxies = 1;
+			preferredProjectObjectVersion = 77;
+			productRefGroup = 033C8C642F614459003BADE3 /* Products */;
+			projectDirPath = "";
+			projectRoot = "";
+			targets = (
+				033C8C622F614459003BADE3 /* EventApp */,
+				033C8C742F61445B003BADE3 /* EventAppTests */,
+				033C8C7E2F61445B003BADE3 /* EventAppUITests */,
+			);
+		};
+/* End PBXProject section */
+
+/* Begin PBXResourcesBuildPhase section */
+		033C8C612F614459003BADE3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		033C8C732F61445B003BADE3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		033C8C7D2F61445B003BADE3 /* Resources */ = {
+			isa = PBXResourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXResourcesBuildPhase section */
+
+/* Begin PBXSourcesBuildPhase section */
+		033C8C5F2F614459003BADE3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+				033C8CF42F61457D003BADE3 /* FamilyHelpResult.swift in Sources */,
+				033C8D532F614839003BADE3 /* SettingsView.swift in Sources */,
+				033C8CF52F61457D003BADE3 /* ProgressionSystemProtocol.swift in Sources */,
+				033C8CF62F61457D003BADE3 /* BusinessEnums.swift in Sources */,
+				033C8CF72F61457D003BADE3 /* SatisfactionCalculator.swift in Sources */,
+				033C8CF82F61457D003BADE3 /* ConsequenceEnums.swift in Sources */,
+				033C8CF92F61457D003BADE3 /* PhoneSystemProtocol.swift in Sources */,
+				033C8CFA2F61457D003BADE3 /* AchievementEnums.swift in Sources */,
+				033C8CFB2F61457D003BADE3 /* RandomEventResult.swift in Sources */,
+				033C8CFC2F61457D003BADE3 /* GameDate.swift in Sources */,
+				033C8CFD2F61457D003BADE3 /* ProgressionEnums.swift in Sources */,
+				033C8CFE2F61457D003BADE3 /* EventPhaseCalculator.swift in Sources */,
+				033C8CFF2F61457D003BADE3 /* TimeSystem.swift in Sources */,
+				033C8D002F61457D003BADE3 /* WeatherSystem.swift in Sources */,
+				033C8D012F61457D003BADE3 /* VendorRelationship.swift in Sources */,
+				033C8D022F61457D003BADE3 /* NotificationEnums.swift in Sources */,
+				033C8D632F615042003BADE3 /* VendorPickerView.swift in Sources */,
+				033C8D032F61457D003BADE3 /* GameSettings.swift in Sources */,
+				033C8D042F61457D003BADE3 /* ConsequenceSystemProtocol.swift in Sources */,
+				033C8D052F61457D003BADE3 /* ClientInquiry.swift in Sources */,
+				033C8D062F61457D003BADE3 /* MarketingEnums.swift in Sources */,
+				033C8D672F615061003BADE3 /* TutorialOverlayView.swift in Sources */,
+				033C8D072F61457D003BADE3 /* GameContext.swift in Sources */,
+				033C8D082F61457D003BADE3 /* PlayerData.swift in Sources */,
+				033C8D092F61457D003BADE3 /* ClientEnums.swift in Sources */,
+				033C8D0A2F61457D003BADE3 /* StaffSystemProtocol.swift in Sources */,
+				033C8D0B2F61457D003BADE3 /* SaveData.swift in Sources */,
+				033C8D0C2F61457D003BADE3 /* VendorEnums.swift in Sources */,
+				033C8D0D2F61457D003BADE3 /* AchievementData.swift in Sources */,
+				033C8D0E2F61457D003BADE3 /* MonetizationEnums.swift in Sources */,
+				033C8D0F2F61457D003BADE3 /* MonetizationSystem.swift in Sources */,
+				033C8D552F61483A003BADE3 /* LoadingView.swift in Sources */,
+				033C8D102F61457D003BADE3 /* SettingsEnums.swift in Sources */,
+				033C8D112F61457D003BADE3 /* WorkHoursData.swift in Sources */,
+				033C8D122F61457D003BADE3 /* ConsequenceSystem.swift in Sources */,
+				033C8D132F61457D003BADE3 /* MapSystemProtocol.swift in Sources */,
+				033C8D142F61457D003BADE3 /* StaffSystem.swift in Sources */,
+				033C8D152F61457D003BADE3 /* AchievementSystemProtocol.swift in Sources */,
+				033C8D162F61457D003BADE3 /* WeatherSystemProtocol.swift in Sources */,
+				033C8D172F61457D003BADE3 /* TutorialSystemProtocol.swift in Sources */,
+				033C8D4F2F614837003BADE3 /* GameplayView.swift in Sources */,
+				033C8D182F61457D003BADE3 /* NotificationSystem.swift in Sources */,
+				033C8D192F61457D003BADE3 /* MapEnums.swift in Sources */,
+				033C8D1A2F61457D003BADE3 /* MilestoneSystem.swift in Sources */,
+				033C8D1B2F61457D003BADE3 /* TutorialData.swift in Sources */,
+				033C8D1C2F61457D003BADE3 /* PhoneAppEnums.swift in Sources */,
+				033C8D1D2F61457D003BADE3 /* EventTypeData.swift in Sources */,
+				033C8D1E2F61457D003BADE3 /* StaffEnums.swift in Sources */,
+				033C8D1F2F61457D003BADE3 /* OfficeSystem.swift in Sources */,
+				033C8D5F2F615040003BADE3 /* EventDetailView.swift in Sources */,
+				033C8D202F61457D003BADE3 /* VenueEnums.swift in Sources */,
+				033C8D212F61457D003BADE3 /* AnalyticsTracker.swift in Sources */,
+				033C8D222F61457D003BADE3 /* PhoneAppData.swift in Sources */,
+				033C8D582F614F70003BADE3 /* SeedData.swift in Sources */,
+				033C8D232F61457D003BADE3 /* TimeSystemProtocol.swift in Sources */,
+				033C8D242F61457D003BADE3 /* EmergencyFundingSystem.swift in Sources */,
+				033C8D252F61457D003BADE3 /* VenueData.swift in Sources */,
+				033C8D652F61505F003BADE3 /* EventResultsView.swift in Sources */,
+				033C8D262F61457D003BADE3 /* AudioManagerProtocol.swift in Sources */,
+				033C8D272F61457D003BADE3 /* EventPlanningSystemProtocol.swift in Sources */,
+				033C8D282F61457D003BADE3 /* AnalyticsEvents.swift in Sources */,
+				033C8D292F61457D003BADE3 /* MonetizationSystemProtocol.swift in Sources */,
+				033C8D2A2F61457D003BADE3 /* ProfitCalculatorProtocol.swift in Sources */,
+				033C8D2B2F61457D003BADE3 /* MonetizationData.swift in Sources */,
+				033C8D2C2F61457D003BADE3 /* AudioManager.swift in Sources */,
+				033C8D5D2F61503F003BADE3 /* ActiveEventsListView.swift in Sources */,
+				033C8D2D2F61457D003BADE3 /* NotificationSystemProtocol.swift in Sources */,
+				033C8D5B2F615007003BADE3 /* InquiryListView.swift in Sources */,
+				033C8D2E2F61457D003BADE3 /* ReferralSystem.swift in Sources */,
+				033C8D612F615041003BADE3 /* VenuePickerView.swift in Sources */,
+				033C8D2F2F61457D003BADE3 /* SaveSystem.swift in Sources */,
+				033C8D302F61457D003BADE3 /* SaveSystemProtocol.swift in Sources */,
+				033C8D312F61457D003BADE3 /* WeatherData.swift in Sources */,
+				033C8D322F61457D003BADE3 /* SatisfactionCalculatorProtocol.swift in Sources */,
+				033C8D332F61457D003BADE3 /* OfficeSystemProtocol.swift in Sources */,
+				033C8D342F61457D003BADE3 /* PhoneSystem.swift in Sources */,
+				033C8D352F61457D003BADE3 /* VendorData.swift in Sources */,
+				033C8D362F61457D003BADE3 /* ProfitCalculator.swift in Sources */,
+				033C8D372F61457D003BADE3 /* ProgressionSystem.swift in Sources */,
+				033C8D382F61457D003BADE3 /* TutorialSystem.swift in Sources */,
+				033C8D392F61457D003BADE3 /* LocationData.swift in Sources */,
+				033C8D3A2F61457D003BADE3 /* EventsApp.swift in Sources */,
+				033C8D3B2F61457D003BADE3 /* EventTask.swift in Sources */,
+				033C8D3C2F61457D003BADE3 /* WeatherEnums.swift in Sources */,
+				033C8D3D2F61457D003BADE3 /* EventData.swift in Sources */,
+				033C8D3E2F61457D003BADE3 /* ReferralSystemProtocol.swift in Sources */,
+				033C8D3F2F61457D003BADE3 /* AchievementSystem.swift in Sources */,
+				033C8D402F61457D003BADE3 /* MilestoneSystemProtocol.swift in Sources */,
+				033C8D412F61457D003BADE3 /* ContentView.swift in Sources */,
+				033C8D422F61457D003BADE3 /* EmergencyFundingSystemProtocol.swift in Sources */,
+				033C8D432F61457D003BADE3 /* UIEnums.swift in Sources */,
+				033C8D442F61457D003BADE3 /* EventPlanningSystem.swift in Sources */,
+				033C8D452F61457D003BADE3 /* MapSystem.swift in Sources */,
+				033C8D462F61457D003BADE3 /* GameState.swift in Sources */,
+				033C8D4D2F614836003BADE3 /* MainMenuView.swift in Sources */,
+				033C8D472F61457D003BADE3 /* GameManager.swift in Sources */,
+				033C8D482F61457D003BADE3 /* MarketingSystemProtocol.swift in Sources */,
+				033C8D492F61457D003BADE3 /* EventEnums.swift in Sources */,
+				033C8D4A2F61457D003BADE3 /* MarketingSystem.swift in Sources */,
+				033C8D4B2F61457D003BADE3 /* NotificationData.swift in Sources */,
+				033C8D512F614838003BADE3 /* PauseOverlay.swift in Sources */,
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		033C8C712F61445B003BADE3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+		033C8C7B2F61445B003BADE3 /* Sources */ = {
+			isa = PBXSourcesBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+		};
+/* End PBXSourcesBuildPhase section */
+
+/* Begin PBXTargetDependency section */
+		033C8C772F61445B003BADE3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 033C8C622F614459003BADE3 /* EventApp */;
+			targetProxy = 033C8C762F61445B003BADE3 /* PBXContainerItemProxy */;
+		};
+		033C8C812F61445B003BADE3 /* PBXTargetDependency */ = {
+			isa = PBXTargetDependency;
+			target = 033C8C622F614459003BADE3 /* EventApp */;
+			targetProxy = 033C8C802F61445B003BADE3 /* PBXContainerItemProxy */;
+		};
+/* End PBXTargetDependency section */
+
+/* Begin XCBuildConfiguration section */
+		033C8C872F61445B003BADE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = dwarf;
+				DEVELOPMENT_TEAM = JY5U8V4VB7;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_TESTABILITY = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_DYNAMIC_NO_PIC = NO;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_OPTIMIZATION_LEVEL = 0;
+				GCC_PREPROCESSOR_DEFINITIONS = (
+					"DEBUG=1",
+					"$(inherited)",
+				);
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = INCLUDE_SOURCE;
+				MTL_FAST_MATH = YES;
+				ONLY_ACTIVE_ARCH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
+			};
+			name = Debug;
+		};
+		033C8C882F61445B003BADE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ALWAYS_SEARCH_USER_PATHS = NO;
+				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_NONNULL = YES;
+				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
+				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
+				CLANG_ENABLE_MODULES = YES;
+				CLANG_ENABLE_OBJC_ARC = YES;
+				CLANG_ENABLE_OBJC_WEAK = YES;
+				CLANG_WARN_BLOCK_CAPTURE_AUTORELEASING = YES;
+				CLANG_WARN_BOOL_CONVERSION = YES;
+				CLANG_WARN_COMMA = YES;
+				CLANG_WARN_CONSTANT_CONVERSION = YES;
+				CLANG_WARN_DEPRECATED_OBJC_IMPLEMENTATIONS = YES;
+				CLANG_WARN_DIRECT_OBJC_ISA_USAGE = YES_ERROR;
+				CLANG_WARN_DOCUMENTATION_COMMENTS = YES;
+				CLANG_WARN_EMPTY_BODY = YES;
+				CLANG_WARN_ENUM_CONVERSION = YES;
+				CLANG_WARN_INFINITE_RECURSION = YES;
+				CLANG_WARN_INT_CONVERSION = YES;
+				CLANG_WARN_NON_LITERAL_NULL_CONVERSION = YES;
+				CLANG_WARN_OBJC_IMPLICIT_RETAIN_SELF = YES;
+				CLANG_WARN_OBJC_LITERAL_CONVERSION = YES;
+				CLANG_WARN_OBJC_ROOT_CLASS = YES_ERROR;
+				CLANG_WARN_QUOTED_INCLUDE_IN_FRAMEWORK_HEADER = YES;
+				CLANG_WARN_RANGE_LOOP_ANALYSIS = YES;
+				CLANG_WARN_STRICT_PROTOTYPES = YES;
+				CLANG_WARN_SUSPICIOUS_MOVE = YES;
+				CLANG_WARN_UNGUARDED_AVAILABILITY = YES_AGGRESSIVE;
+				CLANG_WARN_UNREACHABLE_CODE = YES;
+				CLANG_WARN__DUPLICATE_METHOD_MATCH = YES;
+				COPY_PHASE_STRIP = NO;
+				DEBUG_INFORMATION_FORMAT = "dwarf-with-dsym";
+				DEVELOPMENT_TEAM = JY5U8V4VB7;
+				ENABLE_NS_ASSERTIONS = NO;
+				ENABLE_STRICT_OBJC_MSGSEND = YES;
+				ENABLE_USER_SCRIPT_SANDBOXING = YES;
+				GCC_C_LANGUAGE_STANDARD = gnu17;
+				GCC_NO_COMMON_BLOCKS = YES;
+				GCC_WARN_64_TO_32_BIT_CONVERSION = YES;
+				GCC_WARN_ABOUT_RETURN_TYPE = YES_ERROR;
+				GCC_WARN_UNDECLARED_SELECTOR = YES;
+				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
+				GCC_WARN_UNUSED_FUNCTION = YES;
+				GCC_WARN_UNUSED_VARIABLE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				LOCALIZATION_PREFERS_STRING_CATALOGS = YES;
+				MTL_ENABLE_DEBUG_INFO = NO;
+				MTL_FAST_MATH = YES;
+				SDKROOT = iphoneos;
+				SWIFT_COMPILATION_MODE = wholemodule;
+				VALIDATE_PRODUCT = YES;
+			};
+			name = Release;
+		};
+		033C8C8A2F61445B003BADE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JY5U8V4VB7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Elevated-app-dev.EventApp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Debug;
+		};
+		033C8C8B2F61445B003BADE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
+				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JY5U8V4VB7;
+				ENABLE_PREVIEWS = YES;
+				GENERATE_INFOPLIST_FILE = YES;
+				INFOPLIST_KEY_UIApplicationSceneManifest_Generation = YES;
+				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
+				INFOPLIST_KEY_UILaunchScreen_Generation = YES;
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPad = "UIInterfaceOrientationPortrait UIInterfaceOrientationPortraitUpsideDown UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				INFOPLIST_KEY_UISupportedInterfaceOrientations_iPhone = "UIInterfaceOrientationPortrait UIInterfaceOrientationLandscapeLeft UIInterfaceOrientationLandscapeRight";
+				LD_RUNPATH_SEARCH_PATHS = (
+					"$(inherited)",
+					"@executable_path/Frameworks",
+				);
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Elevated-app-dev.EventApp";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = YES;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_DEFAULT_ACTOR_ISOLATION = MainActor;
+				SWIFT_EMIT_LOC_STRINGS = YES;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+			};
+			name = Release;
+		};
+		033C8C8D2F61445B003BADE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JY5U8V4VB7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Elevated-app-dev.EventAppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EventApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EventApp";
+			};
+			name = Debug;
+		};
+		033C8C8E2F61445B003BADE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				BUNDLE_LOADER = "$(TEST_HOST)";
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JY5U8V4VB7;
+				GENERATE_INFOPLIST_FILE = YES;
+				IPHONEOS_DEPLOYMENT_TARGET = 26.2;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Elevated-app-dev.EventAppTests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_HOST = "$(BUILT_PRODUCTS_DIR)/EventApp.app/$(BUNDLE_EXECUTABLE_FOLDER_PATH)/EventApp";
+			};
+			name = Release;
+		};
+		033C8C902F61445B003BADE3 /* Debug */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JY5U8V4VB7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Elevated-app-dev.EventAppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = EventApp;
+			};
+			name = Debug;
+		};
+		033C8C912F61445B003BADE3 /* Release */ = {
+			isa = XCBuildConfiguration;
+			buildSettings = {
+				CODE_SIGN_STYLE = Automatic;
+				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = JY5U8V4VB7;
+				GENERATE_INFOPLIST_FILE = YES;
+				MARKETING_VERSION = 1.0;
+				PRODUCT_BUNDLE_IDENTIFIER = "Elevated-app-dev.EventAppUITests";
+				PRODUCT_NAME = "$(TARGET_NAME)";
+				STRING_CATALOG_GENERATE_SYMBOLS = NO;
+				SWIFT_APPROACHABLE_CONCURRENCY = YES;
+				SWIFT_EMIT_LOC_STRINGS = NO;
+				SWIFT_UPCOMING_FEATURE_MEMBER_IMPORT_VISIBILITY = YES;
+				SWIFT_VERSION = 5.0;
+				TARGETED_DEVICE_FAMILY = "1,2";
+				TEST_TARGET_NAME = EventApp;
+			};
+			name = Release;
+		};
+/* End XCBuildConfiguration section */
+
+/* Begin XCConfigurationList section */
+		033C8C5E2F614459003BADE3 /* Build configuration list for PBXProject "EventApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				033C8C872F61445B003BADE3 /* Debug */,
+				033C8C882F61445B003BADE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		033C8C892F61445B003BADE3 /* Build configuration list for PBXNativeTarget "EventApp" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				033C8C8A2F61445B003BADE3 /* Debug */,
+				033C8C8B2F61445B003BADE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		033C8C8C2F61445B003BADE3 /* Build configuration list for PBXNativeTarget "EventAppTests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				033C8C8D2F61445B003BADE3 /* Debug */,
+				033C8C8E2F61445B003BADE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+		033C8C8F2F61445B003BADE3 /* Build configuration list for PBXNativeTarget "EventAppUITests" */ = {
+			isa = XCConfigurationList;
+			buildConfigurations = (
+				033C8C902F61445B003BADE3 /* Debug */,
+				033C8C912F61445B003BADE3 /* Release */,
+			);
+			defaultConfigurationIsVisible = 0;
+			defaultConfigurationName = Release;
+		};
+/* End XCConfigurationList section */
+	};
+	rootObject = 033C8C5B2F614459003BADE3 /* Project object */;
+}
