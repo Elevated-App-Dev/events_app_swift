@@ -231,64 +231,93 @@ struct PhoneCalendarView: View {
     private static let dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
     private static let daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
 
+    private let eventColors: [Color] = [
+        GameTheme.Colors.accent, GameTheme.Colors.warning,
+        GameTheme.Colors.money, GameTheme.Colors.reputation,
+        GameTheme.Colors.success
+    ]
+
     init() {
         _viewingMonth = State(initialValue: 3)
         _viewingYear = State(initialValue: 2026)
     }
 
     var body: some View {
-        VStack(spacing: GameTheme.Spacing.sm) {
-            // Month navigation
-            HStack {
-                Button(action: previousMonth) {
-                    Image(systemName: "chevron.left")
-                        .foregroundStyle(GameTheme.Colors.textSecondary)
-                        .frame(width: GameTheme.Size.touchTarget, height: GameTheme.Size.touchTarget)
+        ScrollView {
+            VStack(spacing: 0) {
+                // Month navigation
+                HStack {
+                    Button(action: previousMonth) {
+                        Image(systemName: "chevron.left")
+                            .foregroundStyle(GameTheme.Colors.textSecondary)
+                            .frame(width: GameTheme.Size.touchTarget, height: GameTheme.Size.touchTarget)
+                    }
+                    Spacer()
+                    Text(monthYearLabel)
+                        .font(GameTheme.Typography.h2)
+                        .foregroundStyle(GameTheme.Colors.textPrimary)
+                    Spacer()
+                    Button(action: nextMonth) {
+                        Image(systemName: "chevron.right")
+                            .foregroundStyle(GameTheme.Colors.textSecondary)
+                            .frame(width: GameTheme.Size.touchTarget, height: GameTheme.Size.touchTarget)
+                    }
                 }
-                Spacer()
-                Text(monthYearLabel)
-                    .font(GameTheme.Typography.h2)
-                    .foregroundStyle(GameTheme.Colors.textPrimary)
-                Spacer()
-                Button(action: nextMonth) {
-                    Image(systemName: "chevron.right")
-                        .foregroundStyle(GameTheme.Colors.textSecondary)
-                        .frame(width: GameTheme.Size.touchTarget, height: GameTheme.Size.touchTarget)
+                .padding(.horizontal, GameTheme.Spacing.md)
+                .padding(.bottom, GameTheme.Spacing.xs)
+
+                // Day headers
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 0) {
+                    ForEach(Self.dayNames, id: \.self) { day in
+                        Text(day)
+                            .font(GameTheme.Typography.micro)
+                            .foregroundStyle(GameTheme.Colors.textMuted)
+                            .frame(height: 20)
+                    }
                 }
+                .padding(.horizontal, GameTheme.Spacing.sm)
+
+                // Calendar grid (compact)
+                LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 2) {
+                    ForEach(0..<firstDayOffset, id: \.self) { _ in
+                        Color.clear.frame(height: 38)
+                    }
+
+                    ForEach(1...daysInCurrentMonth, id: \.self) { day in
+                        let date = GameDate(month: viewingMonth, day: day, year: viewingYear)
+                        calendarCell(date: date)
+                    }
+                }
+                .padding(.horizontal, GameTheme.Spacing.sm)
+
+                Divider().background(GameTheme.Colors.border)
+                    .padding(.vertical, GameTheme.Spacing.xs)
+
+                // Event timeline bars
+                eventTimeline
+                    .padding(.horizontal, GameTheme.Spacing.md)
+
+                Divider().background(GameTheme.Colors.border)
+                    .padding(.vertical, GameTheme.Spacing.xs)
+
+                // Upcoming deadlines
+                upcomingDeadlines
+                    .padding(.horizontal, GameTheme.Spacing.md)
+
+                // Advance preview
+                advancePreview
+                    .padding(.horizontal, GameTheme.Spacing.md)
+                    .padding(.top, GameTheme.Spacing.sm)
+
+                // Selected date detail
+                if let selected = selectedDate {
+                    Divider().background(GameTheme.Colors.border)
+                        .padding(.vertical, GameTheme.Spacing.xs)
+                    selectedDateDetail(selected)
+                }
+
+                Spacer().frame(height: GameTheme.Spacing.lg)
             }
-            .padding(.horizontal, GameTheme.Spacing.md)
-
-            // Day headers
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 0) {
-                ForEach(Self.dayNames, id: \.self) { day in
-                    Text(day)
-                        .font(GameTheme.Typography.micro)
-                        .foregroundStyle(GameTheme.Colors.textMuted)
-                        .frame(height: 24)
-                }
-            }
-            .padding(.horizontal, GameTheme.Spacing.sm)
-
-            // Calendar grid
-            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 4) {
-                // Empty cells for offset (simple: start all months on Sunday for now)
-                ForEach(0..<firstDayOffset, id: \.self) { _ in
-                    Color.clear.frame(height: 44)
-                }
-
-                ForEach(1...daysInCurrentMonth, id: \.self) { day in
-                    let date = GameDate(month: viewingMonth, day: day, year: viewingYear)
-                    calendarCell(date: date)
-                }
-            }
-            .padding(.horizontal, GameTheme.Spacing.sm)
-
-            // Selected date details
-            if let selected = selectedDate {
-                selectedDateDetail(selected)
-            }
-
-            Spacer()
         }
         .onAppear {
             viewingMonth = gameManager.currentDate.month
@@ -317,17 +346,15 @@ struct PhoneCalendarView: View {
         }
 
         Button(action: { selectedDate = date }) {
-            VStack(spacing: 2) {
+            VStack(spacing: 1) {
                 ZStack {
-                    // Today indicator — filled accent circle
                     if isToday {
                         Circle()
                             .fill(GameTheme.Colors.accent)
-                            .frame(width: 28, height: 28)
+                            .frame(width: 26, height: 26)
                     }
-
                     Text("\(date.day)")
-                        .font(GameTheme.Typography.caption)
+                        .font(.system(size: 13))
                         .fontWeight(isToday ? .bold : .regular)
                         .foregroundStyle(
                             isToday ? GameTheme.Colors.background :
@@ -336,28 +363,170 @@ struct PhoneCalendarView: View {
                         )
                 }
 
-                // Dots indicating content
                 HStack(spacing: 2) {
                     if hasEvent {
-                        Circle()
-                            .fill(GameTheme.Colors.error)
-                            .frame(width: 5, height: 5)
+                        Circle().fill(GameTheme.Colors.error).frame(width: 4, height: 4)
                     }
                     if hasActivity {
-                        Circle()
-                            .fill(GameTheme.Colors.accent.opacity(isToday ? 0.5 : 1.0))
-                            .frame(width: 5, height: 5)
+                        Circle().fill(GameTheme.Colors.accent.opacity(isToday ? 0.5 : 1.0)).frame(width: 4, height: 4)
                     }
                 }
-                .frame(height: 5)
+                .frame(height: 4)
             }
-            .frame(height: 44)
+            .frame(height: 38)
             .frame(maxWidth: .infinity)
-            .background(
-                isSelected ? GameTheme.Colors.elevated :
-                Color.clear
-            )
-            .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
+            .background(isSelected ? GameTheme.Colors.elevated : Color.clear)
+            .clipShape(RoundedRectangle(cornerRadius: 6))
+        }
+    }
+
+    // MARK: - Event Timeline
+
+    private var eventTimeline: some View {
+        VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
+            Text("Event Timeline")
+                .font(GameTheme.Typography.micro)
+                .fontWeight(.bold)
+                .foregroundStyle(GameTheme.Colors.textMuted)
+
+            if gameManager.activeEvents.isEmpty {
+                Text("No active events")
+                    .font(GameTheme.Typography.micro)
+                    .foregroundStyle(GameTheme.Colors.textMuted)
+            } else {
+                // Show each event as a horizontal bar from accepted date to event date
+                ForEach(Array(gameManager.activeEvents.enumerated()), id: \.element.id) { index, event in
+                    let color = eventColors[index % eventColors.count]
+                    let acceptedDay = event.acceptedDate?.day ?? gameManager.currentDate.day
+                    let eventDay = event.eventDate.day
+                    let totalDaysInMonth = daysInCurrentMonth
+
+                    Button(action: {
+                        eventDetailIndex = index
+                    }) {
+                        VStack(alignment: .leading, spacing: 2) {
+                            // Event label
+                            HStack(spacing: 4) {
+                                Circle().fill(color).frame(width: 8, height: 8)
+                                Text(event.eventTitle)
+                                    .font(GameTheme.Typography.micro)
+                                    .foregroundStyle(GameTheme.Colors.textPrimary)
+                                    .lineLimit(1)
+                                Spacer()
+                                Text(event.eventDate.shortFormatted)
+                                    .font(.system(size: 10))
+                                    .foregroundStyle(GameTheme.Colors.textMuted)
+                            }
+
+                            // Timeline bar
+                            GeometryReader { geo in
+                                let width = geo.size.width
+                                let startFrac = max(0, CGFloat(acceptedDay - 1) / CGFloat(totalDaysInMonth))
+                                let endFrac = min(1, CGFloat(eventDay) / CGFloat(totalDaysInMonth))
+                                let todayFrac = CGFloat(gameManager.currentDate.day - 1) / CGFloat(totalDaysInMonth)
+
+                                ZStack(alignment: .leading) {
+                                    // Track
+                                    RoundedRectangle(cornerRadius: 2)
+                                        .fill(GameTheme.Colors.border)
+                                        .frame(height: 6)
+
+                                    // Event span bar
+                                    if event.eventDate.month == viewingMonth && event.eventDate.year == viewingYear {
+                                        RoundedRectangle(cornerRadius: 2)
+                                            .fill(color.opacity(0.4))
+                                            .frame(width: max(4, (endFrac - startFrac) * width), height: 6)
+                                            .offset(x: startFrac * width)
+                                    }
+
+                                    // Today marker
+                                    if gameManager.currentDate.month == viewingMonth {
+                                        Rectangle()
+                                            .fill(GameTheme.Colors.textPrimary)
+                                            .frame(width: 2, height: 10)
+                                            .offset(x: todayFrac * width)
+                                    }
+                                }
+                            }
+                            .frame(height: 10)
+                        }
+                    }
+                }
+            }
+        }
+    }
+
+    // MARK: - Upcoming Deadlines
+
+    private var upcomingDeadlines: some View {
+        let upcoming = gameManager.advanceSystem.scheduledActivities
+            .filter { $0.status == .scheduled && $0.scheduledDate >= gameManager.currentDate }
+            .sorted { $0.scheduledDate < $1.scheduledDate }
+            .prefix(5)
+
+        return VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
+            Text("Upcoming")
+                .font(GameTheme.Typography.micro)
+                .fontWeight(.bold)
+                .foregroundStyle(GameTheme.Colors.textMuted)
+
+            if upcoming.isEmpty {
+                Text("Nothing scheduled ahead")
+                    .font(GameTheme.Typography.micro)
+                    .foregroundStyle(GameTheme.Colors.textMuted)
+            } else {
+                ForEach(Array(upcoming)) { activity in
+                    HStack(spacing: GameTheme.Spacing.xs) {
+                        Text(activity.scheduledDate.shortFormatted)
+                            .font(.system(size: 11, weight: .medium).monospacedDigit())
+                            .foregroundStyle(GameTheme.Colors.textMuted)
+                            .frame(width: 65, alignment: .leading)
+
+                        Circle()
+                            .fill(deadlineColor(for: activity))
+                            .frame(width: 6, height: 6)
+
+                        Text(activity.content.subject)
+                            .font(GameTheme.Typography.micro)
+                            .foregroundStyle(GameTheme.Colors.textSecondary)
+                            .lineLimit(1)
+                    }
+                }
+            }
+        }
+    }
+
+    private func deadlineColor(for activity: PlanningActivity) -> Color {
+        switch activity.type {
+        case .eventExecution: return GameTheme.Colors.error
+        case .clientMeeting: return GameTheme.Colors.accent
+        case .clientContractSent, .clientContractSigned: return GameTheme.Colors.accent
+        case .vendorAvailabilityResponse, .vendorNegotiationResponse: return GameTheme.Colors.warning
+        case .vendorFinalConfirmation: return GameTheme.Colors.warning
+        default: return GameTheme.Colors.textMuted
+        }
+    }
+
+    // MARK: - Advance Preview
+
+    private var advancePreview: some View {
+        Group {
+            if let nextPoint = gameManager.advanceSystem.findNextDecisionPoint() {
+                HStack(spacing: GameTheme.Spacing.xs) {
+                    Image(systemName: "forward.fill")
+                        .font(.system(size: 10))
+                        .foregroundStyle(GameTheme.Colors.accent)
+                    Text("Next advance: \(nextPoint.date.formatted)")
+                        .font(GameTheme.Typography.micro)
+                        .foregroundStyle(GameTheme.Colors.accent)
+                    if nextPoint.activities.count > 0 {
+                        Text("(\(nextPoint.activities.count) item\(nextPoint.activities.count == 1 ? "" : "s"))")
+                            .font(.system(size: 10))
+                            .foregroundStyle(GameTheme.Colors.textMuted)
+                    }
+                    Spacer()
+                }
+            }
         }
     }
 
@@ -370,88 +539,69 @@ struct PhoneCalendarView: View {
             $0.scheduledDate == date
         }
 
-        ScrollView {
-            VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
-                Text(date.formatted)
-                    .font(GameTheme.Typography.h3)
-                    .foregroundStyle(GameTheme.Colors.textPrimary)
-                    .padding(.horizontal, GameTheme.Spacing.md)
+        VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
+            Text(date.formatted)
+                .font(GameTheme.Typography.h3)
+                .foregroundStyle(GameTheme.Colors.textPrimary)
+                .padding(.horizontal, GameTheme.Spacing.md)
 
-                // Events on this date
-                ForEach(eventsOnDate) { event in
-                    Button(action: {
-                        if let idx = gameManager.activeEvents.firstIndex(where: { $0.id == event.id }) {
-                            eventDetailIndex = idx
-                        }
-                    }) {
-                        HStack {
-                            Circle()
-                                .fill(GameTheme.Colors.error)
-                                .frame(width: 8, height: 8)
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(event.eventTitle)
-                                    .font(GameTheme.Typography.caption)
-                                    .foregroundStyle(GameTheme.Colors.textPrimary)
-                                Text("Tap to manage")
-                                    .font(GameTheme.Typography.micro)
-                                    .foregroundStyle(GameTheme.Colors.accent)
-                            }
-                            Spacer()
-                            PhaseBadge(phase: event.phase)
-                        }
+            ForEach(eventsOnDate) { event in
+                Button(action: {
+                    if let idx = gameManager.activeEvents.firstIndex(where: { $0.id == event.id }) {
+                        eventDetailIndex = idx
                     }
-                    .padding(.horizontal, GameTheme.Spacing.md)
-                }
-
-                // Activities on this date
-                ForEach(activitiesOnDate) { activity in
+                }) {
                     HStack {
-                        Circle()
-                            .fill(activity.status == .completed ? GameTheme.Colors.success : GameTheme.Colors.accent)
-                            .frame(width: 8, height: 8)
-                        Text(activity.content.subject)
-                            .font(GameTheme.Typography.caption)
-                            .foregroundStyle(GameTheme.Colors.textSecondary)
-                            .lineLimit(1)
-                        Spacer()
-                        if activity.status == .completed {
-                            Image(systemName: "checkmark")
+                        Circle().fill(GameTheme.Colors.error).frame(width: 8, height: 8)
+                        VStack(alignment: .leading, spacing: 2) {
+                            Text(event.eventTitle)
+                                .font(GameTheme.Typography.caption)
+                                .foregroundStyle(GameTheme.Colors.textPrimary)
+                            Text("Tap to manage")
                                 .font(GameTheme.Typography.micro)
-                                .foregroundStyle(GameTheme.Colors.success)
+                                .foregroundStyle(GameTheme.Colors.accent)
                         }
-                    }
-                    .padding(.horizontal, GameTheme.Spacing.md)
-
-                    // Show transcript for completed meetings
-                    if activity.status == .completed,
-                       let transcript = activity.content.dialogueTranscript, !transcript.isEmpty {
-                        VStack(alignment: .leading, spacing: 4) {
-                            ForEach(Array(transcript.enumerated()), id: \.offset) { _, line in
-                                HStack(alignment: .top, spacing: 6) {
-                                    Text(line.speaker == .client ? "Them:" : "You:")
-                                        .font(GameTheme.Typography.micro)
-                                        .fontWeight(.bold)
-                                        .foregroundStyle(line.speaker == .client ? GameTheme.Colors.accent : GameTheme.Colors.success)
-                                        .frame(width: 36, alignment: .leading)
-                                    Text(line.text)
-                                        .font(GameTheme.Typography.micro)
-                                        .foregroundStyle(GameTheme.Colors.textSecondary)
-                                }
-                            }
-                        }
-                        .padding(GameTheme.Spacing.xs)
-                        .background(GameTheme.Colors.elevated)
-                        .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
-                        .padding(.horizontal, GameTheme.Spacing.md)
+                        Spacer()
+                        PhaseBadge(phase: event.phase)
                     }
                 }
+                .padding(.horizontal, GameTheme.Spacing.md)
+            }
 
-                if eventsOnDate.isEmpty && activitiesOnDate.isEmpty {
-                    Text("Nothing scheduled")
+            ForEach(activitiesOnDate) { activity in
+                HStack {
+                    Circle()
+                        .fill(activity.status == .completed ? GameTheme.Colors.success :
+                              activity.status == .ready ? GameTheme.Colors.warning :
+                              GameTheme.Colors.textMuted)
+                        .frame(width: 8, height: 8)
+                    Text(activity.content.subject)
                         .font(GameTheme.Typography.caption)
-                        .foregroundStyle(GameTheme.Colors.textMuted)
-                        .padding(.horizontal, GameTheme.Spacing.md)
+                        .foregroundStyle(GameTheme.Colors.textSecondary)
+                        .lineLimit(1)
+                    Spacer()
+                    if activity.status == .completed {
+                        Image(systemName: "checkmark")
+                            .font(GameTheme.Typography.micro)
+                            .foregroundStyle(GameTheme.Colors.success)
+                    } else if activity.status == .ready {
+                        Text("Action needed")
+                            .font(.system(size: 10))
+                            .foregroundStyle(GameTheme.Colors.warning)
+                    } else {
+                        Text("Scheduled")
+                            .font(.system(size: 10))
+                            .foregroundStyle(GameTheme.Colors.textMuted)
+                    }
                 }
+                .padding(.horizontal, GameTheme.Spacing.md)
+            }
+
+            if eventsOnDate.isEmpty && activitiesOnDate.isEmpty {
+                Text("Nothing scheduled")
+                    .font(GameTheme.Typography.caption)
+                    .foregroundStyle(GameTheme.Colors.textMuted)
+                    .padding(.horizontal, GameTheme.Spacing.md)
             }
         }
     }
@@ -471,12 +621,9 @@ struct PhoneCalendarView: View {
     /// Day-of-week offset for the 1st of the viewing month (Sun=0, Sat=6).
     /// Uses Jan 1, 2026 = Thursday (offset 4) as anchor.
     private var firstDayOffset: Int {
-        // Days from Jan 1, 2026 to the 1st of viewingMonth/viewingYear
         let yearsFromAnchor = viewingYear - 2026
         var daysSinceAnchor = yearsFromAnchor * 365
-        // Add leap days (simplified: no leap years in game for now)
         daysSinceAnchor += Self.daysInMonth.prefix(viewingMonth - 1).reduce(0, +)
-        // Jan 1, 2026 is Thursday = offset 4 (Sun=0 grid)
         return (daysSinceAnchor + 4) % 7
     }
 
