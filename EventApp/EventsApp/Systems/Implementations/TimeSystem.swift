@@ -6,11 +6,12 @@ import Foundation
 class TimeSystem: TimeSystemProtocol {
 
     /// Event scheduling ranges in days by complexity.
+    /// Includes buffer for planning process (meeting + contract + vendor booking).
     private static let schedulingRanges: [(min: Int, max: Int)] = [
-        (3, 7),     // Low complexity
-        (7, 14),    // Medium complexity
-        (14, 21),   // High complexity
-        (21, 30)    // Very High complexity
+        (14, 21),   // Low complexity
+        (21, 30),   // Medium complexity
+        (30, 45),   // High complexity
+        (45, 60)    // Very High complexity
     ]
 
     func scheduleEvent(complexity: EventComplexity, from currentDate: GameDate) -> GameDate {

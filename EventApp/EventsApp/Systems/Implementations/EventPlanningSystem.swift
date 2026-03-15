@@ -320,12 +320,15 @@ class EventPlanningSystem: EventPlanningSystemProtocol {
         }
     }
 
+    /// Scheduling range includes buffer for the planning process:
+    /// Client meeting (1-3d) + contract (1d) + signing (1-2d) + vendor booking (3-5d)
+    /// = minimum ~8 days of planning before event can happen.
     private func getSchedulingRange(for complexity: EventComplexity) -> (min: Int, max: Int) {
         switch complexity {
-        case .low:      return (3, 7)
-        case .medium:   return (7, 14)
-        case .high:     return (14, 21)
-        case .veryHigh: return (21, 30)
+        case .low:      return (14, 21)
+        case .medium:   return (21, 30)
+        case .high:     return (30, 45)
+        case .veryHigh: return (45, 60)
         }
     }
 }

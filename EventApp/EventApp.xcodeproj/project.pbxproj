@@ -117,6 +117,7 @@
 		BB2D3E02F661457D003BADE3 /* OfficeDeskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D3E01F661457D003BADE3 /* OfficeDeskView.swift */; };
 		BB3F4A02F661457D003BADE3 /* PhoneOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F4A01F661457D003BADE3 /* PhoneOverlayView.swift */; };
 		CC1D4A02F661457D003BADE3 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1D4A01F661457D003BADE3 /* Transaction.swift */; };
+		DD4B5A02F661457D003BADE3 /* LaptopOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4B5A01F661457D003BADE3 /* LaptopOverlayView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -250,6 +251,7 @@
 		BB2D3E01F661457D003BADE3 /* OfficeDeskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeDeskView.swift; sourceTree = "<group>"; };
 		BB3F4A01F661457D003BADE3 /* PhoneOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneOverlayView.swift; sourceTree = "<group>"; };
 		CC1D4A01F661457D003BADE3 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
+		DD4B5A01F661457D003BADE3 /* LaptopOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaptopOverlayView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -478,6 +480,7 @@
 				033C8D502F614838003BADE3 /* PauseOverlay.swift */,
 				BB3F4A01F661457D003BADE3 /* PhoneOverlayView.swift */,
 				033C8D522F614839003BADE3 /* SettingsView.swift */,
+				DD4B5A01F661457D003BADE3 /* LaptopOverlayView.swift */,
 				033C8D542F61483A003BADE3 /* LoadingView.swift */,
 				033C8D592F614FEE003BADE3 /* Gameplay */,
 			);
@@ -783,6 +786,7 @@
 				BB2D3E02F661457D003BADE3 /* OfficeDeskView.swift in Sources */,
 				BB3F4A02F661457D003BADE3 /* PhoneOverlayView.swift in Sources */,
 				CC1D4A02F661457D003BADE3 /* Transaction.swift in Sources */,
+				DD4B5A02F661457D003BADE3 /* LaptopOverlayView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

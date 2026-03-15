@@ -622,8 +622,7 @@ class GameManager: GameContext {
         case .clientContractSigned:
             onClientContractSigned(activity)
         case .clientDepositReceived:
-            // Deposit acknowledged — player can now start booking vendors
-            break
+            onClientDepositAcknowledged(activity)
         case .vendorAvailabilityResponse:
             onVendorAvailabilityReceived(activity)
         default:
@@ -671,15 +670,12 @@ class GameManager: GameContext {
         advanceSystem.scheduleActivity(signedActivity)
     }
 
-    /// After contract signed: schedule deposit and enable vendor planning.
+    /// After contract signed: schedule deposit notification and enable vendor planning.
     private func onClientContractSigned(_ activity: PlanningActivity) {
         guard let eventIndex = activeEvents.firstIndex(where: { $0.id == activity.eventId }) else { return }
         let event = activeEvents[eventIndex]
 
-        // Client deposit received (immediate)
         let depositAmount = event.budget.total * 0.25
-        playerData.money += depositAmount
-        transactions.append(.income(date: advanceSystem.currentDate, amount: depositAmount, description: "Deposit — \(event.clientName)", category: .clientDeposit))
 
         let depositActivity = PlanningActivity.create(
             eventId: activity.eventId,
@@ -695,8 +691,16 @@ class GameManager: GameContext {
             )
         )
         advanceSystem.scheduleActivity(depositActivity)
+    }
 
-        // Update event status to planning
+    /// After player acknowledges deposit: money arrives, event enters planning.
+    private func onClientDepositAcknowledged(_ activity: PlanningActivity) {
+        guard let eventIndex = activeEvents.firstIndex(where: { $0.id == activity.eventId }) else { return }
+
+        let depositAmount = activity.content.depositAmount ?? (activeEvents[eventIndex].budget.total * 0.25)
+        playerData.money += depositAmount
+        transactions.append(.income(date: advanceSystem.currentDate, amount: depositAmount, description: "Deposit — \(activeEvents[eventIndex].clientName)", category: .clientDeposit))
+
         activeEvents[eventIndex].status = .planning
     }
 

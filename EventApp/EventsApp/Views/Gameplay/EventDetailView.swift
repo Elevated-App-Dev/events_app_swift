@@ -14,6 +14,16 @@ struct EventDetailView: View {
         return gameManager.activeEvents[eventIndex]
     }
 
+    /// Allow venue/vendor selection during booking, planning, and active planning phases.
+    private func canEditPlanning(_ event: EventData) -> Bool {
+        switch event.phase {
+        case .booking, .prePlanning, .activePlanning:
+            return true
+        default:
+            return false
+        }
+    }
+
     var body: some View {
         if let event {
             List {
@@ -56,7 +66,7 @@ struct EventDetailView: View {
                             .font(.caption)
                             .foregroundStyle(.secondary)
                         }
-                    } else if event.phase == .booking {
+                    } else if canEditPlanning(event) {
                         Button("Select Venue") {
                             showVenuePicker = true
                         }
@@ -86,7 +96,7 @@ struct EventDetailView: View {
                         }
                     }
 
-                    if event.phase == .booking {
+                    if canEditPlanning(event) {
                         Menu("Add Vendor") {
                             ForEach(VendorCategory.allCases, id: \.self) { category in
                                 let alreadyHas = event.vendors.contains { $0.category == category }

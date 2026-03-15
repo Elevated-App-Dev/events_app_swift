@@ -292,6 +292,7 @@ struct PhoneCalendarView: View {
         .onAppear {
             viewingMonth = gameManager.currentDate.month
             viewingYear = gameManager.currentDate.year
+            selectedDate = gameManager.currentDate
         }
         .sheet(item: Binding(
             get: { eventDetailIndex.map { IdentifiableIndex(value: $0) } },
@@ -316,14 +317,23 @@ struct PhoneCalendarView: View {
 
         Button(action: { selectedDate = date }) {
             VStack(spacing: 2) {
-                Text("\(date.day)")
-                    .font(GameTheme.Typography.caption)
-                    .fontWeight(isToday ? .bold : .regular)
-                    .foregroundStyle(
-                        isToday ? GameTheme.Colors.accent :
-                        date < gameManager.currentDate ? GameTheme.Colors.textMuted :
-                        GameTheme.Colors.textPrimary
-                    )
+                ZStack {
+                    // Today indicator — filled accent circle
+                    if isToday {
+                        Circle()
+                            .fill(GameTheme.Colors.accent)
+                            .frame(width: 28, height: 28)
+                    }
+
+                    Text("\(date.day)")
+                        .font(GameTheme.Typography.caption)
+                        .fontWeight(isToday ? .bold : .regular)
+                        .foregroundStyle(
+                            isToday ? GameTheme.Colors.background :
+                            date < gameManager.currentDate ? GameTheme.Colors.textMuted :
+                            GameTheme.Colors.textPrimary
+                        )
+                }
 
                 // Dots indicating content
                 HStack(spacing: 2) {
@@ -334,7 +344,7 @@ struct PhoneCalendarView: View {
                     }
                     if hasActivity {
                         Circle()
-                            .fill(GameTheme.Colors.accent)
+                            .fill(GameTheme.Colors.accent.opacity(isToday ? 0.5 : 1.0))
                             .frame(width: 5, height: 5)
                     }
                 }
@@ -344,7 +354,6 @@ struct PhoneCalendarView: View {
             .frame(maxWidth: .infinity)
             .background(
                 isSelected ? GameTheme.Colors.elevated :
-                isToday ? GameTheme.Colors.surface :
                 Color.clear
             )
             .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))

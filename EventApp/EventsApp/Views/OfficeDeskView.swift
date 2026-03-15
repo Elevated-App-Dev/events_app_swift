@@ -7,6 +7,7 @@ struct OfficeDeskView: View {
     @Environment(GameManager.self) private var gameManager
     @State private var showPhone = false
     @State private var phoneOpenToApp: PhoneApp?
+    @State private var showLaptop = false
     @State private var showAdvanceConfirm = false
 
     var body: some View {
@@ -31,6 +32,13 @@ struct OfficeDeskView: View {
                 .padding(.bottom, GameTheme.Spacing.sm)
             }
 
+            // Laptop overlay
+            if showLaptop {
+                LaptopOverlayView(isPresented: $showLaptop)
+                    .transition(.opacity)
+                    .zIndex(10)
+            }
+
             // Phone overlay
             if showPhone {
                 PhoneOverlayView(isPresented: $showPhone, initialApp: phoneOpenToApp)
@@ -52,6 +60,7 @@ struct OfficeDeskView: View {
             }
         }
         .animation(GameTheme.Anim.panelSlide, value: showPhone)
+        .animation(GameTheme.Anim.panelSlide, value: showLaptop)
         .sheet(item: Binding(
             get: { gameManager.lastCompletedEvent },
             set: { _ in gameManager.dismissResults() }
@@ -105,12 +114,11 @@ struct OfficeDeskView: View {
                     // Middle: Laptop
                     deskItem(
                         icon: "laptopcomputer",
-                        label: "Financials",
-                        badge: 0,
+                        label: "Business",
+                        badge: gameManager.activeEvents.count,
                         color: GameTheme.Colors.money
                     ) {
-                        phoneOpenToApp = .bank
-                        showPhone = true
+                        showLaptop = true
                     }
 
                     Spacer()
