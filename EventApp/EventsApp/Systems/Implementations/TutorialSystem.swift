@@ -18,7 +18,7 @@ class TutorialSystem {
         .acceptClient:   ("First Client", "You've received your first client inquiry! Tap to view and accept it."),
         .selectVenue:    ("Book a Venue", "Now let's find a venue for your event. Open the map to browse locations."),
         .selectCaterer:  ("Hire a Caterer", "Great! Now hire a caterer for your event."),
-        .eventExecution: ("Event Day", "Your event is ready! Wait for the event day to see how it goes."),
+        .eventExecution: ("Event Day", "Your event is planned! Tap Advance to move forward in time until the event day arrives."),
         .viewResults:    ("Results", "Check your event results to see client satisfaction and earnings."),
         .complete:       ("You're Ready!", "You've completed the tutorial. Good luck with your event planning career!")
     ]

@@ -108,6 +108,11 @@
 		033C8D632F615042003BADE3 /* VendorPickerView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8D622F615042003BADE3 /* VendorPickerView.swift */; };
 		033C8D652F61505F003BADE3 /* EventResultsView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8D642F61505F003BADE3 /* EventResultsView.swift */; };
 		033C8D672F615061003BADE3 /* TutorialOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8D662F615061003BADE3 /* TutorialOverlayView.swift */; };
+		033C8D692F615062003BADE3 /* InboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = 033C8D682F615062003BADE3 /* InboxView.swift */; };
+		AA959026DEE1442C966C5EB2 /* PlanningEnums.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9B0602366D33DF1A7DDC24 /* PlanningEnums.swift */; };
+		AA3D5415420157207C50CE63 /* PlanningActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB7C2486125391CDC8FCCBA /* PlanningActivity.swift */; };
+		AA8A87402617B77E62EBF8E3 /* AdvanceSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9144D63094E1427A1F31D0 /* AdvanceSystemProtocol.swift */; };
+		AA42E8B9D541E98234C1FD10 /* AdvanceSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC61F3977A67E4EE82CF98B /* AdvanceSystem.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -232,6 +237,11 @@
 		033C8D622F615042003BADE3 /* VendorPickerView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorPickerView.swift; sourceTree = "<group>"; };
 		033C8D642F61505F003BADE3 /* EventResultsView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EventResultsView.swift; sourceTree = "<group>"; };
 		033C8D662F615061003BADE3 /* TutorialOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = TutorialOverlayView.swift; sourceTree = "<group>"; };
+		033C8D682F615062003BADE3 /* InboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = InboxView.swift; sourceTree = "<group>"; };
+		AA9B0602366D33DF1A7DDC24 /* PlanningEnums.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningEnums.swift; sourceTree = "<group>"; };
+		AAB7C2486125391CDC8FCCBA /* PlanningActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningActivity.swift; sourceTree = "<group>"; };
+		AA9144D63094E1427A1F31D0 /* AdvanceSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvanceSystemProtocol.swift; sourceTree = "<group>"; };
+		AAC61F3977A67E4EE82CF98B /* AdvanceSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvanceSystem.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -323,6 +333,7 @@
 				033C8C9F2F61457D003BADE3 /* MonetizationData.swift */,
 				033C8CA02F61457D003BADE3 /* NotificationData.swift */,
 				033C8CA12F61457D003BADE3 /* PhoneAppData.swift */,
+				AAB7C2486125391CDC8FCCBA /* PlanningActivity.swift */,
 				033C8CA22F61457D003BADE3 /* PlayerData.swift */,
 				033C8CA32F61457D003BADE3 /* RandomEventResult.swift */,
 				033C8CA42F61457D003BADE3 /* SaveData.swift */,
@@ -350,6 +361,7 @@
 				033C8CB42F61457D003BADE3 /* MonetizationEnums.swift */,
 				033C8CB52F61457D003BADE3 /* NotificationEnums.swift */,
 				033C8CB62F61457D003BADE3 /* PhoneAppEnums.swift */,
+				AA9B0602366D33DF1A7DDC24 /* PlanningEnums.swift */,
 				033C8CB72F61457D003BADE3 /* ProgressionEnums.swift */,
 				033C8CB82F61457D003BADE3 /* SettingsEnums.swift */,
 				033C8CB92F61457D003BADE3 /* StaffEnums.swift */,
@@ -381,6 +393,7 @@
 			isa = PBXGroup;
 			children = (
 				033C8CC12F61457D003BADE3 /* AchievementSystem.swift */,
+				AAC61F3977A67E4EE82CF98B /* AdvanceSystem.swift */,
 				033C8CC22F61457D003BADE3 /* AnalyticsTracker.swift */,
 				033C8CC32F61457D003BADE3 /* AudioManager.swift */,
 				033C8CC42F61457D003BADE3 /* ConsequenceSystem.swift */,
@@ -411,6 +424,7 @@
 			isa = PBXGroup;
 			children = (
 				033C8CD92F61457D003BADE3 /* AchievementSystemProtocol.swift */,
+				AA9144D63094E1427A1F31D0 /* AdvanceSystemProtocol.swift */,
 				033C8CDA2F61457D003BADE3 /* AudioManagerProtocol.swift */,
 				033C8CDB2F61457D003BADE3 /* ConsequenceSystemProtocol.swift */,
 				033C8CDC2F61457D003BADE3 /* EmergencyFundingSystemProtocol.swift */,
@@ -490,6 +504,7 @@
 				033C8D622F615042003BADE3 /* VendorPickerView.swift */,
 				033C8D642F61505F003BADE3 /* EventResultsView.swift */,
 				033C8D662F615061003BADE3 /* TutorialOverlayView.swift */,
+				033C8D682F615062003BADE3 /* InboxView.swift */,
 			);
 			path = Gameplay;
 			sourceTree = "<group>";
@@ -705,6 +720,7 @@
 				033C8D2C2F61457D003BADE3 /* AudioManager.swift in Sources */,
 				033C8D5D2F61503F003BADE3 /* ActiveEventsListView.swift in Sources */,
 				033C8D2D2F61457D003BADE3 /* NotificationSystemProtocol.swift in Sources */,
+				033C8D692F615062003BADE3 /* InboxView.swift in Sources */,
 				033C8D5B2F615007003BADE3 /* InquiryListView.swift in Sources */,
 				033C8D2E2F61457D003BADE3 /* ReferralSystem.swift in Sources */,
 				033C8D612F615041003BADE3 /* VenuePickerView.swift in Sources */,
@@ -739,6 +755,10 @@
 				033C8D4A2F61457D003BADE3 /* MarketingSystem.swift in Sources */,
 				033C8D4B2F61457D003BADE3 /* NotificationData.swift in Sources */,
 				033C8D512F614838003BADE3 /* PauseOverlay.swift in Sources */,
+				AA959026DEE1442C966C5EB2 /* PlanningEnums.swift in Sources */,
+				AA3D5415420157207C50CE63 /* PlanningActivity.swift in Sources */,
+				AA8A87402617B77E62EBF8E3 /* AdvanceSystemProtocol.swift in Sources */,
+				AA42E8B9D541E98234C1FD10 /* AdvanceSystem.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

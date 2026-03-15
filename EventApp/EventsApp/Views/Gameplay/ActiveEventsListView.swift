@@ -8,7 +8,7 @@ struct ActiveEventsListView: View {
             List {
                 ForEach(Array(gameManager.activeEvents.enumerated()), id: \.element.id) { index, event in
                     NavigationLink(value: index) {
-                        EventRowView(event: event, currentDate: gameManager.timeSystem.currentDate)
+                        EventRowView(event: event, currentDate: gameManager.currentDate)
                     }
                 }
             }

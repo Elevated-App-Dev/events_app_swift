@@ -2,6 +2,7 @@ import SwiftUI
 
 enum GameplayTab: String, CaseIterable {
     case events
+    case inbox
     case inquiries
 }
 
@@ -19,11 +20,16 @@ struct GameplayView: View {
                 switch selectedTab {
                 case .events:
                     ActiveEventsListView()
+                case .inbox:
+                    InboxView()
                 case .inquiries:
                     InquiryListView()
                 }
             }
             .frame(maxHeight: .infinity)
+
+            // Advance button
+            AdvanceButtonView()
 
             // Bottom tab bar
             HStack(spacing: 0) {
@@ -32,6 +38,12 @@ struct GameplayView: View {
                     icon: "calendar",
                     label: "Events",
                     badge: gameManager.activeEvents.count
+                )
+                tabButton(
+                    tab: .inbox,
+                    icon: "tray.fill",
+                    label: "Inbox",
+                    badge: gameManager.inboxActivities.count
                 )
                 tabButton(
                     tab: .inquiries,
@@ -91,6 +103,36 @@ struct GameplayView: View {
     }
 }
 
+// MARK: - Advance Button
+
+struct AdvanceButtonView: View {
+    @Environment(GameManager.self) private var gameManager
+
+    var body: some View {
+        Button(action: { gameManager.advanceToNextPoint() }) {
+            HStack(spacing: 8) {
+                Image(systemName: "forward.fill")
+                if let nextPoint = gameManager.advanceSystem.findNextDecisionPoint() {
+                    Text("Advance to \(nextPoint.date.formatted)")
+                } else {
+                    Text("Advance")
+                }
+            }
+            .font(.headline)
+            .frame(maxWidth: .infinity)
+            .padding(.vertical, 12)
+            .background(gameManager.hasInboxItems ? Color.gray : Color.blue)
+            .foregroundStyle(.white)
+            .clipShape(RoundedRectangle(cornerRadius: 10))
+        }
+        .disabled(gameManager.hasInboxItems)
+        .padding(.horizontal)
+        .padding(.vertical, 8)
+    }
+}
+
+// MARK: - HUD Bar
+
 struct HUDBarView: View {
     @Environment(GameManager.self) private var gameManager
 
@@ -105,7 +147,7 @@ struct HUDBarView: View {
             }
             Spacer()
             VStack(alignment: .center, spacing: 2) {
-                Text(gameManager.timeSystem.currentDate.formatted)
+                Text(gameManager.currentDate.formatted)
                     .font(.caption)
                     .fontWeight(.medium)
             }
