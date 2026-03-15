@@ -42,8 +42,18 @@ class GameManager: GameContext {
     /// Current game date — views should use this instead of timeSystem.currentDate.
     var currentDate: GameDate { advanceSystem.currentDate }
 
-    /// Activities currently in the player's inbox (ready on today's date).
+    /// All activities currently in the player's inbox (ready on today's date).
     var inboxActivities: [PlanningActivity] { advanceSystem.getInboxActivities() }
+
+    /// Email activities only (formal: contracts, quotes, vendor correspondence).
+    var emailActivities: [PlanningActivity] {
+        inboxActivities.filter { $0.medium == .email }
+    }
+
+    /// Message/call activities only (quick: texts, calls, confirmations).
+    var messageActivities: [PlanningActivity] {
+        inboxActivities.filter { $0.medium == .text || $0.medium == .call || $0.medium == .inPerson }
+    }
 
     /// Whether there are unread inbox items.
     var hasInboxItems: Bool { !inboxActivities.isEmpty }

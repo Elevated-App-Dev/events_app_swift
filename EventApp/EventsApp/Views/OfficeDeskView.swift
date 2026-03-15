@@ -84,7 +84,8 @@ struct OfficeDeskView: View {
                             badge: gameManager.activeEvents.count,
                             color: GameTheme.Colors.accent
                         ) {
-                            // TODO: Open calendar overlay
+                            phoneOpenToApp = .calendar
+                            showPhone = true
                         }
 
                         Spacer()
@@ -108,7 +109,8 @@ struct OfficeDeskView: View {
                         badge: 0,
                         color: GameTheme.Colors.money
                     ) {
-                        // TODO: Open financials overlay
+                        phoneOpenToApp = .bank
+                        showPhone = true
                     }
 
                     Spacer()
@@ -118,7 +120,7 @@ struct OfficeDeskView: View {
                         deskItem(
                             icon: "iphone",
                             label: "Phone",
-                            badge: gameManager.inboxActivities.count,
+                            badge: gameManager.messageActivities.count,
                             color: GameTheme.Colors.accent
                         ) {
                             phoneOpenToApp = nil
@@ -130,10 +132,10 @@ struct OfficeDeskView: View {
                         deskItem(
                             icon: "envelope.fill",
                             label: "Mail",
-                            badge: gameManager.pendingInquiries.count,
+                            badge: gameManager.pendingInquiries.count + gameManager.emailActivities.count,
                             color: GameTheme.Colors.warning
                         ) {
-                            phoneOpenToApp = .clients
+                            phoneOpenToApp = .messages
                             showPhone = true
                         }
                     }

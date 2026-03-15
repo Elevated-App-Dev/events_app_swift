@@ -222,165 +222,387 @@ extension PhoneApp {
 
 struct PhoneCalendarView: View {
     @Environment(GameManager.self) private var gameManager
-    @State private var expandedEventId: String?
+    @State private var viewingMonth: Int
+    @State private var viewingYear: Int
+    @State private var selectedDate: GameDate?
+    @State private var eventDetailIndex: Int?
+
+    private static let dayNames = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"]
+    private static let daysInMonth = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31]
+
+    init() {
+        _viewingMonth = State(initialValue: 3)
+        _viewingYear = State(initialValue: 2026)
+    }
 
     var body: some View {
-        ScrollView {
-            VStack(alignment: .leading, spacing: GameTheme.Spacing.sm) {
-                ForEach(gameManager.activeEvents) { event in
-                    VStack(alignment: .leading, spacing: 0) {
-                        Button(action: {
-                            withAnimation(GameTheme.Anim.panelSlide) {
-                                expandedEventId = expandedEventId == event.id ? nil : event.id
-                            }
-                        }) {
-                            HStack {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(event.eventTitle)
-                                        .font(GameTheme.Typography.h3)
-                                        .foregroundStyle(GameTheme.Colors.textPrimary)
-                                    Text(event.eventDate.formatted)
-                                        .font(GameTheme.Typography.caption)
-                                        .foregroundStyle(GameTheme.Colors.textSecondary)
-                                }
-                                Spacer()
-                                PhaseBadge(phase: event.phase)
-                            }
-                        }
-
-                        // Expanded: show notes from completed activities
-                        if expandedEventId == event.id {
-                            eventNotes(for: event.id)
-                                .padding(.top, GameTheme.Spacing.sm)
-                        }
-                    }
-                    .surfaceCard()
+        VStack(spacing: GameTheme.Spacing.sm) {
+            // Month navigation
+            HStack {
+                Button(action: previousMonth) {
+                    Image(systemName: "chevron.left")
+                        .foregroundStyle(GameTheme.Colors.textSecondary)
+                        .frame(width: GameTheme.Size.touchTarget, height: GameTheme.Size.touchTarget)
                 }
-
-                if gameManager.activeEvents.isEmpty {
-                    Text("No upcoming events")
-                        .font(GameTheme.Typography.body)
-                        .foregroundStyle(GameTheme.Colors.textMuted)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.top, GameTheme.Spacing.xl)
+                Spacer()
+                Text(monthYearLabel)
+                    .font(GameTheme.Typography.h2)
+                    .foregroundStyle(GameTheme.Colors.textPrimary)
+                Spacer()
+                Button(action: nextMonth) {
+                    Image(systemName: "chevron.right")
+                        .foregroundStyle(GameTheme.Colors.textSecondary)
+                        .frame(width: GameTheme.Size.touchTarget, height: GameTheme.Size.touchTarget)
                 }
             }
             .padding(.horizontal, GameTheme.Spacing.md)
+
+            // Day headers
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 0) {
+                ForEach(Self.dayNames, id: \.self) { day in
+                    Text(day)
+                        .font(GameTheme.Typography.micro)
+                        .foregroundStyle(GameTheme.Colors.textMuted)
+                        .frame(height: 24)
+                }
+            }
+            .padding(.horizontal, GameTheme.Spacing.sm)
+
+            // Calendar grid
+            LazyVGrid(columns: Array(repeating: GridItem(.flexible()), count: 7), spacing: 4) {
+                // Empty cells for offset (simple: start all months on Sunday for now)
+                ForEach(0..<firstDayOffset, id: \.self) { _ in
+                    Color.clear.frame(height: 44)
+                }
+
+                ForEach(1...daysInCurrentMonth, id: \.self) { day in
+                    let date = GameDate(month: viewingMonth, day: day, year: viewingYear)
+                    calendarCell(date: date)
+                }
+            }
+            .padding(.horizontal, GameTheme.Spacing.sm)
+
+            // Selected date details
+            if let selected = selectedDate {
+                selectedDateDetail(selected)
+            }
+
+            Spacer()
+        }
+        .onAppear {
+            viewingMonth = gameManager.currentDate.month
+            viewingYear = gameManager.currentDate.year
+        }
+        .sheet(item: Binding(
+            get: { eventDetailIndex.map { IdentifiableIndex(value: $0) } },
+            set: { eventDetailIndex = $0?.value }
+        )) { item in
+            NavigationStack {
+                EventDetailView(eventIndex: item.value)
+            }
         }
     }
 
+    // MARK: - Calendar Cell
+
     @ViewBuilder
-    private func eventNotes(for eventId: String) -> some View {
-        let completedActivities = gameManager.advanceSystem
-            .getActivitiesForEvent(eventId: eventId)
-            .filter { $0.status == .completed }
+    private func calendarCell(date: GameDate) -> some View {
+        let isToday = date == gameManager.currentDate
+        let isSelected = date == selectedDate
+        let hasEvent = gameManager.activeEvents.contains { $0.eventDate == date }
+        let hasActivity = gameManager.advanceSystem.scheduledActivities.contains {
+            $0.scheduledDate == date && ($0.status == .scheduled || $0.status == .ready)
+        }
 
-        if completedActivities.isEmpty {
-            Text("No notes yet")
-                .font(GameTheme.Typography.caption)
-                .foregroundStyle(GameTheme.Colors.textMuted)
-        } else {
+        Button(action: { selectedDate = date }) {
+            VStack(spacing: 2) {
+                Text("\(date.day)")
+                    .font(GameTheme.Typography.caption)
+                    .fontWeight(isToday ? .bold : .regular)
+                    .foregroundStyle(
+                        isToday ? GameTheme.Colors.accent :
+                        date < gameManager.currentDate ? GameTheme.Colors.textMuted :
+                        GameTheme.Colors.textPrimary
+                    )
+
+                // Dots indicating content
+                HStack(spacing: 2) {
+                    if hasEvent {
+                        Circle()
+                            .fill(GameTheme.Colors.error)
+                            .frame(width: 5, height: 5)
+                    }
+                    if hasActivity {
+                        Circle()
+                            .fill(GameTheme.Colors.accent)
+                            .frame(width: 5, height: 5)
+                    }
+                }
+                .frame(height: 5)
+            }
+            .frame(height: 44)
+            .frame(maxWidth: .infinity)
+            .background(
+                isSelected ? GameTheme.Colors.elevated :
+                isToday ? GameTheme.Colors.surface :
+                Color.clear
+            )
+            .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
+        }
+    }
+
+    // MARK: - Selected Date Detail
+
+    @ViewBuilder
+    private func selectedDateDetail(_ date: GameDate) -> some View {
+        let eventsOnDate = gameManager.activeEvents.filter { $0.eventDate == date }
+        let activitiesOnDate = gameManager.advanceSystem.scheduledActivities.filter {
+            $0.scheduledDate == date
+        }
+
+        ScrollView {
             VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
-                Text("Notes")
-                    .font(GameTheme.Typography.micro)
-                    .fontWeight(.bold)
-                    .foregroundStyle(GameTheme.Colors.textMuted)
+                Text(date.formatted)
+                    .font(GameTheme.Typography.h3)
+                    .foregroundStyle(GameTheme.Colors.textPrimary)
+                    .padding(.horizontal, GameTheme.Spacing.md)
 
-                ForEach(completedActivities) { activity in
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack(spacing: 4) {
-                            Image(systemName: activity.medium == .call ? "phone.fill" : "envelope.fill")
-                                .font(GameTheme.Typography.micro)
-                            Text(activity.content.subject)
-                                .font(GameTheme.Typography.caption)
-                                .fontWeight(.medium)
-                            Spacer()
-                            Text(activity.scheduledDate.shortFormatted)
-                                .font(GameTheme.Typography.micro)
-                                .foregroundStyle(GameTheme.Colors.textMuted)
+                // Events on this date
+                ForEach(eventsOnDate) { event in
+                    Button(action: {
+                        if let idx = gameManager.activeEvents.firstIndex(where: { $0.id == event.id }) {
+                            eventDetailIndex = idx
                         }
-                        .foregroundStyle(GameTheme.Colors.textSecondary)
-
-                        // Show transcript if it exists
-                        if let transcript = activity.content.dialogueTranscript, !transcript.isEmpty {
-                            VStack(alignment: .leading, spacing: 4) {
-                                ForEach(Array(transcript.enumerated()), id: \.offset) { _, line in
-                                    HStack(alignment: .top, spacing: 6) {
-                                        Text(line.speaker == .client ? "Them:" : "You:")
-                                            .font(GameTheme.Typography.micro)
-                                            .fontWeight(.bold)
-                                            .foregroundStyle(line.speaker == .client ? GameTheme.Colors.accent : GameTheme.Colors.success)
-                                            .frame(width: 36, alignment: .leading)
-                                        Text(line.text)
-                                            .font(GameTheme.Typography.micro)
-                                            .foregroundStyle(GameTheme.Colors.textSecondary)
-                                    }
-                                }
+                    }) {
+                        HStack {
+                            Circle()
+                                .fill(GameTheme.Colors.error)
+                                .frame(width: 8, height: 8)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(event.eventTitle)
+                                    .font(GameTheme.Typography.caption)
+                                    .foregroundStyle(GameTheme.Colors.textPrimary)
+                                Text("Tap to manage")
+                                    .font(GameTheme.Typography.micro)
+                                    .foregroundStyle(GameTheme.Colors.accent)
                             }
-                            .padding(GameTheme.Spacing.xs)
-                            .background(GameTheme.Colors.elevated)
-                            .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
+                            Spacer()
+                            PhaseBadge(phase: event.phase)
                         }
                     }
+                    .padding(.horizontal, GameTheme.Spacing.md)
+                }
+
+                // Activities on this date
+                ForEach(activitiesOnDate) { activity in
+                    HStack {
+                        Circle()
+                            .fill(activity.status == .completed ? GameTheme.Colors.success : GameTheme.Colors.accent)
+                            .frame(width: 8, height: 8)
+                        Text(activity.content.subject)
+                            .font(GameTheme.Typography.caption)
+                            .foregroundStyle(GameTheme.Colors.textSecondary)
+                            .lineLimit(1)
+                        Spacer()
+                        if activity.status == .completed {
+                            Image(systemName: "checkmark")
+                                .font(GameTheme.Typography.micro)
+                                .foregroundStyle(GameTheme.Colors.success)
+                        }
+                    }
+                    .padding(.horizontal, GameTheme.Spacing.md)
+
+                    // Show transcript for completed meetings
+                    if activity.status == .completed,
+                       let transcript = activity.content.dialogueTranscript, !transcript.isEmpty {
+                        VStack(alignment: .leading, spacing: 4) {
+                            ForEach(Array(transcript.enumerated()), id: \.offset) { _, line in
+                                HStack(alignment: .top, spacing: 6) {
+                                    Text(line.speaker == .client ? "Them:" : "You:")
+                                        .font(GameTheme.Typography.micro)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(line.speaker == .client ? GameTheme.Colors.accent : GameTheme.Colors.success)
+                                        .frame(width: 36, alignment: .leading)
+                                    Text(line.text)
+                                        .font(GameTheme.Typography.micro)
+                                        .foregroundStyle(GameTheme.Colors.textSecondary)
+                                }
+                            }
+                        }
+                        .padding(GameTheme.Spacing.xs)
+                        .background(GameTheme.Colors.elevated)
+                        .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
+                        .padding(.horizontal, GameTheme.Spacing.md)
+                    }
+                }
+
+                if eventsOnDate.isEmpty && activitiesOnDate.isEmpty {
+                    Text("Nothing scheduled")
+                        .font(GameTheme.Typography.caption)
+                        .foregroundStyle(GameTheme.Colors.textMuted)
+                        .padding(.horizontal, GameTheme.Spacing.md)
                 }
             }
         }
+    }
+
+    // MARK: - Helpers
+
+    private var monthYearLabel: String {
+        let names = ["January", "February", "March", "April", "May", "June",
+                     "July", "August", "September", "October", "November", "December"]
+        return "\(names[viewingMonth - 1]) \(viewingYear)"
+    }
+
+    private var daysInCurrentMonth: Int {
+        Self.daysInMonth[viewingMonth - 1]
+    }
+
+    // Simplified first day offset based on Zeller's or a simple formula
+    private var firstDayOffset: Int {
+        // Simple approximation — not astronomically accurate but works for game dates
+        let totalDays = (viewingYear - 1) * 365 + Self.daysInMonth.prefix(viewingMonth - 1).reduce(0, +) + 1
+        return totalDays % 7
+    }
+
+    private func previousMonth() {
+        if viewingMonth == 1 {
+            viewingMonth = 12
+            viewingYear -= 1
+        } else {
+            viewingMonth -= 1
+        }
+        selectedDate = nil
+    }
+
+    private func nextMonth() {
+        if viewingMonth == 12 {
+            viewingMonth = 1
+            viewingYear += 1
+        } else {
+            viewingMonth += 1
+        }
+        selectedDate = nil
     }
 }
 
 struct PhoneBankView: View {
     @Environment(GameManager.self) private var gameManager
 
+    private let startingBalance: Double = 500.0
+
     var body: some View {
         ScrollView {
-            VStack(spacing: GameTheme.Spacing.lg) {
-                // Balance
-                VStack(spacing: GameTheme.Spacing.xs) {
-                    Text("Balance")
-                        .font(GameTheme.Typography.caption)
-                        .foregroundStyle(GameTheme.Colors.textMuted)
-                    Text("$\(gameManager.playerData.money, specifier: "%.0f")")
-                        .font(GameTheme.Typography.display)
-                        .foregroundStyle(GameTheme.Colors.money)
+            VStack(spacing: 0) {
+                // Account summary
+                VStack(spacing: GameTheme.Spacing.md) {
+                    // Current balance (large)
+                    VStack(spacing: 4) {
+                        Text("Current Balance")
+                            .font(GameTheme.Typography.micro)
+                            .foregroundStyle(GameTheme.Colors.textMuted)
+                        Text("$\(gameManager.playerData.money, specifier: "%.2f")")
+                            .font(GameTheme.Typography.display)
+                            .foregroundStyle(GameTheme.Colors.money)
+                    }
+
+                    // Starting balance
+                    HStack {
+                        Text("Starting Balance")
+                            .font(GameTheme.Typography.caption)
+                            .foregroundStyle(GameTheme.Colors.textMuted)
+                        Spacer()
+                        Text("$\(startingBalance, specifier: "%.2f")")
+                            .font(GameTheme.Typography.money)
+                            .foregroundStyle(GameTheme.Colors.textSecondary)
+                    }
+                    .padding(.horizontal, GameTheme.Spacing.md)
+
+                    // Net change
+                    let netChange = gameManager.playerData.money - startingBalance
+                    HStack {
+                        Text("Net Change")
+                            .font(GameTheme.Typography.caption)
+                            .foregroundStyle(GameTheme.Colors.textMuted)
+                        Spacer()
+                        Text("\(netChange >= 0 ? "+" : "")$\(netChange, specifier: "%.2f")")
+                            .font(GameTheme.Typography.money)
+                            .foregroundStyle(netChange >= 0 ? GameTheme.Colors.success : GameTheme.Colors.error)
+                    }
+                    .padding(.horizontal, GameTheme.Spacing.md)
+
+                    Divider()
+                        .background(GameTheme.Colors.border)
+                        .padding(.horizontal, GameTheme.Spacing.md)
                 }
-                .frame(maxWidth: .infinity)
                 .padding(.top, GameTheme.Spacing.md)
 
-                // Transaction history
-                if !gameManager.transactions.isEmpty {
-                    VStack(alignment: .leading, spacing: GameTheme.Spacing.sm) {
-                        Text("Recent Transactions")
-                            .font(GameTheme.Typography.h3)
-                            .foregroundStyle(GameTheme.Colors.textPrimary)
-                            .padding(.horizontal, GameTheme.Spacing.md)
+                // Transaction ledger
+                VStack(alignment: .leading, spacing: 0) {
+                    Text("Transactions")
+                        .font(GameTheme.Typography.h3)
+                        .foregroundStyle(GameTheme.Colors.textPrimary)
+                        .padding(.horizontal, GameTheme.Spacing.md)
+                        .padding(.vertical, GameTheme.Spacing.sm)
 
-                        ForEach(gameManager.transactions.reversed()) { tx in
-                            HStack {
+                    if gameManager.transactions.isEmpty {
+                        Text("No transactions yet")
+                            .font(GameTheme.Typography.caption)
+                            .foregroundStyle(GameTheme.Colors.textMuted)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, GameTheme.Spacing.lg)
+                    } else {
+                        // Show transactions in reverse order with running balance
+                        let reversed = Array(gameManager.transactions.reversed())
+                        var runningBalance = gameManager.playerData.money
+
+                        ForEach(Array(reversed.enumerated()), id: \.element.id) { index, tx in
+                            let balanceAfter = balanceAfterTransaction(index: index)
+
+                            HStack(alignment: .top) {
+                                // Date
+                                Text(tx.date.shortFormatted)
+                                    .font(GameTheme.Typography.micro)
+                                    .foregroundStyle(GameTheme.Colors.textMuted)
+                                    .frame(width: 70, alignment: .leading)
+
+                                // Description
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(tx.description)
                                         .font(GameTheme.Typography.caption)
                                         .foregroundStyle(GameTheme.Colors.textPrimary)
-                                    Text(tx.date.shortFormatted)
-                                        .font(GameTheme.Typography.micro)
-                                        .foregroundStyle(GameTheme.Colors.textMuted)
+                                        .lineLimit(1)
                                 }
-                                Spacer()
-                                Text("\(tx.isIncome ? "+" : "")$\(abs(tx.amount), specifier: "%.0f")")
+                                .frame(maxWidth: .infinity, alignment: .leading)
+
+                                // Amount
+                                Text("\(tx.isIncome ? "+" : "")\(tx.amount, specifier: "%.0f")")
                                     .font(GameTheme.Typography.money)
                                     .foregroundStyle(tx.isIncome ? GameTheme.Colors.success : GameTheme.Colors.error)
+                                    .frame(width: 80, alignment: .trailing)
                             }
-                            .surfaceCard()
                             .padding(.horizontal, GameTheme.Spacing.md)
+                            .padding(.vertical, GameTheme.Spacing.xs)
+
+                            if index < reversed.count - 1 {
+                                Divider()
+                                    .background(GameTheme.Colors.border)
+                                    .padding(.horizontal, GameTheme.Spacing.md)
+                            }
                         }
                     }
-                } else {
-                    Text("No transactions yet")
-                        .font(GameTheme.Typography.body)
-                        .foregroundStyle(GameTheme.Colors.textMuted)
-                        .padding(.top, GameTheme.Spacing.lg)
                 }
             }
         }
+    }
+
+    private func balanceAfterTransaction(index: Int) -> Double {
+        let reversed = Array(gameManager.transactions.reversed())
+        var balance = gameManager.playerData.money
+        for i in 0..<index {
+            balance -= reversed[i].amount
+        }
+        return balance
     }
 }
 
@@ -425,55 +647,92 @@ struct PhoneClientsView: View {
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: GameTheme.Spacing.sm) {
-                if !gameManager.pendingInquiries.isEmpty {
-                    Text("Pending Inquiries")
-                        .font(GameTheme.Typography.h3)
-                        .foregroundStyle(GameTheme.Colors.textPrimary)
-                        .padding(.horizontal, GameTheme.Spacing.md)
+                // Active clients (people you're currently planning events for)
+                if !gameManager.activeEvents.isEmpty {
+                    ForEach(gameManager.activeEvents) { event in
+                        VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(event.clientName)
+                                        .font(GameTheme.Typography.h3)
+                                        .foregroundStyle(GameTheme.Colors.textPrimary)
+                                    Text(event.eventTitle)
+                                        .font(GameTheme.Typography.caption)
+                                        .foregroundStyle(GameTheme.Colors.textSecondary)
+                                }
+                                Spacer()
+                                PhaseBadge(phase: event.phase)
+                            }
 
-                    ForEach(gameManager.pendingInquiries) { inquiry in
+                            HStack(spacing: GameTheme.Spacing.sm) {
+                                Label("$\(event.budget.total, specifier: "%.0f")", systemImage: "banknote")
+                                    .font(GameTheme.Typography.micro)
+                                    .foregroundStyle(GameTheme.Colors.money)
+                                Label("\(event.guestCount)", systemImage: "person.2")
+                                    .font(GameTheme.Typography.micro)
+                                    .foregroundStyle(GameTheme.Colors.textMuted)
+                                Label(event.eventDate.shortFormatted, systemImage: "calendar")
+                                    .font(GameTheme.Typography.micro)
+                                    .foregroundStyle(GameTheme.Colors.textMuted)
+                            }
+                        }
+                        .surfaceCard()
+                    }
+                }
+
+                // Past clients
+                if !gameManager.completedEvents.isEmpty {
+                    Text("Past Clients")
+                        .font(GameTheme.Typography.micro)
+                        .fontWeight(.bold)
+                        .foregroundStyle(GameTheme.Colors.textMuted)
+                        .padding(.top, GameTheme.Spacing.sm)
+
+                    ForEach(gameManager.completedEvents.suffix(10).reversed()) { event in
                         HStack {
-                            VStack(alignment: .leading, spacing: 4) {
-                                Text(inquiry.clientName)
-                                    .font(GameTheme.Typography.h3)
-                                    .foregroundStyle(GameTheme.Colors.textPrimary)
-                                Text(inquiry.subCategory)
+                            VStack(alignment: .leading, spacing: 2) {
+                                Text(event.clientName)
                                     .font(GameTheme.Typography.caption)
-                                    .foregroundStyle(GameTheme.Colors.textSecondary)
-                                Text("$\(inquiry.budget) \u{00B7} \(inquiry.guestCount) guests")
+                                    .foregroundStyle(GameTheme.Colors.textPrimary)
+                                Text(event.eventTitle)
                                     .font(GameTheme.Typography.micro)
                                     .foregroundStyle(GameTheme.Colors.textMuted)
                             }
                             Spacer()
-                            VStack(spacing: GameTheme.Spacing.xs) {
-                                Button("Accept") {
-                                    gameManager.acceptInquiry(inquiry)
-                                }
-                                .font(GameTheme.Typography.micro)
-                                .foregroundStyle(GameTheme.Colors.success)
-
-                                Button("Decline") {
-                                    gameManager.declineInquiry(inquiry)
-                                }
-                                .font(GameTheme.Typography.micro)
-                                .foregroundStyle(GameTheme.Colors.error)
+                            if let satisfaction = event.results?.finalSatisfaction {
+                                Text("\(Int(satisfaction))%")
+                                    .font(GameTheme.Typography.micro)
+                                    .fontWeight(.bold)
+                                    .foregroundStyle(satisfaction >= 70 ? GameTheme.Colors.success : GameTheme.Colors.warning)
                             }
                         }
                         .surfaceCard()
-                        .padding(.horizontal, GameTheme.Spacing.md)
                     }
                 }
 
-                if gameManager.pendingInquiries.isEmpty {
-                    Text("No pending inquiries")
-                        .font(GameTheme.Typography.body)
-                        .foregroundStyle(GameTheme.Colors.textMuted)
-                        .frame(maxWidth: .infinity, alignment: .center)
-                        .padding(.top, GameTheme.Spacing.xl)
+                if gameManager.activeEvents.isEmpty && gameManager.completedEvents.isEmpty {
+                    VStack(spacing: GameTheme.Spacing.sm) {
+                        Image(systemName: "person.2")
+                            .font(.system(size: 48))
+                            .foregroundStyle(GameTheme.Colors.textMuted)
+                        Text("No clients yet")
+                            .font(GameTheme.Typography.body)
+                            .foregroundStyle(GameTheme.Colors.textMuted)
+                    }
+                    .frame(maxWidth: .infinity)
+                    .padding(.top, GameTheme.Spacing.xl)
                 }
             }
+            .padding(.horizontal, GameTheme.Spacing.md)
         }
     }
+}
+
+/// Helper to make Int usable with .sheet(item:)
+struct IdentifiableIndex: Identifiable {
+    let id: Int
+    let value: Int
+    init(value: Int) { self.id = value; self.value = value }
 }
 
 @ViewBuilder

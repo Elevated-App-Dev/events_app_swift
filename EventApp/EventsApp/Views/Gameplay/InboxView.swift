@@ -6,6 +6,82 @@ struct InboxView: View {
     var body: some View {
         ScrollView {
             VStack(spacing: GameTheme.Spacing.sm) {
+                // Pending inquiries show as inbox emails
+                ForEach(gameManager.pendingInquiries) { inquiry in
+                    VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
+                        HStack {
+                            Image(systemName: "envelope.fill")
+                                .font(GameTheme.Typography.caption)
+                                .foregroundStyle(GameTheme.Colors.warning)
+                            Text(inquiry.clientName)
+                                .font(GameTheme.Typography.h3)
+                                .foregroundStyle(GameTheme.Colors.textPrimary)
+                            Spacer()
+                            Text("New Client")
+                                .font(GameTheme.Typography.micro)
+                                .fontWeight(.medium)
+                                .padding(.horizontal, GameTheme.Spacing.xs)
+                                .padding(.vertical, 3)
+                                .background(GameTheme.Colors.warning.opacity(0.15))
+                                .foregroundStyle(GameTheme.Colors.warning)
+                                .clipShape(Capsule())
+                        }
+
+                        Text("Event inquiry — \(inquiry.subCategory)")
+                            .font(GameTheme.Typography.caption)
+                            .foregroundStyle(GameTheme.Colors.textSecondary)
+
+                        HStack(spacing: GameTheme.Spacing.sm) {
+                            Label("$\(inquiry.budget)", systemImage: "banknote")
+                                .font(GameTheme.Typography.micro)
+                                .foregroundStyle(GameTheme.Colors.money)
+                            Label("\(inquiry.guestCount) guests", systemImage: "person.2")
+                                .font(GameTheme.Typography.micro)
+                                .foregroundStyle(GameTheme.Colors.textMuted)
+                            Label(inquiry.eventDate.shortFormatted, systemImage: "calendar")
+                                .font(GameTheme.Typography.micro)
+                                .foregroundStyle(GameTheme.Colors.textMuted)
+                        }
+
+                        HStack(spacing: GameTheme.Spacing.xs) {
+                            Button(action: {
+                                withAnimation(GameTheme.Anim.spring) {
+                                    gameManager.acceptInquiry(inquiry)
+                                }
+                            }) {
+                                Text("Accept")
+                                    .font(GameTheme.Typography.micro)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(GameTheme.Colors.textPrimary)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, GameTheme.Spacing.xs)
+                                    .background(GameTheme.Colors.success)
+                                    .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
+                            }
+
+                            Button(action: {
+                                withAnimation(GameTheme.Anim.spring) {
+                                    gameManager.declineInquiry(inquiry)
+                                }
+                            }) {
+                                Text("Decline")
+                                    .font(GameTheme.Typography.micro)
+                                    .fontWeight(.semibold)
+                                    .foregroundStyle(GameTheme.Colors.textSecondary)
+                                    .frame(maxWidth: .infinity)
+                                    .padding(.vertical, GameTheme.Spacing.xs)
+                                    .overlay(
+                                        RoundedRectangle(cornerRadius: GameTheme.Radius.small)
+                                            .stroke(GameTheme.Colors.textMuted, lineWidth: 1)
+                                    )
+                            }
+                        }
+                        .padding(.top, GameTheme.Spacing.xs)
+                    }
+                    .surfaceCard()
+                }
+
+                // Planning activities
                 ForEach(gameManager.inboxActivities) { activity in
                     VStack(spacing: 0) {
                         InboxActivityRow(activity: activity)
@@ -31,7 +107,7 @@ struct InboxView: View {
             }
             .padding(.horizontal, GameTheme.Spacing.md)
 
-            if gameManager.inboxActivities.isEmpty {
+            if gameManager.inboxActivities.isEmpty && gameManager.pendingInquiries.isEmpty {
                 VStack(spacing: GameTheme.Spacing.sm) {
                     Image(systemName: "tray")
                         .font(.system(size: 48))
