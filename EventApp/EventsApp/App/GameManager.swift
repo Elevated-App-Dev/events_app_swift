@@ -18,6 +18,7 @@ class GameManager: GameContext {
     var completedEvents: [EventData] = []
     var lastCompletedEvent: EventData?
     var vendorRelationships: [String: VendorRelationship] = [:]
+    var transactions: [Transaction] = []
 
     // MARK: - Systems
 
@@ -48,7 +49,7 @@ class GameManager: GameContext {
     var hasInboxItems: Bool { !inboxActivities.isEmpty }
 
     init() {
-        let startDate = GameDate(month: 3, day: 1, year: 1)
+        let startDate = GameDate(month: 3, day: 1, year: 2026)
         advanceSystem = AdvanceSystem(startDate: startDate)
         timeSystem = TimeSystem()
         satisfactionCalculator = SatisfactionCalculator()
@@ -71,7 +72,7 @@ class GameManager: GameContext {
         playerData = PlayerData()
         saveData = SaveData()
         saveData.playerData = playerData
-        saveData.currentDate = GameDate(month: 3, day: 1, year: 1)
+        saveData.currentDate = GameDate(month: 3, day: 1, year: 2026)
         saveData.journeyStartTime = Date()
 
         pendingInquiries = []
@@ -268,6 +269,11 @@ class GameManager: GameContext {
         event.results?.reputationChange = repChange.change
 
         playerData.money += profit
+        if profit >= 0 {
+            transactions.append(.income(date: advanceSystem.currentDate, amount: profit, description: "Profit — \(event.eventTitle)", category: .eventProfit))
+        } else {
+            transactions.append(.expense(date: advanceSystem.currentDate, amount: abs(profit), description: "Loss — \(event.eventTitle)", category: .eventLoss))
+        }
 
         event.results?.clientFeedback = generateFeedback(satisfaction: satisfaction, tier: repChange.satisfactionTier)
 
@@ -663,6 +669,7 @@ class GameManager: GameContext {
         // Client deposit received (immediate)
         let depositAmount = event.budget.total * 0.25
         playerData.money += depositAmount
+        transactions.append(.income(date: advanceSystem.currentDate, amount: depositAmount, description: "Deposit — \(event.clientName)", category: .clientDeposit))
 
         let depositActivity = PlanningActivity.create(
             eventId: activity.eventId,

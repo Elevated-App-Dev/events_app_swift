@@ -116,6 +116,7 @@
 		BB1A2C02F661457D003BADE3 /* GameTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1A2C01F661457D003BADE3 /* GameTheme.swift */; };
 		BB2D3E02F661457D003BADE3 /* OfficeDeskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D3E01F661457D003BADE3 /* OfficeDeskView.swift */; };
 		BB3F4A02F661457D003BADE3 /* PhoneOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F4A01F661457D003BADE3 /* PhoneOverlayView.swift */; };
+		CC1D4A02F661457D003BADE3 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1D4A01F661457D003BADE3 /* Transaction.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -248,6 +249,7 @@
 		BB1A2C01F661457D003BADE3 /* GameTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTheme.swift; sourceTree = "<group>"; };
 		BB2D3E01F661457D003BADE3 /* OfficeDeskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeDeskView.swift; sourceTree = "<group>"; };
 		BB3F4A01F661457D003BADE3 /* PhoneOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneOverlayView.swift; sourceTree = "<group>"; };
+		CC1D4A01F661457D003BADE3 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -343,6 +345,7 @@
 				033C8CA22F61457D003BADE3 /* PlayerData.swift */,
 				033C8CA32F61457D003BADE3 /* RandomEventResult.swift */,
 				033C8CA42F61457D003BADE3 /* SaveData.swift */,
+				CC1D4A01F661457D003BADE3 /* Transaction.swift */,
 				033C8CA52F61457D003BADE3 /* TutorialData.swift */,
 				033C8CA62F61457D003BADE3 /* VendorData.swift */,
 				033C8CA72F61457D003BADE3 /* VendorRelationship.swift */,
@@ -779,6 +782,7 @@
 				BB1A2C02F661457D003BADE3 /* GameTheme.swift in Sources */,
 				BB2D3E02F661457D003BADE3 /* OfficeDeskView.swift in Sources */,
 				BB3F4A02F661457D003BADE3 /* PhoneOverlayView.swift in Sources */,
+				CC1D4A02F661457D003BADE3 /* Transaction.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

@@ -26,7 +26,7 @@ struct AdvanceSystem: AdvanceSystemProtocol {
 
     // MARK: - Init
 
-    init(startDate: GameDate = GameDate(month: 3, day: 1, year: 1)) {
+    init(startDate: GameDate = GameDate(month: 3, day: 1, year: 2026)) {
         self.currentDate = startDate
         self.scheduledActivities = []
         self.nextScheduledInquiryDate = nil

@@ -6,6 +6,7 @@ import SwiftUI
 struct PhoneOverlayView: View {
     @Environment(GameManager.self) private var gameManager
     @Binding var isPresented: Bool
+    var initialApp: PhoneApp?
     @State private var selectedApp: PhoneApp?
 
     var body: some View {
@@ -64,6 +65,11 @@ struct PhoneOverlayView: View {
                 .background(GameTheme.Colors.background)
                 .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.large))
                 .padding(.horizontal, GameTheme.Spacing.xs)
+            }
+        }
+        .onAppear {
+            if let app = initialApp {
+                selectedApp = app
             }
         }
     }
@@ -216,22 +222,37 @@ extension PhoneApp {
 
 struct PhoneCalendarView: View {
     @Environment(GameManager.self) private var gameManager
+    @State private var expandedEventId: String?
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: GameTheme.Spacing.sm) {
                 ForEach(gameManager.activeEvents) { event in
-                    HStack {
-                        VStack(alignment: .leading, spacing: 4) {
-                            Text(event.eventTitle)
-                                .font(GameTheme.Typography.h3)
-                                .foregroundStyle(GameTheme.Colors.textPrimary)
-                            Text(event.eventDate.formatted)
-                                .font(GameTheme.Typography.caption)
-                                .foregroundStyle(GameTheme.Colors.textSecondary)
+                    VStack(alignment: .leading, spacing: 0) {
+                        Button(action: {
+                            withAnimation(GameTheme.Anim.panelSlide) {
+                                expandedEventId = expandedEventId == event.id ? nil : event.id
+                            }
+                        }) {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 4) {
+                                    Text(event.eventTitle)
+                                        .font(GameTheme.Typography.h3)
+                                        .foregroundStyle(GameTheme.Colors.textPrimary)
+                                    Text(event.eventDate.formatted)
+                                        .font(GameTheme.Typography.caption)
+                                        .foregroundStyle(GameTheme.Colors.textSecondary)
+                                }
+                                Spacer()
+                                PhaseBadge(phase: event.phase)
+                            }
                         }
-                        Spacer()
-                        PhaseBadge(phase: event.phase)
+
+                        // Expanded: show notes from completed activities
+                        if expandedEventId == event.id {
+                            eventNotes(for: event.id)
+                                .padding(.top, GameTheme.Spacing.sm)
+                        }
                     }
                     .surfaceCard()
                 }
@@ -247,25 +268,118 @@ struct PhoneCalendarView: View {
             .padding(.horizontal, GameTheme.Spacing.md)
         }
     }
+
+    @ViewBuilder
+    private func eventNotes(for eventId: String) -> some View {
+        let completedActivities = gameManager.advanceSystem
+            .getActivitiesForEvent(eventId: eventId)
+            .filter { $0.status == .completed }
+
+        if completedActivities.isEmpty {
+            Text("No notes yet")
+                .font(GameTheme.Typography.caption)
+                .foregroundStyle(GameTheme.Colors.textMuted)
+        } else {
+            VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
+                Text("Notes")
+                    .font(GameTheme.Typography.micro)
+                    .fontWeight(.bold)
+                    .foregroundStyle(GameTheme.Colors.textMuted)
+
+                ForEach(completedActivities) { activity in
+                    VStack(alignment: .leading, spacing: 4) {
+                        HStack(spacing: 4) {
+                            Image(systemName: activity.medium == .call ? "phone.fill" : "envelope.fill")
+                                .font(GameTheme.Typography.micro)
+                            Text(activity.content.subject)
+                                .font(GameTheme.Typography.caption)
+                                .fontWeight(.medium)
+                            Spacer()
+                            Text(activity.scheduledDate.shortFormatted)
+                                .font(GameTheme.Typography.micro)
+                                .foregroundStyle(GameTheme.Colors.textMuted)
+                        }
+                        .foregroundStyle(GameTheme.Colors.textSecondary)
+
+                        // Show transcript if it exists
+                        if let transcript = activity.content.dialogueTranscript, !transcript.isEmpty {
+                            VStack(alignment: .leading, spacing: 4) {
+                                ForEach(Array(transcript.enumerated()), id: \.offset) { _, line in
+                                    HStack(alignment: .top, spacing: 6) {
+                                        Text(line.speaker == .client ? "Them:" : "You:")
+                                            .font(GameTheme.Typography.micro)
+                                            .fontWeight(.bold)
+                                            .foregroundStyle(line.speaker == .client ? GameTheme.Colors.accent : GameTheme.Colors.success)
+                                            .frame(width: 36, alignment: .leading)
+                                        Text(line.text)
+                                            .font(GameTheme.Typography.micro)
+                                            .foregroundStyle(GameTheme.Colors.textSecondary)
+                                    }
+                                }
+                            }
+                            .padding(GameTheme.Spacing.xs)
+                            .background(GameTheme.Colors.elevated)
+                            .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
+                        }
+                    }
+                }
+            }
+        }
+    }
 }
 
 struct PhoneBankView: View {
     @Environment(GameManager.self) private var gameManager
 
     var body: some View {
-        VStack(spacing: GameTheme.Spacing.lg) {
-            VStack(spacing: GameTheme.Spacing.xs) {
-                Text("Balance")
-                    .font(GameTheme.Typography.caption)
-                    .foregroundStyle(GameTheme.Colors.textMuted)
-                Text("$\(gameManager.playerData.money, specifier: "%.0f")")
-                    .font(GameTheme.Typography.display)
-                    .foregroundStyle(GameTheme.Colors.money)
-            }
-            .frame(maxWidth: .infinity)
-            .padding(.top, GameTheme.Spacing.xl)
+        ScrollView {
+            VStack(spacing: GameTheme.Spacing.lg) {
+                // Balance
+                VStack(spacing: GameTheme.Spacing.xs) {
+                    Text("Balance")
+                        .font(GameTheme.Typography.caption)
+                        .foregroundStyle(GameTheme.Colors.textMuted)
+                    Text("$\(gameManager.playerData.money, specifier: "%.0f")")
+                        .font(GameTheme.Typography.display)
+                        .foregroundStyle(GameTheme.Colors.money)
+                }
+                .frame(maxWidth: .infinity)
+                .padding(.top, GameTheme.Spacing.md)
 
-            Spacer()
+                // Transaction history
+                if !gameManager.transactions.isEmpty {
+                    VStack(alignment: .leading, spacing: GameTheme.Spacing.sm) {
+                        Text("Recent Transactions")
+                            .font(GameTheme.Typography.h3)
+                            .foregroundStyle(GameTheme.Colors.textPrimary)
+                            .padding(.horizontal, GameTheme.Spacing.md)
+
+                        ForEach(gameManager.transactions.reversed()) { tx in
+                            HStack {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(tx.description)
+                                        .font(GameTheme.Typography.caption)
+                                        .foregroundStyle(GameTheme.Colors.textPrimary)
+                                    Text(tx.date.shortFormatted)
+                                        .font(GameTheme.Typography.micro)
+                                        .foregroundStyle(GameTheme.Colors.textMuted)
+                                }
+                                Spacer()
+                                Text("\(tx.isIncome ? "+" : "")$\(abs(tx.amount), specifier: "%.0f")")
+                                    .font(GameTheme.Typography.money)
+                                    .foregroundStyle(tx.isIncome ? GameTheme.Colors.success : GameTheme.Colors.error)
+                            }
+                            .surfaceCard()
+                            .padding(.horizontal, GameTheme.Spacing.md)
+                        }
+                    }
+                } else {
+                    Text("No transactions yet")
+                        .font(GameTheme.Typography.body)
+                        .foregroundStyle(GameTheme.Colors.textMuted)
+                        .padding(.top, GameTheme.Spacing.lg)
+                }
+            }
         }
     }
 }

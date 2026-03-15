@@ -6,6 +6,7 @@ import SwiftUI
 struct OfficeDeskView: View {
     @Environment(GameManager.self) private var gameManager
     @State private var showPhone = false
+    @State private var phoneOpenToApp: PhoneApp?
     @State private var showAdvanceConfirm = false
 
     var body: some View {
@@ -32,9 +33,10 @@ struct OfficeDeskView: View {
 
             // Phone overlay
             if showPhone {
-                PhoneOverlayView(isPresented: $showPhone)
+                PhoneOverlayView(isPresented: $showPhone, initialApp: phoneOpenToApp)
                     .transition(.move(edge: .bottom))
                     .zIndex(10)
+                    .onDisappear { phoneOpenToApp = nil }
             }
 
             // Tutorial overlay
@@ -116,9 +118,10 @@ struct OfficeDeskView: View {
                         deskItem(
                             icon: "iphone",
                             label: "Phone",
-                            badge: gameManager.inboxActivities.count + gameManager.pendingInquiries.count,
+                            badge: gameManager.inboxActivities.count,
                             color: GameTheme.Colors.accent
                         ) {
+                            phoneOpenToApp = nil
                             showPhone = true
                         }
 
@@ -130,7 +133,8 @@ struct OfficeDeskView: View {
                             badge: gameManager.pendingInquiries.count,
                             color: GameTheme.Colors.warning
                         ) {
-                            // TODO: Open mail/inquiries
+                            phoneOpenToApp = .clients
+                            showPhone = true
                         }
                     }
                 }
