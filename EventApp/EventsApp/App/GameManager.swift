@@ -1,8 +1,9 @@
 import Foundation
 import Observation
 
-/// Central game state manager - replaces Unity's GameManager MonoBehaviour singleton.
-/// Uses @Observable so SwiftUI views react to state changes with fine-grained invalidation.
+/// Central game state manager. Uses @Observable for SwiftUI reactivity.
+/// Game progression is turn-based: the player makes decisions, then taps
+/// Advance to jump to the next date with pending activities.
 @Observable
 class GameManager: GameContext {
     var gameState: GameState = .mainMenu
@@ -16,9 +17,11 @@ class GameManager: GameContext {
     var activeEvents: [EventData] = []
     var completedEvents: [EventData] = []
     var lastCompletedEvent: EventData?
+    var vendorRelationships: [String: VendorRelationship] = [:]
 
     // MARK: - Systems
 
+    var advanceSystem: AdvanceSystem
     let timeSystem: TimeSystem
     let satisfactionCalculator: SatisfactionCalculator
     let eventPlanningSystem: EventPlanningSystem
@@ -33,16 +36,21 @@ class GameManager: GameContext {
     let emergencyFundingSystem: EmergencyFundingSystem
     let tutorialSystem: TutorialSystem
 
-    // MARK: - Game Loop
+    // MARK: - Convenience Accessors
 
-    private var gameLoopTimer: Timer?
-    private var lastTickDate: Date?
-    private var inquiryAccumulator: Double = 0
-    private var nextInquiryInterval: Double = 0
+    /// Current game date — views should use this instead of timeSystem.currentDate.
+    var currentDate: GameDate { advanceSystem.currentDate }
+
+    /// Activities currently in the player's inbox (ready on today's date).
+    var inboxActivities: [PlanningActivity] { advanceSystem.getInboxActivities() }
+
+    /// Whether there are unread inbox items.
+    var hasInboxItems: Bool { !inboxActivities.isEmpty }
 
     init() {
         let startDate = GameDate(month: 3, day: 1, year: 1)
-        timeSystem = TimeSystem(startDate: startDate)
+        advanceSystem = AdvanceSystem(startDate: startDate)
+        timeSystem = TimeSystem()
         satisfactionCalculator = SatisfactionCalculator()
         eventPlanningSystem = EventPlanningSystem()
         referralSystem = ReferralSystem()
@@ -70,8 +78,9 @@ class GameManager: GameContext {
         activeEvents = []
         completedEvents = []
         lastCompletedEvent = nil
+        vendorRelationships = [:]
 
-        timeSystem.setCurrentDate(saveData.currentDate)
+        advanceSystem = AdvanceSystem(startDate: saveData.currentDate)
         weatherSystem.setCurrentDate(saveData.currentDate)
         weatherSystem.regenerateForecasts()
         achievementSystem.resetAll()
@@ -90,15 +99,13 @@ class GameManager: GameContext {
             )
         }
 
+        // Schedule the first inquiry
+        advanceSystem.scheduleNextInquiry(stage: playerData.stageNumber, reputation: playerData.reputation)
+
         // Start tutorial
         startTutorial()
-
         gameState = .tutorial
         isInitialized = true
-
-        // Start game loop (time is paused during early tutorial)
-        timeSystem.pause()
-        startGameLoop()
     }
 
     func continueGame() {
@@ -107,13 +114,10 @@ class GameManager: GameContext {
 
     func pauseGame() {
         gameState = .paused
-        timeSystem.pause()
     }
 
     func resumeGame() {
         gameState = .playing
-        timeSystem.resume()
-        lastTickDate = Date()
     }
 
     func showSettings() {
@@ -121,77 +125,68 @@ class GameManager: GameContext {
     }
 
     func returnToMainMenu() {
-        stopGameLoop()
         gameState = .mainMenu
     }
 
-    // MARK: - Game Loop
+    // MARK: - Turn-Based Advancement
 
-    private func startGameLoop() {
-        lastTickDate = Date()
-        nextInquiryInterval = eventPlanningSystem.calculateAdjustedInquiryInterval(
-            stage: playerData.stageNumber,
-            reputation: playerData.reputation
-        ) * 60.0
-        inquiryAccumulator = 0
+    /// Called when the player taps the Advance button.
+    /// Finds the next decision point, advances time, and presents inbox.
+    func advanceToNextPoint() {
+        // Check for overdue activities before advancing
+        let overdueWarnings = advanceSystem.processOverdueActivities()
+        processOverdueVendorImpacts(overdueWarnings)
 
-        gameLoopTimer = Timer.scheduledTimer(withTimeInterval: 1.0, repeats: true) { [weak self] _ in
-            self?.gameTick()
-        }
-    }
-
-    private func stopGameLoop() {
-        gameLoopTimer?.invalidate()
-        gameLoopTimer = nil
-    }
-
-    private func gameTick() {
-        guard gameState == .playing || gameState == .tutorial else { return }
-        guard !timeSystem.isPaused else { return }
-
-        let now = Date()
-        let deltaTime = now.timeIntervalSince(lastTickDate ?? now)
-        lastTickDate = now
-
-        let previousDate = timeSystem.currentDate
-
-        // Advance game time
-        timeSystem.advanceTime(deltaTime: deltaTime, stage: playerData.stageNumber)
-
-        let currentDate = timeSystem.currentDate
-
-        // Day changed — daily processing
-        if currentDate != previousDate {
-            onDayChanged(from: previousDate, to: currentDate)
+        guard let nextPoint = advanceSystem.findNextDecisionPoint() else {
+            // Nothing scheduled — generate an inquiry and try again
+            advanceSystem.scheduleNextInquiry(stage: playerData.stageNumber, reputation: playerData.reputation)
+            guard let fallbackPoint = advanceSystem.findNextDecisionPoint() else { return }
+            performAdvance(to: fallbackPoint)
+            return
         }
 
-        // Inquiry generation (only while playing, not tutorial)
-        if gameState == .playing {
-            inquiryAccumulator += deltaTime
-            if inquiryAccumulator >= nextInquiryInterval {
-                generateNewInquiry()
-                inquiryAccumulator = 0
-                nextInquiryInterval = eventPlanningSystem.calculateAdjustedInquiryInterval(
-                    stage: playerData.stageNumber,
-                    reputation: playerData.reputation
-                ) * 60.0
+        performAdvance(to: nextPoint)
+    }
+
+    private func performAdvance(to point: DecisionPoint) {
+        let previousDate = advanceSystem.currentDate
+
+        // Advance — this marks activities as ready and flags overdue ones
+        let overdueActivities = advanceSystem.advance(to: point)
+        processOverdueVendorImpacts(overdueActivities)
+
+        // Process each day that was skipped for weather updates
+        var walkDate = previousDate
+        while walkDate < point.date {
+            walkDate = walkDate.adding(days: 1)
+            weatherSystem.advanceDay(to: walkDate)
+        }
+
+        saveData.currentDate = advanceSystem.currentDate
+
+        // Check if today is an inquiry day
+        if let inquiryDate = advanceSystem.nextScheduledInquiryDate,
+           inquiryDate <= advanceSystem.currentDate {
+            generateNewInquiry()
+            advanceSystem.scheduleNextInquiry(stage: playerData.stageNumber, reputation: playerData.reputation)
+        }
+
+        // Process event phases for the new date
+        processEventPhases(currentDate: advanceSystem.currentDate)
+    }
+
+    private func processOverdueVendorImpacts(_ overdueActivities: [PlanningActivity]) {
+        for activity in overdueActivities {
+            guard let vendorId = activity.vendorId else { continue }
+            if vendorRelationships[vendorId] != nil {
+                vendorRelationships[vendorId]?.recordMissedDeadline()
             }
         }
-
-        // Expire old inquiries
-        pendingInquiries.removeAll { $0.isExpired }
-    }
-
-    private func onDayChanged(from previousDate: GameDate, to currentDate: GameDate) {
-        weatherSystem.advanceDay(to: currentDate)
-        saveData.currentDate = currentDate
-        processEventPhases(currentDate: currentDate)
     }
 
     // MARK: - Event Phase Processing
 
     private func processEventPhases(currentDate: GameDate) {
-        // Process in reverse so removals don't shift indices
         for i in stride(from: activeEvents.count - 1, through: 0, by: -1) {
             guard let acceptedDate = activeEvents[i].acceptedDate else { continue }
 
@@ -231,7 +226,6 @@ class GameManager: GameContext {
         let serviceScore = 65.0
         let expectationScore = calculateExpectationScore(for: event)
 
-        // Random events
         let randomEvents = consequenceSystem.evaluateRandomEvents(event: event, stage: playerData.stageNumber)
         let randomModifier = 1.0 + (consequenceSystem.calculateRandomEventModifier(results: randomEvents) / 100.0)
 
@@ -247,12 +241,10 @@ class GameManager: GameContext {
 
         activeEvents[index].results = results
 
-        // Calculate satisfaction
         let client = ClientData.fromEvent(activeEvents[index])
         let satResult = satisfactionCalculator.calculate(event: activeEvents[index], client: client)
         activeEvents[index].results?.finalSatisfaction = satResult.finalSatisfaction
 
-        // Calculate profit
         let profitResult = profitCalculator.calculateProfit(
             revenue: event.budget.total,
             costs: satResult.finalSatisfaction
@@ -267,7 +259,6 @@ class GameManager: GameContext {
         let satisfaction = event.results?.finalSatisfaction ?? 50
         let profit = event.results?.profit ?? 0
 
-        // Apply reputation
         let repChange = progressionSystem.applyEventResult(
             satisfaction: satisfaction,
             currentReputation: playerData.reputation,
@@ -276,27 +267,32 @@ class GameManager: GameContext {
         playerData.reputation = repChange.newReputation
         event.results?.reputationChange = repChange.change
 
-        // Apply profit
         playerData.money += profit
 
-        // Generate feedback
         event.results?.clientFeedback = generateFeedback(satisfaction: satisfaction, tier: repChange.satisfactionTier)
 
-        // Referral check
         let referralResult = referralSystem.evaluateReferral(
             satisfaction: satisfaction,
             excellenceStreak: saveData.excellenceStreak
         )
         event.results?.triggeredReferral = referralResult.wasReferred
 
-        // Update excellence streak
         let streakResult = referralSystem.updateExcellenceStreak(
             currentStreak: saveData.excellenceStreak,
             satisfaction: satisfaction
         )
         saveData.excellenceStreak = streakResult.newStreak
 
-        // Move to completed
+        // Mark vendor bookings as completed
+        for assignment in event.vendors {
+            if vendorRelationships[assignment.vendorId] != nil {
+                vendorRelationships[assignment.vendorId]?.recordCompletedBooking()
+            }
+        }
+
+        // Cancel any remaining scheduled activities for this event
+        advanceSystem.cancelActivitiesForEvent(eventId: event.id)
+
         activeEvents.remove(at: index)
         completedEvents.append(event)
         lastCompletedEvent = event
@@ -304,7 +300,6 @@ class GameManager: GameContext {
         playerData.completedEventIds.append(event.id)
         playerData.activeEventIds.removeAll { $0 == event.id }
 
-        // Tutorial: advance if at viewResults step
         if tutorialSystem.isTutorialActive && tutorialSystem.currentStep == .eventExecution {
             advanceTutorial()
         }
@@ -318,14 +313,12 @@ class GameManager: GameContext {
 
         var score = venue.ambianceRating
 
-        // Overcrowding penalty
         if event.guestCount > venue.capacityComfortable {
             let overPercent = Double(event.guestCount - venue.capacityComfortable)
                 / Double(max(1, venue.capacityMax - venue.capacityComfortable))
             score -= overPercent * 20
         }
 
-        // Weather risk for outdoor venues
         if venue.weatherDependent {
             let risk = weatherSystem.getSimplifiedRisk(for: event.eventDate)
             switch risk {
@@ -380,18 +373,40 @@ class GameManager: GameContext {
         let inquiry = eventPlanningSystem.generateInquiry(
             stage: playerData.stageNumber,
             reputation: playerData.reputation,
-            currentDate: timeSystem.currentDate
+            currentDate: advanceSystem.currentDate
         )
         pendingInquiries.append(inquiry)
     }
 
     func acceptInquiry(_ inquiry: ClientInquiry) {
-        let event = eventPlanningSystem.acceptInquiry(inquiry, currentDate: timeSystem.currentDate)
+        let event = eventPlanningSystem.acceptInquiry(inquiry, currentDate: advanceSystem.currentDate)
         activeEvents.append(event)
         playerData.activeEventIds.append(event.id)
         pendingInquiries.removeAll { $0.inquiryId == inquiry.inquiryId }
 
-        // Tutorial: advance if at acceptClient step
+        // Schedule the client meeting (1-3 days after accepting)
+        let meetingDaysOffset = Int.random(in: 1...3)
+        let meetingDate = advanceSystem.currentDate.adding(days: meetingDaysOffset)
+
+        let transcript = generateClientMeetingTranscript(event: event)
+        let requirements = deriveRequirementsFromEvent(event: event)
+
+        let meetingActivity = PlanningActivity.create(
+            eventId: event.id,
+            clientName: event.clientName,
+            type: .clientMeeting,
+            medium: .call,
+            scheduledDate: meetingDate,
+            content: ActivityContent(
+                senderName: event.clientName,
+                subject: "Call with \(event.clientName) — \(event.subCategory)",
+                body: "",
+                dialogueTranscript: transcript,
+                revealedRequirements: requirements
+            )
+        )
+        advanceSystem.scheduleActivity(meetingActivity)
+
         if tutorialSystem.isTutorialActive && tutorialSystem.currentStep == .acceptClient {
             advanceTutorial()
         }
@@ -402,7 +417,117 @@ class GameManager: GameContext {
         pendingInquiries.removeAll { $0.inquiryId == inquiry.inquiryId }
     }
 
-    // MARK: - Venue & Vendor Assignment
+    // MARK: - Vendor Process Initiation
+
+    /// Player initiates contact with a vendor for an event.
+    /// Schedules the availability check and response activities.
+    func initiateVendorContact(eventId: String, vendor: VendorData) {
+        // Create or get vendor relationship
+        if vendorRelationships[vendor.id] == nil {
+            vendorRelationships[vendor.id] = VendorRelationship.createNew(vendorId: vendor.id)
+        }
+
+        guard let relationship = vendorRelationships[vendor.id],
+              relationship.willAcceptBooking else { return }
+
+        vendorRelationships[vendor.id]?.recordBookingStarted()
+
+        // Step 1: Availability request (immediate — same day, player-initiated)
+        let requestActivity = PlanningActivity.create(
+            eventId: eventId,
+            vendorId: vendor.id,
+            vendorCategory: vendor.category,
+            type: .vendorAvailabilityRequest,
+            medium: .email,
+            scheduledDate: advanceSystem.currentDate,
+            content: ActivityContent(
+                senderName: "You",
+                subject: "Availability inquiry — \(vendor.vendorName)",
+                body: "Sent availability request to \(vendor.vendorName) for your event."
+            )
+        )
+        advanceSystem.scheduleActivity(requestActivity)
+        advanceSystem.completeActivity(id: requestActivity.id)
+
+        // Step 2: Availability response (1-2 days, vendor-initiated)
+        let responseSpeedBonus = relationship.responseSpeedBonus
+        let responseDays = max(1, Int.random(in: 1...2) - responseSpeedBonus)
+        let responseDate = advanceSystem.currentDate.adding(days: responseDays)
+
+        let responseActivity = PlanningActivity.create(
+            eventId: eventId,
+            vendorId: vendor.id,
+            vendorCategory: vendor.category,
+            type: .vendorAvailabilityResponse,
+            medium: .email,
+            scheduledDate: responseDate,
+            responseDeadline: responseDate.adding(days: 3),
+            content: ActivityContent(
+                senderName: vendor.vendorName,
+                subject: "Re: Availability inquiry",
+                body: "" // Will be populated when the activity becomes ready
+            )
+        )
+        advanceSystem.scheduleActivity(responseActivity)
+    }
+
+    /// Player sends a negotiation offer to a vendor.
+    func sendNegotiationOffer(activityId: String, eventId: String, vendor: VendorData, offerAmount: Double) {
+        advanceSystem.completeActivity(id: activityId)
+
+        guard let relationship = vendorRelationships[vendor.id] else { return }
+
+        // Record the offer
+        let offerActivity = PlanningActivity.create(
+            eventId: eventId,
+            vendorId: vendor.id,
+            vendorCategory: vendor.category,
+            type: .vendorNegotiationOffer,
+            medium: .email,
+            scheduledDate: advanceSystem.currentDate,
+            content: ActivityContent(
+                senderName: "You",
+                subject: "Counter offer — \(vendor.vendorName)",
+                body: "You offered $\(Int(offerAmount)) for \(vendor.vendorName)'s services.",
+                counterOfferAmount: offerAmount
+            )
+        )
+        advanceSystem.scheduleActivity(offerActivity)
+        advanceSystem.completeActivity(id: offerActivity.id)
+
+        // Vendor responds in 1 day
+        let responseDate = advanceSystem.currentDate.adding(days: 1)
+        let negotiationRound = (getCurrentNegotiationRound(eventId: eventId, vendorId: vendor.id)) + 1
+
+        let responseActivity = PlanningActivity.create(
+            eventId: eventId,
+            vendorId: vendor.id,
+            vendorCategory: vendor.category,
+            type: .vendorNegotiationResponse,
+            medium: .email,
+            scheduledDate: responseDate,
+            responseDeadline: responseDate.adding(days: 3),
+            content: ActivityContent(
+                senderName: vendor.vendorName,
+                subject: "Re: Your offer",
+                body: "", // Populated on delivery based on negotiation logic
+                negotiationRound: negotiationRound
+            )
+        )
+        advanceSystem.scheduleActivity(responseActivity)
+
+        vendorRelationships[vendor.id]?.recordNegotiation(
+            successful: offerAmount >= vendor.basePrice * (1.0 - relationship.pricingFlexibility)
+        )
+    }
+
+    private func getCurrentNegotiationRound(eventId: String, vendorId: String) -> Int {
+        advanceSystem.getActivitiesForEvent(eventId: eventId)
+            .filter { $0.vendorId == vendorId && $0.type == .vendorNegotiationResponse }
+            .count
+    }
+
+    // MARK: - Venue & Vendor Assignment (Legacy — retained for compatibility)
 
     func assignVenue(eventIndex: Int, venue: VenueData) -> BookingResult {
         guard eventIndex >= 0 && eventIndex < activeEvents.count else {
@@ -421,7 +546,6 @@ class GameManager: GameContext {
             activeEvents[eventIndex].budget.spent += result.price
             saveData.addVenueBooking(venue.id, date: activeEvents[eventIndex].eventDate)
 
-            // Tutorial: advance if at selectVenue step
             if tutorialSystem.isTutorialActive && tutorialSystem.currentStep == .selectVenue {
                 advanceTutorial()
             }
@@ -448,13 +572,12 @@ class GameManager: GameContext {
                 category: vendor.category,
                 agreedPrice: result.price,
                 isConfirmed: true,
-                bookingDate: timeSystem.currentDate
+                bookingDate: advanceSystem.currentDate
             )
             activeEvents[eventIndex].vendors.append(assignment)
             activeEvents[eventIndex].budget.spent += result.price
             saveData.addVendorBooking(vendor.id, date: activeEvents[eventIndex].eventDate)
 
-            // Tutorial: advance if at selectCaterer step and vendor is a caterer
             if tutorialSystem.isTutorialActive && tutorialSystem.currentStep == .selectCaterer && vendor.category == .caterer {
                 advanceTutorial()
             }
@@ -463,15 +586,118 @@ class GameManager: GameContext {
         return result
     }
 
+    // MARK: - Activity Completion
+
+    /// Player completes/acknowledges an inbox activity.
+    /// Triggers follow-up activities based on the activity type.
+    func completeActivity(_ activityId: String) {
+        guard let activity = advanceSystem.scheduledActivities.first(where: { $0.id == activityId }) else {
+            advanceSystem.completeActivity(id: activityId)
+            return
+        }
+
+        advanceSystem.completeActivity(id: activityId)
+
+        switch activity.type {
+        case .clientMeeting:
+            onClientMeetingCompleted(activity)
+        case .clientContractSent:
+            onClientContractSent(activity)
+        case .clientContractSigned:
+            onClientContractSigned(activity)
+        case .clientDepositReceived:
+            // Deposit acknowledged — player can now start booking vendors
+            break
+        case .vendorAvailabilityResponse:
+            onVendorAvailabilityReceived(activity)
+        default:
+            break
+        }
+    }
+
+    /// After client meeting: schedule the contract.
+    private func onClientMeetingCompleted(_ activity: PlanningActivity) {
+        let contractDate = advanceSystem.currentDate.adding(days: 1)
+
+        let contractActivity = PlanningActivity.create(
+            eventId: activity.eventId,
+            clientName: activity.clientName,
+            type: .clientContractSent,
+            medium: .email,
+            scheduledDate: contractDate,
+            responseDeadline: contractDate.adding(days: 3),
+            content: ActivityContent(
+                senderName: activity.content.senderName,
+                subject: "Contract for \(activity.content.subject.replacingOccurrences(of: "Call with \(activity.content.senderName) — ", with: ""))",
+                body: "Hi! Thanks for the great conversation. I've attached the event planning contract with the details we discussed. Please review and sign at your convenience."
+            )
+        )
+        advanceSystem.scheduleActivity(contractActivity)
+    }
+
+    /// After contract sent: client signs in 1-2 days.
+    private func onClientContractSent(_ activity: PlanningActivity) {
+        let signDays = Int.random(in: 1...2)
+        let signDate = advanceSystem.currentDate.adding(days: signDays)
+
+        let signedActivity = PlanningActivity.create(
+            eventId: activity.eventId,
+            clientName: activity.clientName,
+            type: .clientContractSigned,
+            medium: .email,
+            scheduledDate: signDate,
+            content: ActivityContent(
+                senderName: activity.content.senderName,
+                subject: "Contract signed!",
+                body: "\(activity.content.senderName) has reviewed and signed the contract. They're ready to proceed with a deposit."
+            )
+        )
+        advanceSystem.scheduleActivity(signedActivity)
+    }
+
+    /// After contract signed: schedule deposit and enable vendor planning.
+    private func onClientContractSigned(_ activity: PlanningActivity) {
+        guard let eventIndex = activeEvents.firstIndex(where: { $0.id == activity.eventId }) else { return }
+        let event = activeEvents[eventIndex]
+
+        // Client deposit received (immediate)
+        let depositAmount = event.budget.total * 0.25
+        playerData.money += depositAmount
+
+        let depositActivity = PlanningActivity.create(
+            eventId: activity.eventId,
+            clientName: activity.clientName,
+            type: .clientDepositReceived,
+            medium: .email,
+            scheduledDate: advanceSystem.currentDate,
+            content: ActivityContent(
+                senderName: activity.content.senderName,
+                subject: "Deposit received — $\(Int(depositAmount))",
+                body: "\(activity.content.senderName) has signed the contract and paid a 25% deposit of $\(Int(depositAmount)). You can now begin booking vendors.",
+                depositAmount: depositAmount
+            )
+        )
+        advanceSystem.scheduleActivity(depositActivity)
+
+        // Update event status to planning
+        activeEvents[eventIndex].status = .planning
+    }
+
+    /// After vendor confirms availability: acknowledge and allow next steps.
+    private func onVendorAvailabilityReceived(_ activity: PlanningActivity) {
+        // Vendor availability responses are informational — player reads them
+        // and decides whether to proceed. Future: wire up the "send quote request"
+        // step from the inbox or event detail view.
+    }
+
     // MARK: - Tutorial
 
     private func startTutorial() {
         tutorialSystem.startTutorial()
-        // Generate one guaranteed tutorial inquiry
         let inquiry = eventPlanningSystem.generateInquiry(
             stage: 1,
             reputation: 0,
-            currentDate: timeSystem.currentDate
+            currentDate: advanceSystem.currentDate
         )
         pendingInquiries.append(inquiry)
     }
@@ -479,34 +705,220 @@ class GameManager: GameContext {
     func advanceTutorial() {
         tutorialSystem.advanceStep()
 
-        // At eventExecution step, start time flowing
-        if tutorialSystem.currentStep == .eventExecution {
+        // Once the player reaches the "advance to event day" step,
+        // or completes the tutorial, switch to normal play mode
+        // so they can use the Advance button freely.
+        if tutorialSystem.currentStep == .eventExecution || tutorialSystem.isTutorialComplete {
             gameState = .playing
-            timeSystem.resume()
-            lastTickDate = Date()
-        }
-
-        // Tutorial complete
-        if tutorialSystem.isTutorialComplete {
-            gameState = .playing
-            timeSystem.resume()
-            lastTickDate = Date()
         }
     }
 
     func skipTutorial() {
         tutorialSystem.skipTutorial()
         gameState = .playing
-        timeSystem.resume()
-        lastTickDate = Date()
     }
 
     func dismissResults() {
         lastCompletedEvent = nil
 
-        // Tutorial: advance if at viewResults step
         if tutorialSystem.isTutorialActive && tutorialSystem.currentStep == .viewResults {
             advanceTutorial()
         }
+    }
+
+    // MARK: - Client Meeting Dialogue Generation
+
+    /// Generates a conversation transcript for a client meeting.
+    /// The client drops hints about their personality, budget, and requirements.
+    /// The player reads this as their "notepad" for later vendor decisions.
+    private func generateClientMeetingTranscript(event: EventData) -> [DialogueLine] {
+        var lines: [DialogueLine] = []
+
+        // Opening — player greets
+        lines.append(DialogueLine(speaker: .player, text: "Thanks for taking the time to chat, \(event.clientName). Tell me about your \(event.subCategory)!"))
+
+        // Client describes the event — personality colors the tone
+        lines.append(contentsOf: eventDescriptionLines(event: event))
+
+        // Budget signals — personality determines how they talk about money
+        lines.append(contentsOf: budgetSignalLines(event: event))
+
+        // Guest count and venue hints
+        lines.append(contentsOf: venueHintLines(event: event))
+
+        // Vendor requirements — what they care about
+        lines.append(contentsOf: vendorRequirementLines(event: event))
+
+        // Closing
+        lines.append(DialogueLine(speaker: .player, text: "I've got a great picture of what you're looking for. I'll put together some options and send over a contract."))
+        lines.append(contentsOf: closingLines(event: event))
+
+        return lines
+    }
+
+    private func eventDescriptionLines(event: EventData) -> [DialogueLine] {
+        switch event.personality {
+        case .easyGoing:
+            return [
+                DialogueLine(speaker: .client, text: "We're really looking forward to it! Honestly, as long as everyone has a good time, I'm happy."),
+                DialogueLine(speaker: .client, text: "We're pretty flexible on most things — just want it to feel fun and relaxed.")
+            ]
+        case .budgetConscious:
+            return [
+                DialogueLine(speaker: .client, text: "I've been planning this for a while. I want it to be nice, but I need to be realistic about what we can afford."),
+                DialogueLine(speaker: .client, text: "I've done some research on prices and I have a pretty firm idea of what we should be spending.")
+            ]
+        case .perfectionist:
+            return [
+                DialogueLine(speaker: .client, text: "I have a very specific vision for this. I've put together a Pinterest board and I know exactly what I want."),
+                DialogueLine(speaker: .client, text: "The details really matter to me. I'd rather spend more and get it right than cut corners.")
+            ]
+        case .demanding:
+            return [
+                DialogueLine(speaker: .client, text: "I expect this to be top-notch. I've been to a lot of events and I know what good looks like."),
+                DialogueLine(speaker: .client, text: "I need you to be on top of every detail. I'll be checking in frequently.")
+            ]
+        case .indecisive:
+            return [
+                DialogueLine(speaker: .client, text: "I have a few ideas but honestly I keep going back and forth. There are so many options!"),
+                DialogueLine(speaker: .client, text: "Maybe you can help me narrow things down? I trust your expertise.")
+            ]
+        case .celebrity:
+            return [
+                DialogueLine(speaker: .client, text: "This needs to be memorable. People will be talking about this, if you know what I mean."),
+                DialogueLine(speaker: .client, text: "I need discretion, but also... it should look incredible. No compromises.")
+            ]
+        }
+    }
+
+    private func budgetSignalLines(event: EventData) -> [DialogueLine] {
+        let budget = event.budget.total
+
+        lines_player()
+
+        switch event.personality {
+        case .easyGoing:
+            return [
+                DialogueLine(speaker: .player, text: "What kind of budget are you working with?"),
+                DialogueLine(speaker: .client, text: "We've got around $\(budgetHint(budget)) set aside. If we go a little over, it's not the end of the world.")
+            ]
+        case .budgetConscious:
+            return [
+                DialogueLine(speaker: .player, text: "Let's talk budget — what range are you comfortable with?"),
+                DialogueLine(speaker: .client, text: "I need to keep it under $\(budgetCeiling(budget)). That's a hard number for us. Every dollar counts.")
+            ]
+        case .perfectionist:
+            return [
+                DialogueLine(speaker: .player, text: "Do you have a budget in mind?"),
+                DialogueLine(speaker: .client, text: "I'm willing to invest what it takes to get the quality I want. I'm thinking around $\(budgetHint(budget)), but I'd go higher for the right vendors.")
+            ]
+        case .demanding:
+            return [
+                DialogueLine(speaker: .player, text: "What's your budget looking like?"),
+                DialogueLine(speaker: .client, text: "Money isn't my main concern — results are. But let's keep it reasonable. I'd say around $\(budgetHint(budget)).")
+            ]
+        case .indecisive:
+            return [
+                DialogueLine(speaker: .player, text: "Have you thought about budget?"),
+                DialogueLine(speaker: .client, text: "Hmm, I'm not totally sure. Maybe $\(budgetLow(budget))? Or $\(budgetHigh(budget))? What do most people spend on something like this?")
+            ]
+        case .celebrity:
+            return [
+                DialogueLine(speaker: .player, text: "What should I plan around budget-wise?"),
+                DialogueLine(speaker: .client, text: "I'll leave that to you. Just make sure it's done right. I'd expect something in the $\(budgetHint(budget)) range, minimum.")
+            ]
+        }
+    }
+
+    private func venueHintLines(event: EventData) -> [DialogueLine] {
+        let guests = event.guestCount
+        return [
+            DialogueLine(speaker: .player, text: "How many guests are you expecting?"),
+            DialogueLine(speaker: .client, text: "We're looking at about \(guests) people. Maybe a few more if some plus-ones come through.")
+        ]
+    }
+
+    private func vendorRequirementLines(event: EventData) -> [DialogueLine] {
+        // Stage 1 events need venue + caterer
+        var lines: [DialogueLine] = []
+
+        lines.append(DialogueLine(speaker: .player, text: "What's most important to you for the event?"))
+
+        switch event.personality {
+        case .easyGoing:
+            lines.append(DialogueLine(speaker: .client, text: "Good food is a must — people always remember the food. The venue just needs to fit everyone comfortably."))
+        case .budgetConscious:
+            lines.append(DialogueLine(speaker: .client, text: "Food is the priority. I'd rather have great food in a simple space than fancy decor with mediocre catering."))
+        case .perfectionist:
+            lines.append(DialogueLine(speaker: .client, text: "Everything. But if I had to pick — the venue sets the tone, and the food has to match the quality. I don't want a beautiful space with disappointing catering."))
+        case .demanding:
+            lines.append(DialogueLine(speaker: .client, text: "The venue needs to impress, and the food needs to be flawless. I'll notice if either is off."))
+        case .indecisive:
+            lines.append(DialogueLine(speaker: .client, text: "I think the food? Or maybe the venue? Both are important, right? What do you usually recommend?"))
+        case .celebrity:
+            lines.append(DialogueLine(speaker: .client, text: "The ambiance. People need to walk in and feel something. And the food — it has to be Instagram-worthy."))
+        }
+
+        return lines
+    }
+
+    private func closingLines(event: EventData) -> [DialogueLine] {
+        switch event.personality {
+        case .easyGoing:
+            return [DialogueLine(speaker: .client, text: "Sounds great! I'm excited. Just let me know what you need from me.")]
+        case .budgetConscious:
+            return [DialogueLine(speaker: .client, text: "Perfect. Just please keep me posted on costs as we go — I don't want any surprises on the final bill.")]
+        case .perfectionist:
+            return [DialogueLine(speaker: .client, text: "I'll send you my Pinterest board. I want to approve everything before it's finalized.")]
+        case .demanding:
+            return [DialogueLine(speaker: .client, text: "Good. I'll expect regular updates. Don't wait until the last minute to tell me if something's wrong.")]
+        case .indecisive:
+            return [DialogueLine(speaker: .client, text: "Thank you so much! I feel better already having someone to guide me through this.")]
+        case .celebrity:
+            return [DialogueLine(speaker: .client, text: "My assistant will handle the contract details. Looking forward to seeing what you put together.")]
+        }
+    }
+
+    // Budget hint helpers — vague enough that the player has to interpret
+    private func budgetHint(_ budget: Double) -> String {
+        let rounded = Int((budget / 100).rounded()) * 100
+        return "\(rounded)"
+    }
+
+    private func budgetCeiling(_ budget: Double) -> String {
+        let ceiling = Int((budget * 1.05 / 100).rounded()) * 100
+        return "\(ceiling)"
+    }
+
+    private func budgetLow(_ budget: Double) -> String {
+        let low = Int((budget * 0.8 / 100).rounded()) * 100
+        return "\(low)"
+    }
+
+    private func budgetHigh(_ budget: Double) -> String {
+        let high = Int((budget * 1.2 / 100).rounded()) * 100
+        return "\(high)"
+    }
+
+    private func lines_player() {
+        // Placeholder for future interactive call mode
+    }
+
+    /// Derive vendor requirements based on event type (Stage 1: venue + caterer).
+    private func deriveRequirementsFromEvent(event: EventData) -> [String] {
+        var requirements = ["Venue", "Caterer"]
+
+        if playerData.stageNumber >= 2 {
+            switch event.eventTypeId {
+            case "AdultBirthday", "EngagementParty", "MilestoneBirthday":
+                requirements.append("Entertainer")
+            case "CorporateMeeting":
+                requirements.append("AV Technician")
+            default:
+                break
+            }
+        }
+
+        return requirements
     }
 }

@@ -54,7 +54,8 @@ class EventPlanningSystem: EventPlanningSystemProtocol {
             personality: personality,
             budget: budget,
             guestCount: guestCount,
-            eventDate: eventDate
+            eventDate: eventDate,
+            arrivedDate: currentDate
         )
     }
 

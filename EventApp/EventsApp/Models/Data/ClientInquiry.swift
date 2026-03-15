@@ -12,16 +12,9 @@ struct ClientInquiry: Codable, Equatable, Identifiable {
     var guestCount: Int
     var eventDate: GameDate
     var specialRequirements: [String]
-    var createdTime: Date
-    var expiresTime: Date
+    var arrivedDate: GameDate
     var isReferral: Bool
     var referredByClientName: String?
-
-    static let expirationMinutes: Int = 20
-
-    var isExpired: Bool {
-        Date() > expiresTime
-    }
 
     static func create(
         clientName: String,
@@ -30,10 +23,10 @@ struct ClientInquiry: Codable, Equatable, Identifiable {
         personality: ClientPersonality,
         budget: Int,
         guestCount: Int,
-        eventDate: GameDate
+        eventDate: GameDate,
+        arrivedDate: GameDate
     ) -> ClientInquiry {
-        let now = Date()
-        return ClientInquiry(
+        ClientInquiry(
             inquiryId: UUID().uuidString,
             clientName: clientName,
             eventTypeId: eventTypeId,
@@ -44,8 +37,7 @@ struct ClientInquiry: Codable, Equatable, Identifiable {
             guestCount: guestCount,
             eventDate: eventDate,
             specialRequirements: [],
-            createdTime: now,
-            expiresTime: now.addingTimeInterval(Double(expirationMinutes) * 60),
+            arrivedDate: arrivedDate,
             isReferral: false,
             referredByClientName: nil
         )
@@ -59,6 +51,7 @@ struct ClientInquiry: Codable, Equatable, Identifiable {
         budget: Int,
         guestCount: Int,
         eventDate: GameDate,
+        arrivedDate: GameDate,
         referredByClientName: String
     ) -> ClientInquiry {
         var inquiry = create(
@@ -68,7 +61,8 @@ struct ClientInquiry: Codable, Equatable, Identifiable {
             personality: personality,
             budget: budget,
             guestCount: guestCount,
-            eventDate: eventDate
+            eventDate: eventDate,
+            arrivedDate: arrivedDate
         )
         inquiry.isReferral = true
         inquiry.referredByClientName = referredByClientName

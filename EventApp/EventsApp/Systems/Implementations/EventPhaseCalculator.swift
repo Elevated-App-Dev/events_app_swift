@@ -1,4 +1,4 @@
-goimport Foundation
+import Foundation
 
 /// Result of event phase calculation containing phase info and timing.
 struct EventPhaseInfo: Codable, Equatable {
