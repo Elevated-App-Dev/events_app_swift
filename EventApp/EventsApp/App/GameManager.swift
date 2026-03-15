@@ -388,6 +388,9 @@ class GameManager: GameContext {
         let meetingDaysOffset = Int.random(in: 1...3)
         let meetingDate = advanceSystem.currentDate.adding(days: meetingDaysOffset)
 
+        let transcript = generateClientMeetingTranscript(event: event)
+        let requirements = deriveRequirementsFromEvent(event: event)
+
         let meetingActivity = PlanningActivity.create(
             eventId: event.id,
             clientName: event.clientName,
@@ -396,8 +399,10 @@ class GameManager: GameContext {
             scheduledDate: meetingDate,
             content: ActivityContent(
                 senderName: event.clientName,
-                subject: "Initial consultation — \(event.eventTitle)",
-                body: "Scheduled call with \(event.clientName) to discuss their \(event.subCategory). Listen for personality cues, budget signals, and vendor requirements."
+                subject: "Call with \(event.clientName) — \(event.subCategory)",
+                body: "",
+                dialogueTranscript: transcript,
+                revealedRequirements: requirements
             )
         )
         advanceSystem.scheduleActivity(meetingActivity)
@@ -584,8 +589,105 @@ class GameManager: GameContext {
     // MARK: - Activity Completion
 
     /// Player completes/acknowledges an inbox activity.
+    /// Triggers follow-up activities based on the activity type.
     func completeActivity(_ activityId: String) {
+        guard let activity = advanceSystem.scheduledActivities.first(where: { $0.id == activityId }) else {
+            advanceSystem.completeActivity(id: activityId)
+            return
+        }
+
         advanceSystem.completeActivity(id: activityId)
+
+        switch activity.type {
+        case .clientMeeting:
+            onClientMeetingCompleted(activity)
+        case .clientContractSent:
+            onClientContractSent(activity)
+        case .clientContractSigned:
+            onClientContractSigned(activity)
+        case .clientDepositReceived:
+            // Deposit acknowledged — player can now start booking vendors
+            break
+        case .vendorAvailabilityResponse:
+            onVendorAvailabilityReceived(activity)
+        default:
+            break
+        }
+    }
+
+    /// After client meeting: schedule the contract.
+    private func onClientMeetingCompleted(_ activity: PlanningActivity) {
+        let contractDate = advanceSystem.currentDate.adding(days: 1)
+
+        let contractActivity = PlanningActivity.create(
+            eventId: activity.eventId,
+            clientName: activity.clientName,
+            type: .clientContractSent,
+            medium: .email,
+            scheduledDate: contractDate,
+            responseDeadline: contractDate.adding(days: 3),
+            content: ActivityContent(
+                senderName: activity.content.senderName,
+                subject: "Contract for \(activity.content.subject.replacingOccurrences(of: "Call with \(activity.content.senderName) — ", with: ""))",
+                body: "Hi! Thanks for the great conversation. I've attached the event planning contract with the details we discussed. Please review and sign at your convenience."
+            )
+        )
+        advanceSystem.scheduleActivity(contractActivity)
+    }
+
+    /// After contract sent: client signs in 1-2 days.
+    private func onClientContractSent(_ activity: PlanningActivity) {
+        let signDays = Int.random(in: 1...2)
+        let signDate = advanceSystem.currentDate.adding(days: signDays)
+
+        let signedActivity = PlanningActivity.create(
+            eventId: activity.eventId,
+            clientName: activity.clientName,
+            type: .clientContractSigned,
+            medium: .email,
+            scheduledDate: signDate,
+            content: ActivityContent(
+                senderName: activity.content.senderName,
+                subject: "Contract signed!",
+                body: "\(activity.content.senderName) has reviewed and signed the contract. They're ready to proceed with a deposit."
+            )
+        )
+        advanceSystem.scheduleActivity(signedActivity)
+    }
+
+    /// After contract signed: schedule deposit and enable vendor planning.
+    private func onClientContractSigned(_ activity: PlanningActivity) {
+        guard let eventIndex = activeEvents.firstIndex(where: { $0.id == activity.eventId }) else { return }
+        let event = activeEvents[eventIndex]
+
+        // Client deposit received (immediate)
+        let depositAmount = event.budget.total * 0.25
+        playerData.money += depositAmount
+
+        let depositActivity = PlanningActivity.create(
+            eventId: activity.eventId,
+            clientName: activity.clientName,
+            type: .clientDepositReceived,
+            medium: .email,
+            scheduledDate: advanceSystem.currentDate,
+            content: ActivityContent(
+                senderName: activity.content.senderName,
+                subject: "Deposit received — $\(Int(depositAmount))",
+                body: "\(activity.content.senderName) has signed the contract and paid a 25% deposit of $\(Int(depositAmount)). You can now begin booking vendors.",
+                depositAmount: depositAmount
+            )
+        )
+        advanceSystem.scheduleActivity(depositActivity)
+
+        // Update event status to planning
+        activeEvents[eventIndex].status = .planning
+    }
+
+    /// After vendor confirms availability: acknowledge and allow next steps.
+    private func onVendorAvailabilityReceived(_ activity: PlanningActivity) {
+        // Vendor availability responses are informational — player reads them
+        // and decides whether to proceed. Future: wire up the "send quote request"
+        // step from the inbox or event detail view.
     }
 
     // MARK: - Tutorial
@@ -622,5 +724,201 @@ class GameManager: GameContext {
         if tutorialSystem.isTutorialActive && tutorialSystem.currentStep == .viewResults {
             advanceTutorial()
         }
+    }
+
+    // MARK: - Client Meeting Dialogue Generation
+
+    /// Generates a conversation transcript for a client meeting.
+    /// The client drops hints about their personality, budget, and requirements.
+    /// The player reads this as their "notepad" for later vendor decisions.
+    private func generateClientMeetingTranscript(event: EventData) -> [DialogueLine] {
+        var lines: [DialogueLine] = []
+
+        // Opening — player greets
+        lines.append(DialogueLine(speaker: .player, text: "Thanks for taking the time to chat, \(event.clientName). Tell me about your \(event.subCategory)!"))
+
+        // Client describes the event — personality colors the tone
+        lines.append(contentsOf: eventDescriptionLines(event: event))
+
+        // Budget signals — personality determines how they talk about money
+        lines.append(contentsOf: budgetSignalLines(event: event))
+
+        // Guest count and venue hints
+        lines.append(contentsOf: venueHintLines(event: event))
+
+        // Vendor requirements — what they care about
+        lines.append(contentsOf: vendorRequirementLines(event: event))
+
+        // Closing
+        lines.append(DialogueLine(speaker: .player, text: "I've got a great picture of what you're looking for. I'll put together some options and send over a contract."))
+        lines.append(contentsOf: closingLines(event: event))
+
+        return lines
+    }
+
+    private func eventDescriptionLines(event: EventData) -> [DialogueLine] {
+        switch event.personality {
+        case .easyGoing:
+            return [
+                DialogueLine(speaker: .client, text: "We're really looking forward to it! Honestly, as long as everyone has a good time, I'm happy."),
+                DialogueLine(speaker: .client, text: "We're pretty flexible on most things — just want it to feel fun and relaxed.")
+            ]
+        case .budgetConscious:
+            return [
+                DialogueLine(speaker: .client, text: "I've been planning this for a while. I want it to be nice, but I need to be realistic about what we can afford."),
+                DialogueLine(speaker: .client, text: "I've done some research on prices and I have a pretty firm idea of what we should be spending.")
+            ]
+        case .perfectionist:
+            return [
+                DialogueLine(speaker: .client, text: "I have a very specific vision for this. I've put together a Pinterest board and I know exactly what I want."),
+                DialogueLine(speaker: .client, text: "The details really matter to me. I'd rather spend more and get it right than cut corners.")
+            ]
+        case .demanding:
+            return [
+                DialogueLine(speaker: .client, text: "I expect this to be top-notch. I've been to a lot of events and I know what good looks like."),
+                DialogueLine(speaker: .client, text: "I need you to be on top of every detail. I'll be checking in frequently.")
+            ]
+        case .indecisive:
+            return [
+                DialogueLine(speaker: .client, text: "I have a few ideas but honestly I keep going back and forth. There are so many options!"),
+                DialogueLine(speaker: .client, text: "Maybe you can help me narrow things down? I trust your expertise.")
+            ]
+        case .celebrity:
+            return [
+                DialogueLine(speaker: .client, text: "This needs to be memorable. People will be talking about this, if you know what I mean."),
+                DialogueLine(speaker: .client, text: "I need discretion, but also... it should look incredible. No compromises.")
+            ]
+        }
+    }
+
+    private func budgetSignalLines(event: EventData) -> [DialogueLine] {
+        let budget = event.budget.total
+
+        lines_player()
+
+        switch event.personality {
+        case .easyGoing:
+            return [
+                DialogueLine(speaker: .player, text: "What kind of budget are you working with?"),
+                DialogueLine(speaker: .client, text: "We've got around $\(budgetHint(budget)) set aside. If we go a little over, it's not the end of the world.")
+            ]
+        case .budgetConscious:
+            return [
+                DialogueLine(speaker: .player, text: "Let's talk budget — what range are you comfortable with?"),
+                DialogueLine(speaker: .client, text: "I need to keep it under $\(budgetCeiling(budget)). That's a hard number for us. Every dollar counts.")
+            ]
+        case .perfectionist:
+            return [
+                DialogueLine(speaker: .player, text: "Do you have a budget in mind?"),
+                DialogueLine(speaker: .client, text: "I'm willing to invest what it takes to get the quality I want. I'm thinking around $\(budgetHint(budget)), but I'd go higher for the right vendors.")
+            ]
+        case .demanding:
+            return [
+                DialogueLine(speaker: .player, text: "What's your budget looking like?"),
+                DialogueLine(speaker: .client, text: "Money isn't my main concern — results are. But let's keep it reasonable. I'd say around $\(budgetHint(budget)).")
+            ]
+        case .indecisive:
+            return [
+                DialogueLine(speaker: .player, text: "Have you thought about budget?"),
+                DialogueLine(speaker: .client, text: "Hmm, I'm not totally sure. Maybe $\(budgetLow(budget))? Or $\(budgetHigh(budget))? What do most people spend on something like this?")
+            ]
+        case .celebrity:
+            return [
+                DialogueLine(speaker: .player, text: "What should I plan around budget-wise?"),
+                DialogueLine(speaker: .client, text: "I'll leave that to you. Just make sure it's done right. I'd expect something in the $\(budgetHint(budget)) range, minimum.")
+            ]
+        }
+    }
+
+    private func venueHintLines(event: EventData) -> [DialogueLine] {
+        let guests = event.guestCount
+        return [
+            DialogueLine(speaker: .player, text: "How many guests are you expecting?"),
+            DialogueLine(speaker: .client, text: "We're looking at about \(guests) people. Maybe a few more if some plus-ones come through.")
+        ]
+    }
+
+    private func vendorRequirementLines(event: EventData) -> [DialogueLine] {
+        // Stage 1 events need venue + caterer
+        var lines: [DialogueLine] = []
+
+        lines.append(DialogueLine(speaker: .player, text: "What's most important to you for the event?"))
+
+        switch event.personality {
+        case .easyGoing:
+            lines.append(DialogueLine(speaker: .client, text: "Good food is a must — people always remember the food. The venue just needs to fit everyone comfortably."))
+        case .budgetConscious:
+            lines.append(DialogueLine(speaker: .client, text: "Food is the priority. I'd rather have great food in a simple space than fancy decor with mediocre catering."))
+        case .perfectionist:
+            lines.append(DialogueLine(speaker: .client, text: "Everything. But if I had to pick — the venue sets the tone, and the food has to match the quality. I don't want a beautiful space with disappointing catering."))
+        case .demanding:
+            lines.append(DialogueLine(speaker: .client, text: "The venue needs to impress, and the food needs to be flawless. I'll notice if either is off."))
+        case .indecisive:
+            lines.append(DialogueLine(speaker: .client, text: "I think the food? Or maybe the venue? Both are important, right? What do you usually recommend?"))
+        case .celebrity:
+            lines.append(DialogueLine(speaker: .client, text: "The ambiance. People need to walk in and feel something. And the food — it has to be Instagram-worthy."))
+        }
+
+        return lines
+    }
+
+    private func closingLines(event: EventData) -> [DialogueLine] {
+        switch event.personality {
+        case .easyGoing:
+            return [DialogueLine(speaker: .client, text: "Sounds great! I'm excited. Just let me know what you need from me.")]
+        case .budgetConscious:
+            return [DialogueLine(speaker: .client, text: "Perfect. Just please keep me posted on costs as we go — I don't want any surprises on the final bill.")]
+        case .perfectionist:
+            return [DialogueLine(speaker: .client, text: "I'll send you my Pinterest board. I want to approve everything before it's finalized.")]
+        case .demanding:
+            return [DialogueLine(speaker: .client, text: "Good. I'll expect regular updates. Don't wait until the last minute to tell me if something's wrong.")]
+        case .indecisive:
+            return [DialogueLine(speaker: .client, text: "Thank you so much! I feel better already having someone to guide me through this.")]
+        case .celebrity:
+            return [DialogueLine(speaker: .client, text: "My assistant will handle the contract details. Looking forward to seeing what you put together.")]
+        }
+    }
+
+    // Budget hint helpers — vague enough that the player has to interpret
+    private func budgetHint(_ budget: Double) -> String {
+        let rounded = Int((budget / 100).rounded()) * 100
+        return "\(rounded)"
+    }
+
+    private func budgetCeiling(_ budget: Double) -> String {
+        let ceiling = Int((budget * 1.05 / 100).rounded()) * 100
+        return "\(ceiling)"
+    }
+
+    private func budgetLow(_ budget: Double) -> String {
+        let low = Int((budget * 0.8 / 100).rounded()) * 100
+        return "\(low)"
+    }
+
+    private func budgetHigh(_ budget: Double) -> String {
+        let high = Int((budget * 1.2 / 100).rounded()) * 100
+        return "\(high)"
+    }
+
+    private func lines_player() {
+        // Placeholder for future interactive call mode
+    }
+
+    /// Derive vendor requirements based on event type (Stage 1: venue + caterer).
+    private func deriveRequirementsFromEvent(event: EventData) -> [String] {
+        var requirements = ["Venue", "Caterer"]
+
+        if playerData.stageNumber >= 2 {
+            switch event.eventTypeId {
+            case "AdultBirthday", "EngagementParty", "MilestoneBirthday":
+                requirements.append("Entertainer")
+            case "CorporateMeeting":
+                requirements.append("AV Technician")
+            default:
+                break
+            }
+        }
+
+        return requirements
     }
 }

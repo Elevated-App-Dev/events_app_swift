@@ -7,16 +7,29 @@ struct InboxView: View {
         NavigationStack {
             List {
                 ForEach(gameManager.inboxActivities) { activity in
-                    InboxActivityRow(activity: activity)
-                        .swipeActions(edge: .trailing) {
-                            Button("Done") {
+                    VStack(spacing: 0) {
+                        InboxActivityRow(activity: activity)
+
+                        Button(action: {
+                            withAnimation {
                                 gameManager.completeActivity(activity.id)
                             }
-                            .tint(.green)
+                        }) {
+                            Text(acknowledgeLabel(for: activity.type))
+                                .font(.subheadline)
+                                .fontWeight(.medium)
+                                .frame(maxWidth: .infinity)
+                                .padding(.vertical, 8)
+                                .background(Color.blue)
+                                .foregroundStyle(.white)
+                                .clipShape(RoundedRectangle(cornerRadius: 8))
                         }
+                        .padding(.top, 8)
+                    }
+                    .padding(.vertical, 4)
                 }
             }
-            .navigationTitle("Inbox")
+            .navigationTitle("Inbox — \(gameManager.currentDate.formatted)")
             .overlay {
                 if gameManager.inboxActivities.isEmpty {
                     ContentUnavailableView(
@@ -26,6 +39,21 @@ struct InboxView: View {
                     )
                 }
             }
+        }
+    }
+
+    private func acknowledgeLabel(for type: ActivityType) -> String {
+        switch type {
+        case .clientMeeting: return "End Call"
+        case .clientContractSent: return "Send to Client"
+        case .clientContractSigned: return "Process Contract"
+        case .clientDepositReceived: return "Acknowledge Payment"
+        case .clientFinalPayment: return "Confirm Payment"
+        case .vendorAvailabilityResponse: return "Acknowledge"
+        case .vendorOptionsReview: return "Review Complete"
+        case .vendorNegotiationResponse: return "Acknowledge"
+        case .vendorOverdueWarning, .vendorOverdueFinal: return "Dismiss"
+        default: return "Done"
         }
     }
 }
