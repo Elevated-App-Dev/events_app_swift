@@ -61,31 +61,55 @@ class GameManager: GameContext {
     /// All activities grouped by contact name for threaded message display.
     /// Includes both active (ready) and completed activities.
     var messageThreads: [ConversationThread] {
+        // Only show activities that have actually arrived (not future scheduled)
         let allActivities = advanceSystem.scheduledActivities
-            .filter { $0.status == .ready || $0.status == .completed || $0.status == .overdue }
+            .filter { ($0.status == .ready || $0.status == .completed || $0.status == .overdue)
+                      && $0.scheduledDate <= currentDate }
 
+        // Group by contact — resolve "You" sender to the event's client or vendor name
         var threadMap: [String: [PlanningActivity]] = [:]
         for activity in allActivities {
-            let contactName = activity.clientName ?? activity.content.senderName
+            let contactName = resolveContactName(for: activity)
             threadMap[contactName, default: []].append(activity)
         }
 
-        return threadMap.map { name, activities in
-            let sorted = activities.sorted { $0.scheduledDate < $1.scheduledDate }
-            let unread = activities.filter { $0.status == .ready }.count
-            return ConversationThread(
-                contactName: name,
-                activities: sorted,
-                unreadCount: unread,
-                latestDate: sorted.last?.scheduledDate ?? currentDate
-            )
+        return threadMap
+            .filter { $0.key != "System" } // Exclude system messages
+            .map { name, activities in
+                let sorted = activities.sorted { $0.scheduledDate < $1.scheduledDate }
+                let unread = activities.filter { $0.status == .ready }.count
+                return ConversationThread(
+                    contactName: name,
+                    activities: sorted,
+                    unreadCount: unread,
+                    latestDate: sorted.last?.scheduledDate ?? currentDate
+                )
+            }
+            .sorted { lhs, rhs in
+                if lhs.unreadCount > 0 && rhs.unreadCount == 0 { return true }
+                if lhs.unreadCount == 0 && rhs.unreadCount > 0 { return false }
+                return lhs.latestDate > rhs.latestDate
+            }
+    }
+
+    /// Resolve the contact name for threading — "You"-sent activities get
+    /// grouped with the client or vendor they belong to, not a "You" thread.
+    private func resolveContactName(for activity: PlanningActivity) -> String {
+        // If clientName is set, use it (client-related activities)
+        if let clientName = activity.clientName, !clientName.isEmpty {
+            return clientName
         }
-        .sorted { lhs, rhs in
-            // Unread threads first, then by latest date
-            if lhs.unreadCount > 0 && rhs.unreadCount == 0 { return true }
-            if lhs.unreadCount == 0 && rhs.unreadCount > 0 { return false }
-            return lhs.latestDate > rhs.latestDate
+        // If it's from a vendor, use the vendor name
+        if let vendorId = activity.vendorId, let vendor = SeedData.vendor(byId: vendorId) {
+            return vendor.vendorName
         }
+        // If sender is "You", look up the event's client name
+        if activity.content.senderName == "You" {
+            if let event = activeEvents.first(where: { $0.id == activity.eventId }) {
+                return event.clientName
+            }
+        }
+        return activity.content.senderName
     }
 
     init() {

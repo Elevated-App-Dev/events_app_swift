@@ -6,11 +6,12 @@ import SwiftUI
 /// Shows thread list first, tap to open conversation detail.
 struct InboxView: View {
     @Environment(GameManager.self) private var gameManager
-    @State private var selectedThread: ConversationThread?
+    @State private var selectedContactName: String?
 
     var body: some View {
-        if let thread = selectedThread {
-            ThreadDetailView(thread: thread, onBack: { selectedThread = nil })
+        if let contactName = selectedContactName,
+           let thread = gameManager.messageThreads.first(where: { $0.contactName == contactName }) {
+            ThreadDetailView(thread: thread, onBack: { selectedContactName = nil })
         } else {
             threadListView
         }
@@ -27,7 +28,7 @@ struct InboxView: View {
 
                 // Conversation threads
                 ForEach(gameManager.messageThreads) { thread in
-                    Button(action: { selectedThread = thread }) {
+                    Button(action: { selectedContactName = thread.contactName }) {
                         ThreadRow(thread: thread)
                     }
                     Divider().background(GameTheme.Colors.border)
@@ -294,6 +295,11 @@ struct MessageBubble: View {
         activity.type == .vendorOptionsReview && activity.status == .ready && activity.content.quoteAmount != nil
     }
 
+    /// Contracts are "from" the player but still need an action button (Send to Client).
+    private var isDraftContract: Bool {
+        activity.type == .clientContractSent && activity.status == .ready
+    }
+
     private var isFromPlayer: Bool {
         activity.content.senderName == "You"
     }
@@ -408,6 +414,19 @@ struct MessageBubble: View {
                                         )
                                 }
                             }
+                        }
+                    }
+                    // Draft contract needs Send button even though it's "from" player
+                    else if isDraftContract {
+                        Button(action: onAction) {
+                            Text("Send to Client")
+                                .font(GameTheme.Typography.micro)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(.white)
+                                .padding(.horizontal, GameTheme.Spacing.sm)
+                                .padding(.vertical, 6)
+                                .background(GameTheme.Colors.accent)
+                                .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
                         }
                     }
                     // Generic action button for other unread messages
