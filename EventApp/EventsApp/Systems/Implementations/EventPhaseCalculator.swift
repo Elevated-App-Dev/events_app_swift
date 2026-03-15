@@ -1,4 +1,4 @@
-import Foundation
+goimport Foundation
 
 /// Result of event phase calculation containing phase info and timing.
 struct EventPhaseInfo: Codable, Equatable {
@@ -79,7 +79,7 @@ enum EventPhaseCalculator {
             )
         }
 
-        var bookingDays = min(bookingDaysConst, totalDays - 1)
+        let bookingDays = min(bookingDaysConst, totalDays - 1)
         let remainingAfterBooking = totalDays - bookingDays - 1 // -1 for execution day
 
         var prePlanningDays = max(1, Int(Double(remainingAfterBooking) * prePlanningPercent))
@@ -87,7 +87,7 @@ enum EventPhaseCalculator {
         var finalPrepDays = max(1, Int(Double(remainingAfterBooking) * finalPrepPercent))
 
         // Adjust to ensure we don't exceed total days
-        var allocatedDays = bookingDays + prePlanningDays + activePlanningDays + finalPrepDays + 1
+        let allocatedDays = bookingDays + prePlanningDays + activePlanningDays + finalPrepDays + 1
 
         if allocatedDays > totalDays {
             var excess = allocatedDays - totalDays
