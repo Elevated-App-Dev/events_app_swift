@@ -160,10 +160,25 @@ struct InboxActivityRow: View {
                 .foregroundStyle(GameTheme.Colors.textSecondary)
 
             if !activity.content.body.isEmpty {
-                Text(activity.content.body)
-                    .font(GameTheme.Typography.caption)
-                    .foregroundStyle(GameTheme.Colors.textMuted)
-                    .lineLimit(3)
+                // Contracts show full body as a reviewable document
+                if activity.type == .clientContractSent {
+                    Text(activity.content.body)
+                        .font(GameTheme.Typography.micro)
+                        .foregroundStyle(GameTheme.Colors.textSecondary)
+                        .padding(GameTheme.Spacing.sm)
+                        .frame(maxWidth: .infinity, alignment: .leading)
+                        .background(GameTheme.Colors.elevated)
+                        .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
+                        .overlay(
+                            RoundedRectangle(cornerRadius: GameTheme.Radius.small)
+                                .stroke(GameTheme.Colors.border, lineWidth: 1)
+                        )
+                } else {
+                    Text(activity.content.body)
+                        .font(GameTheme.Typography.caption)
+                        .foregroundStyle(GameTheme.Colors.textMuted)
+                        .lineLimit(3)
+                }
             }
 
             // Dialogue transcript

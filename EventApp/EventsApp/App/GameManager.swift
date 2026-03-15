@@ -630,9 +630,38 @@ class GameManager: GameContext {
         }
     }
 
-    /// After client meeting: schedule the contract.
+    /// After client meeting: schedule the contract with event details for review.
     private func onClientMeetingCompleted(_ activity: PlanningActivity) {
+        guard let event = activeEvents.first(where: { $0.id == activity.eventId }) else { return }
+
         let contractDate = advanceSystem.currentDate.adding(days: 1)
+        let depositAmount = event.budget.total * 0.25
+        let eventName = event.subCategory
+
+        let contractBody = """
+        Draft contract ready for your review before sending to \(event.clientName).
+
+        — EVENT PLANNING CONTRACT —
+
+        Client: \(event.clientName)
+        Event: \(eventName)
+        Date: \(event.eventDate.formatted)
+        Guests: \(event.guestCount)
+        Total Budget: $\(Int(event.budget.total))
+        Deposit (25%): $\(Int(depositAmount))
+
+        Services included:
+        • Event planning and coordination
+        • Venue sourcing and booking
+        • Vendor management (catering, entertainment, etc.)
+        • Day-of event oversight
+
+        Payment terms:
+        • 25% deposit due upon signing ($\(Int(depositAmount)))
+        • Remaining balance due 5 days before the event
+
+        Review the details above, then tap Send to Client.
+        """
 
         let contractActivity = PlanningActivity.create(
             eventId: activity.eventId,
@@ -642,9 +671,10 @@ class GameManager: GameContext {
             scheduledDate: contractDate,
             responseDeadline: contractDate.adding(days: 3),
             content: ActivityContent(
-                senderName: activity.content.senderName,
-                subject: "Contract for \(activity.content.subject.replacingOccurrences(of: "Call with \(activity.content.senderName) — ", with: ""))",
-                body: "Hi! Thanks for the great conversation. I've attached the event planning contract with the details we discussed. Please review and sign at your convenience."
+                senderName: "You",
+                subject: "Contract — \(event.clientName), \(eventName)",
+                body: contractBody,
+                contractAmount: event.budget.total
             )
         )
         advanceSystem.scheduleActivity(contractActivity)
