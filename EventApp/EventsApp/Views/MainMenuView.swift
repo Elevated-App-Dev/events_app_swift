@@ -4,54 +4,45 @@ struct MainMenuView: View {
     @Environment(GameManager.self) private var gameManager
 
     var body: some View {
-        VStack(spacing: 24) {
-            Spacer()
+        ZStack {
+            GameTheme.Colors.background
+                .ignoresSafeArea()
 
-            Text("Event Planner")
-                .font(.system(size: 36, weight: .bold))
-                .foregroundStyle(.primary)
+            VStack(spacing: GameTheme.Spacing.md) {
+                Spacer()
 
-            Text("Build Your Event Planning Empire")
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+                Text("Event Planner")
+                    .font(GameTheme.Typography.display)
+                    .foregroundStyle(GameTheme.Colors.textPrimary)
 
-            Spacer()
+                Text("Build Your Event Planning Empire")
+                    .font(GameTheme.Typography.body)
+                    .foregroundStyle(GameTheme.Colors.textSecondary)
 
-            VStack(spacing: 16) {
-                Button(action: { gameManager.startNewGame() }) {
-                    Text("New Game")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.accentColor)
-                        .foregroundColor(.white)
-                        .cornerRadius(12)
+                Spacer()
+
+                VStack(spacing: GameTheme.Spacing.sm) {
+                    Button(action: { gameManager.startNewGame() }) {
+                        Text("New Game")
+                            .primaryButton()
+                    }
+
+                    Button(action: { gameManager.continueGame() }) {
+                        Text("Continue")
+                            .secondaryButton()
+                    }
+
+                    Button(action: { gameManager.showSettings() }) {
+                        Text("Settings")
+                            .font(GameTheme.Typography.body)
+                            .foregroundStyle(GameTheme.Colors.accent)
+                    }
+                    .padding(.top, GameTheme.Spacing.xs)
                 }
+                .padding(.horizontal, GameTheme.Spacing.xl)
 
-                Button(action: { gameManager.continueGame() }) {
-                    Text("Continue")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.secondary.opacity(0.2))
-                        .foregroundColor(.primary)
-                        .cornerRadius(12)
-                }
-
-                Button(action: { gameManager.showSettings() }) {
-                    Text("Settings")
-                        .font(.headline)
-                        .frame(maxWidth: .infinity)
-                        .padding()
-                        .background(Color.secondary.opacity(0.2))
-                        .foregroundColor(.primary)
-                        .cornerRadius(12)
-                }
+                Spacer()
             }
-            .padding(.horizontal, 40)
-
-            Spacer()
         }
-        .padding()
     }
 }

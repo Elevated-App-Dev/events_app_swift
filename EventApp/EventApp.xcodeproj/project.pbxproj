@@ -113,6 +113,9 @@
 		AA3D5415420157207C50CE63 /* PlanningActivity.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAB7C2486125391CDC8FCCBA /* PlanningActivity.swift */; };
 		AA8A87402617B77E62EBF8E3 /* AdvanceSystemProtocol.swift in Sources */ = {isa = PBXBuildFile; fileRef = AA9144D63094E1427A1F31D0 /* AdvanceSystemProtocol.swift */; };
 		AA42E8B9D541E98234C1FD10 /* AdvanceSystem.swift in Sources */ = {isa = PBXBuildFile; fileRef = AAC61F3977A67E4EE82CF98B /* AdvanceSystem.swift */; };
+		BB1A2C02F661457D003BADE3 /* GameTheme.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB1A2C01F661457D003BADE3 /* GameTheme.swift */; };
+		BB2D3E02F661457D003BADE3 /* OfficeDeskView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB2D3E01F661457D003BADE3 /* OfficeDeskView.swift */; };
+		BB3F4A02F661457D003BADE3 /* PhoneOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F4A01F661457D003BADE3 /* PhoneOverlayView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -242,6 +245,9 @@
 		AAB7C2486125391CDC8FCCBA /* PlanningActivity.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PlanningActivity.swift; sourceTree = "<group>"; };
 		AA9144D63094E1427A1F31D0 /* AdvanceSystemProtocol.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvanceSystemProtocol.swift; sourceTree = "<group>"; };
 		AAC61F3977A67E4EE82CF98B /* AdvanceSystem.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AdvanceSystem.swift; sourceTree = "<group>"; };
+		BB1A2C01F661457D003BADE3 /* GameTheme.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = GameTheme.swift; sourceTree = "<group>"; };
+		BB2D3E01F661457D003BADE3 /* OfficeDeskView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OfficeDeskView.swift; sourceTree = "<group>"; };
+		BB3F4A01F661457D003BADE3 /* PhoneOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneOverlayView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -465,7 +471,9 @@
 				033C8CF12F61457D003BADE3 /* ContentView.swift */,
 				033C8D4C2F614836003BADE3 /* MainMenuView.swift */,
 				033C8D4E2F614837003BADE3 /* GameplayView.swift */,
+				BB2D3E01F661457D003BADE3 /* OfficeDeskView.swift */,
 				033C8D502F614838003BADE3 /* PauseOverlay.swift */,
+				BB3F4A01F661457D003BADE3 /* PhoneOverlayView.swift */,
 				033C8D522F614839003BADE3 /* SettingsView.swift */,
 				033C8D542F61483A003BADE3 /* LoadingView.swift */,
 				033C8D592F614FEE003BADE3 /* Gameplay */,
@@ -480,6 +488,7 @@
 				033C8CBF2F61457D003BADE3 /* Models */,
 				033C8CC02F61457D003BADE3 /* Resources */,
 				033C8CF02F61457D003BADE3 /* Systems */,
+				BB1A2C03F661457D003BADE3 /* Theme */,
 				033C8CF22F61457D003BADE3 /* Views */,
 				033C8D562F614F5B003BADE3 /* Data */,
 			);
@@ -507,6 +516,14 @@
 				033C8D682F615062003BADE3 /* InboxView.swift */,
 			);
 			path = Gameplay;
+			sourceTree = "<group>";
+		};
+		BB1A2C03F661457D003BADE3 /* Theme */ = {
+			isa = PBXGroup;
+			children = (
+				BB1A2C01F661457D003BADE3 /* GameTheme.swift */,
+			);
+			path = Theme;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -759,6 +776,9 @@
 				AA3D5415420157207C50CE63 /* PlanningActivity.swift in Sources */,
 				AA8A87402617B77E62EBF8E3 /* AdvanceSystemProtocol.swift in Sources */,
 				AA42E8B9D541E98234C1FD10 /* AdvanceSystem.swift in Sources */,
+				BB1A2C02F661457D003BADE3 /* GameTheme.swift in Sources */,
+				BB2D3E02F661457D003BADE3 /* OfficeDeskView.swift in Sources */,
+				BB3F4A02F661457D003BADE3 /* PhoneOverlayView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

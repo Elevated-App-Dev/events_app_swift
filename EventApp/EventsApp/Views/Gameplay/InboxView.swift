@@ -4,40 +4,47 @@ struct InboxView: View {
     @Environment(GameManager.self) private var gameManager
 
     var body: some View {
-        NavigationStack {
-            List {
+        ScrollView {
+            VStack(spacing: GameTheme.Spacing.sm) {
                 ForEach(gameManager.inboxActivities) { activity in
                     VStack(spacing: 0) {
                         InboxActivityRow(activity: activity)
 
                         Button(action: {
-                            withAnimation {
+                            withAnimation(GameTheme.Anim.spring) {
                                 gameManager.completeActivity(activity.id)
                             }
                         }) {
                             Text(acknowledgeLabel(for: activity.type))
-                                .font(.subheadline)
-                                .fontWeight(.medium)
+                                .font(GameTheme.Typography.micro)
+                                .fontWeight(.semibold)
+                                .foregroundStyle(GameTheme.Colors.textPrimary)
                                 .frame(maxWidth: .infinity)
-                                .padding(.vertical, 8)
-                                .background(Color.blue)
-                                .foregroundStyle(.white)
-                                .clipShape(RoundedRectangle(cornerRadius: 8))
+                                .padding(.vertical, GameTheme.Spacing.xs)
+                                .background(GameTheme.Colors.accent)
+                                .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
                         }
-                        .padding(.top, 8)
+                        .padding(.top, GameTheme.Spacing.xs)
                     }
-                    .padding(.vertical, 4)
+                    .surfaceCard()
                 }
             }
-            .navigationTitle("Inbox — \(gameManager.currentDate.formatted)")
-            .overlay {
-                if gameManager.inboxActivities.isEmpty {
-                    ContentUnavailableView(
-                        "Inbox Empty",
-                        systemImage: "tray",
-                        description: Text("Advance to the next day to receive messages.")
-                    )
+            .padding(.horizontal, GameTheme.Spacing.md)
+
+            if gameManager.inboxActivities.isEmpty {
+                VStack(spacing: GameTheme.Spacing.sm) {
+                    Image(systemName: "tray")
+                        .font(.system(size: 48))
+                        .foregroundStyle(GameTheme.Colors.textMuted)
+                    Text("Inbox empty")
+                        .font(GameTheme.Typography.body)
+                        .foregroundStyle(GameTheme.Colors.textMuted)
+                    Text("Advance to receive messages")
+                        .font(GameTheme.Typography.caption)
+                        .foregroundStyle(GameTheme.Colors.textMuted)
                 }
+                .frame(maxWidth: .infinity)
+                .padding(.top, GameTheme.Spacing.xl)
             }
         }
     }
@@ -62,69 +69,71 @@ struct InboxActivityRow: View {
     let activity: PlanningActivity
 
     var body: some View {
-        VStack(alignment: .leading, spacing: 6) {
+        VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
             HStack {
                 mediumIcon
                 Text(activity.content.senderName)
-                    .font(.headline)
+                    .font(GameTheme.Typography.h3)
+                    .foregroundStyle(GameTheme.Colors.textPrimary)
                 Spacer()
                 activityTypeBadge
             }
 
             Text(activity.content.subject)
-                .font(.subheadline)
-                .foregroundStyle(.secondary)
+                .font(GameTheme.Typography.caption)
+                .foregroundStyle(GameTheme.Colors.textSecondary)
 
             if !activity.content.body.isEmpty {
                 Text(activity.content.body)
-                    .font(.caption)
-                    .foregroundStyle(.secondary)
+                    .font(GameTheme.Typography.caption)
+                    .foregroundStyle(GameTheme.Colors.textMuted)
                     .lineLimit(3)
             }
 
-            // Show dialogue transcript if present
+            // Dialogue transcript
             if let transcript = activity.content.dialogueTranscript, !transcript.isEmpty {
-                VStack(alignment: .leading, spacing: 4) {
+                VStack(alignment: .leading, spacing: 6) {
                     ForEach(Array(transcript.enumerated()), id: \.offset) { _, line in
-                        HStack(alignment: .top, spacing: 4) {
+                        HStack(alignment: .top, spacing: 6) {
                             Text(line.speaker == .client ? "Them:" : "You:")
-                                .font(.caption2)
+                                .font(GameTheme.Typography.micro)
                                 .fontWeight(.bold)
-                                .foregroundStyle(line.speaker == .client ? .blue : .green)
+                                .foregroundStyle(line.speaker == .client ? GameTheme.Colors.accent : GameTheme.Colors.success)
+                                .frame(width: 36, alignment: .leading)
                             Text(line.text)
-                                .font(.caption2)
-                                .foregroundStyle(.secondary)
+                                .font(GameTheme.Typography.micro)
+                                .foregroundStyle(GameTheme.Colors.textSecondary)
                         }
                     }
                 }
-                .padding(8)
-                .background(Color(.systemGray6))
-                .clipShape(RoundedRectangle(cornerRadius: 8))
+                .padding(GameTheme.Spacing.xs)
+                .background(GameTheme.Colors.elevated)
+                .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
             }
 
-            // Show vendor options if present
+            // Quote
             if let quote = activity.content.quoteAmount {
                 HStack {
                     Text("Quote:")
-                        .font(.caption)
-                        .foregroundStyle(.secondary)
+                        .font(GameTheme.Typography.caption)
+                        .foregroundStyle(GameTheme.Colors.textMuted)
                     Text("$\(quote, specifier: "%.0f")")
-                        .font(.caption)
-                        .fontWeight(.bold)
+                        .font(GameTheme.Typography.money)
+                        .foregroundStyle(GameTheme.Colors.money)
                 }
             }
 
+            // Deadline
             if let deadline = activity.responseDeadline {
                 HStack(spacing: 4) {
                     Image(systemName: "clock")
-                        .font(.caption2)
+                        .font(GameTheme.Typography.micro)
                     Text("Respond by \(deadline.formatted)")
-                        .font(.caption2)
+                        .font(GameTheme.Typography.micro)
                 }
-                .foregroundStyle(activity.status == .overdue ? .red : .orange)
+                .foregroundStyle(activity.status == .overdue ? GameTheme.Colors.error : GameTheme.Colors.warning)
             }
         }
-        .padding(.vertical, 4)
     }
 
     private var mediumIcon: some View {
@@ -140,16 +149,16 @@ struct InboxActivityRow: View {
                 Image(systemName: "person.fill")
             }
         }
-        .font(.caption)
-        .foregroundStyle(.blue)
+        .font(GameTheme.Typography.caption)
+        .foregroundStyle(GameTheme.Colors.accent)
     }
 
     private var activityTypeBadge: some View {
         Text(badgeLabel)
-            .font(.caption2)
+            .font(GameTheme.Typography.micro)
             .fontWeight(.medium)
-            .padding(.horizontal, 6)
-            .padding(.vertical, 2)
+            .padding(.horizontal, GameTheme.Spacing.xs)
+            .padding(.vertical, 3)
             .background(badgeColor.opacity(0.15))
             .foregroundStyle(badgeColor)
             .clipShape(Capsule())
@@ -185,22 +194,22 @@ struct InboxActivityRow: View {
         switch activity.type {
         case .clientMeeting, .clientContractSent, .clientContractSigned,
              .clientDepositReceived, .clientFinalPayment, .clientDateChangeRequest:
-            return .purple
+            return GameTheme.Colors.accent
         case .vendorAvailabilityRequest, .vendorAvailabilityResponse,
              .vendorOptionsReview, .vendorTasting, .vendorSiteVisit:
-            return .blue
+            return GameTheme.Colors.accent
         case .vendorNegotiationOffer, .vendorNegotiationResponse:
-            return .orange
+            return GameTheme.Colors.warning
         case .vendorContractSent, .vendorDepositPayment, .vendorFinalConfirmation:
-            return .green
+            return GameTheme.Colors.success
         case .vendorOverdueWarning, .vendorOverdueFinal:
-            return .red
+            return GameTheme.Colors.error
         case .eventExecution:
-            return .red
+            return GameTheme.Colors.error
         case .eventResults:
-            return .green
+            return GameTheme.Colors.success
         case .newInquiry:
-            return .blue
+            return GameTheme.Colors.accent
         }
     }
 }
