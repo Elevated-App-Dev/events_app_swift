@@ -174,8 +174,9 @@ struct PhoneOverlayView: View {
 
 extension PhoneApp {
     /// Apps shown on the phone home screen (excludes marketing for now).
+    /// Apps shown on the phone home screen. Clients moved to laptop CRM.
     static var homeScreenApps: [PhoneApp] {
-        [.messages, .calendar, .bank, .contacts, .reviews, .tasks, .clients]
+        [.messages, .calendar, .bank, .contacts, .reviews, .tasks]
     }
 
     var title: String {
@@ -467,11 +468,16 @@ struct PhoneCalendarView: View {
         Self.daysInMonth[viewingMonth - 1]
     }
 
-    // Simplified first day offset based on Zeller's or a simple formula
+    /// Day-of-week offset for the 1st of the viewing month (Sun=0, Sat=6).
+    /// Uses Jan 1, 2026 = Thursday (offset 4) as anchor.
     private var firstDayOffset: Int {
-        // Simple approximation — not astronomically accurate but works for game dates
-        let totalDays = (viewingYear - 1) * 365 + Self.daysInMonth.prefix(viewingMonth - 1).reduce(0, +) + 1
-        return totalDays % 7
+        // Days from Jan 1, 2026 to the 1st of viewingMonth/viewingYear
+        let yearsFromAnchor = viewingYear - 2026
+        var daysSinceAnchor = yearsFromAnchor * 365
+        // Add leap days (simplified: no leap years in game for now)
+        daysSinceAnchor += Self.daysInMonth.prefix(viewingMonth - 1).reduce(0, +)
+        // Jan 1, 2026 is Thursday = offset 4 (Sun=0 grid)
+        return (daysSinceAnchor + 4) % 7
     }
 
     private func previousMonth() {
@@ -652,37 +658,50 @@ struct PhoneTasksView: View {
 
 struct PhoneClientsView: View {
     @Environment(GameManager.self) private var gameManager
+    @State private var expandedClientId: String?
 
     var body: some View {
         ScrollView {
             VStack(alignment: .leading, spacing: GameTheme.Spacing.sm) {
-                // Active clients (people you're currently planning events for)
+                // Active clients
                 if !gameManager.activeEvents.isEmpty {
                     ForEach(gameManager.activeEvents) { event in
-                        VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
-                            HStack {
-                                VStack(alignment: .leading, spacing: 4) {
-                                    Text(event.clientName)
-                                        .font(GameTheme.Typography.h3)
-                                        .foregroundStyle(GameTheme.Colors.textPrimary)
-                                    Text(event.eventTitle)
-                                        .font(GameTheme.Typography.caption)
-                                        .foregroundStyle(GameTheme.Colors.textSecondary)
+                        VStack(alignment: .leading, spacing: 0) {
+                            Button(action: {
+                                withAnimation(GameTheme.Anim.panelSlide) {
+                                    expandedClientId = expandedClientId == event.id ? nil : event.id
                                 }
-                                Spacer()
-                                PhaseBadge(phase: event.phase)
+                            }) {
+                                HStack {
+                                    VStack(alignment: .leading, spacing: 4) {
+                                        Text(event.clientName)
+                                            .font(GameTheme.Typography.h3)
+                                            .foregroundStyle(GameTheme.Colors.textPrimary)
+                                        Text(event.eventTitle)
+                                            .font(GameTheme.Typography.caption)
+                                            .foregroundStyle(GameTheme.Colors.textSecondary)
+                                    }
+                                    Spacer()
+                                    PhaseBadge(phase: event.phase)
+                                }
+
+                                HStack(spacing: GameTheme.Spacing.sm) {
+                                    Label("$\(event.budget.total, specifier: "%.0f")", systemImage: "banknote")
+                                        .font(GameTheme.Typography.micro)
+                                        .foregroundStyle(GameTheme.Colors.money)
+                                    Label("\(event.guestCount)", systemImage: "person.2")
+                                        .font(GameTheme.Typography.micro)
+                                        .foregroundStyle(GameTheme.Colors.textMuted)
+                                    Label(event.eventDate.shortFormatted, systemImage: "calendar")
+                                        .font(GameTheme.Typography.micro)
+                                        .foregroundStyle(GameTheme.Colors.textMuted)
+                                }
                             }
 
-                            HStack(spacing: GameTheme.Spacing.sm) {
-                                Label("$\(event.budget.total, specifier: "%.0f")", systemImage: "banknote")
-                                    .font(GameTheme.Typography.micro)
-                                    .foregroundStyle(GameTheme.Colors.money)
-                                Label("\(event.guestCount)", systemImage: "person.2")
-                                    .font(GameTheme.Typography.micro)
-                                    .foregroundStyle(GameTheme.Colors.textMuted)
-                                Label(event.eventDate.shortFormatted, systemImage: "calendar")
-                                    .font(GameTheme.Typography.micro)
-                                    .foregroundStyle(GameTheme.Colors.textMuted)
+                            // Expanded: show meeting notes / transcripts
+                            if expandedClientId == event.id {
+                                clientNotes(for: event.id)
+                                    .padding(.top, GameTheme.Spacing.sm)
                             }
                         }
                         .surfaceCard()
@@ -733,6 +752,58 @@ struct PhoneClientsView: View {
                 }
             }
             .padding(.horizontal, GameTheme.Spacing.md)
+        }
+    }
+
+    @ViewBuilder
+    private func clientNotes(for eventId: String) -> some View {
+        let completedActivities = gameManager.advanceSystem
+            .getActivitiesForEvent(eventId: eventId)
+            .filter { $0.status == .completed }
+
+        VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
+            Text("Meeting Notes")
+                .font(GameTheme.Typography.micro)
+                .fontWeight(.bold)
+                .foregroundStyle(GameTheme.Colors.textMuted)
+
+            if completedActivities.isEmpty {
+                Text("No notes yet")
+                    .font(GameTheme.Typography.caption)
+                    .foregroundStyle(GameTheme.Colors.textMuted)
+            } else {
+                ForEach(completedActivities) { activity in
+                    // Show transcript for meetings/calls
+                    if let transcript = activity.content.dialogueTranscript, !transcript.isEmpty {
+                        VStack(alignment: .leading, spacing: 4) {
+                            HStack(spacing: 4) {
+                                Image(systemName: "phone.fill")
+                                    .font(GameTheme.Typography.micro)
+                                Text("Call — \(activity.scheduledDate.shortFormatted)")
+                                    .font(GameTheme.Typography.micro)
+                                    .fontWeight(.medium)
+                            }
+                            .foregroundStyle(GameTheme.Colors.accent)
+
+                            ForEach(Array(transcript.enumerated()), id: \.offset) { _, line in
+                                HStack(alignment: .top, spacing: 6) {
+                                    Text(line.speaker == .client ? "Them:" : "You:")
+                                        .font(GameTheme.Typography.micro)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(line.speaker == .client ? GameTheme.Colors.accent : GameTheme.Colors.success)
+                                        .frame(width: 36, alignment: .leading)
+                                    Text(line.text)
+                                        .font(GameTheme.Typography.micro)
+                                        .foregroundStyle(GameTheme.Colors.textSecondary)
+                                }
+                            }
+                        }
+                        .padding(GameTheme.Spacing.xs)
+                        .background(GameTheme.Colors.elevated)
+                        .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
+                    }
+                }
+            }
         }
     }
 }
