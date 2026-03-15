@@ -58,6 +58,36 @@ class GameManager: GameContext {
     /// Whether there are unread inbox items.
     var hasInboxItems: Bool { !inboxActivities.isEmpty }
 
+    /// All activities grouped by contact name for threaded message display.
+    /// Includes both active (ready) and completed activities.
+    var messageThreads: [ConversationThread] {
+        let allActivities = advanceSystem.scheduledActivities
+            .filter { $0.status == .ready || $0.status == .completed || $0.status == .overdue }
+
+        var threadMap: [String: [PlanningActivity]] = [:]
+        for activity in allActivities {
+            let contactName = activity.clientName ?? activity.content.senderName
+            threadMap[contactName, default: []].append(activity)
+        }
+
+        return threadMap.map { name, activities in
+            let sorted = activities.sorted { $0.scheduledDate < $1.scheduledDate }
+            let unread = activities.filter { $0.status == .ready }.count
+            return ConversationThread(
+                contactName: name,
+                activities: sorted,
+                unreadCount: unread,
+                latestDate: sorted.last?.scheduledDate ?? currentDate
+            )
+        }
+        .sorted { lhs, rhs in
+            // Unread threads first, then by latest date
+            if lhs.unreadCount > 0 && rhs.unreadCount == 0 { return true }
+            if lhs.unreadCount == 0 && rhs.unreadCount > 0 { return false }
+            return lhs.latestDate > rhs.latestDate
+        }
+    }
+
     init() {
         let startDate = GameDate(month: 3, day: 1, year: 2026)
         advanceSystem = AdvanceSystem(startDate: startDate)

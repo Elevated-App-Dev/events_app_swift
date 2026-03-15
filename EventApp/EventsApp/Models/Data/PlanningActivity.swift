@@ -153,3 +153,15 @@ struct DecisionPoint: Equatable {
 
     var isEmpty: Bool { activities.isEmpty }
 }
+
+/// A conversation thread grouping all planning activities with a single contact.
+struct ConversationThread: Identifiable {
+    var id: String { contactName }
+    let contactName: String
+    let activities: [PlanningActivity]
+    let unreadCount: Int
+    let latestDate: GameDate
+
+    var latestMessage: PlanningActivity? { activities.last }
+    var hasUnread: Bool { unreadCount > 0 }
+}
