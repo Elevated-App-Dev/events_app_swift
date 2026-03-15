@@ -119,6 +119,8 @@
 		CC1D4A02F661457D003BADE3 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1D4A01F661457D003BADE3 /* Transaction.swift */; };
 		DD4B5A02F661457D003BADE3 /* LaptopOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4B5A01F661457D003BADE3 /* LaptopOverlayView.swift */; };
 		EE6A7B02F661457D003BAD02 /* VendorBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6A7B01F661457D003BAD01 /* VendorBrowserView.swift */; };
+		FF1A2B02C661457D003BAD02 /* EmailInboxView.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF1A2B01C661457D003BAD01 /* EmailInboxView.swift */; };
+		FF2C3D02C661457D003BAD04 /* ProgressView_.swift in Sources */ = {isa = PBXBuildFile; fileRef = FF2C3D01C661457D003BAD03 /* ProgressView_.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -254,6 +256,8 @@
 		CC1D4A01F661457D003BADE3 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		DD4B5A01F661457D003BADE3 /* LaptopOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaptopOverlayView.swift; sourceTree = "<group>"; };
 		EE6A7B01F661457D003BAD01 /* VendorBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorBrowserView.swift; sourceTree = "<group>"; };
+		FF1A2B01C661457D003BAD01 /* EmailInboxView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = EmailInboxView.swift; sourceTree = "<group>"; };
+		FF2C3D01C661457D003BAD03 /* ProgressView_.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ProgressView_.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -516,10 +520,12 @@
 			children = (
 				033C8D5A2F615007003BADE3 /* InquiryListView.swift */,
 				033C8D5C2F61503F003BADE3 /* ActiveEventsListView.swift */,
+				FF1A2B01C661457D003BAD01 /* EmailInboxView.swift */,
 				033C8D5E2F615040003BADE3 /* EventDetailView.swift */,
 				033C8D602F615041003BADE3 /* VenuePickerView.swift */,
 				033C8D622F615042003BADE3 /* VendorPickerView.swift */,
 				033C8D642F61505F003BADE3 /* EventResultsView.swift */,
+				FF2C3D01C661457D003BAD03 /* ProgressView_.swift */,
 				033C8D662F615061003BADE3 /* TutorialOverlayView.swift */,
 				033C8D682F615062003BADE3 /* InboxView.swift */,
 				EE6A7B01F661457D003BAD01 /* VendorBrowserView.swift */,
@@ -791,6 +797,8 @@
 				CC1D4A02F661457D003BADE3 /* Transaction.swift in Sources */,
 				DD4B5A02F661457D003BADE3 /* LaptopOverlayView.swift in Sources */,
 				EE6A7B02F661457D003BAD02 /* VendorBrowserView.swift in Sources */,
+				FF1A2B02C661457D003BAD02 /* EmailInboxView.swift in Sources */,
+				FF2C3D02C661457D003BAD04 /* ProgressView_.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

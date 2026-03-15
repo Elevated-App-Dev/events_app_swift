@@ -65,19 +65,19 @@ struct AdvanceSystem: AdvanceSystemProtocol {
     mutating func advance(to point: DecisionPoint) -> [PlanningActivity] {
         var overdueActivities: [PlanningActivity] = []
 
-        // Process all activities between current date and target date
         for i in scheduledActivities.indices {
             let activity = scheduledActivities[i]
+            guard activity.status == .scheduled else { continue }
 
-            // Mark activities on the target date as ready
-            if activity.scheduledDate == point.date && activity.status == .scheduled {
+            // Activities on or before the target date become ready
+            if activity.scheduledDate <= point.date {
                 scheduledActivities[i].status = .ready
             }
 
             // Check for activities that became overdue during the jump
             if let deadline = activity.responseDeadline,
                deadline < point.date,
-               activity.status == .ready || activity.status == .scheduled {
+               scheduledActivities[i].status == .ready {
                 scheduledActivities[i].status = .overdue
                 overdueActivities.append(scheduledActivities[i])
             }

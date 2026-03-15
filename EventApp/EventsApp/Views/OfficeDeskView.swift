@@ -90,7 +90,7 @@ struct OfficeDeskView: View {
                         deskItem(
                             icon: "calendar",
                             label: "Calendar",
-                            badge: gameManager.activeEvents.count,
+                            badge: 0,
                             color: GameTheme.Colors.accent
                         ) {
                             phoneOpenToApp = .calendar
@@ -115,7 +115,7 @@ struct OfficeDeskView: View {
                     deskItem(
                         icon: "laptopcomputer",
                         label: "Business",
-                        badge: gameManager.activeEvents.count,
+                        badge: 0,
                         color: GameTheme.Colors.money
                     ) {
                         showLaptop = true
@@ -123,29 +123,15 @@ struct OfficeDeskView: View {
 
                     Spacer()
 
-                    // Bottom row: Phone, Mail
-                    HStack(spacing: GameTheme.Spacing.md) {
-                        deskItem(
-                            icon: "iphone",
-                            label: "Phone",
-                            badge: gameManager.messageActivities.count,
-                            color: GameTheme.Colors.accent
-                        ) {
-                            phoneOpenToApp = nil
-                            showPhone = true
-                        }
-
-                        Spacer()
-
-                        deskItem(
-                            icon: "envelope.fill",
-                            label: "Mail",
-                            badge: gameManager.pendingInquiries.count + gameManager.emailActivities.count,
-                            color: GameTheme.Colors.warning
-                        ) {
-                            phoneOpenToApp = .messages
-                            showPhone = true
-                        }
+                    // Bottom row: Phone only
+                    deskItem(
+                        icon: "iphone",
+                        label: "Phone",
+                        badge: gameManager.inboxActivities.count + gameManager.pendingInquiries.count,
+                        color: GameTheme.Colors.accent
+                    ) {
+                        phoneOpenToApp = nil
+                        showPhone = true
                     }
                 }
                 .padding(GameTheme.Spacing.xl)

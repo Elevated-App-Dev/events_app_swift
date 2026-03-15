@@ -137,20 +137,14 @@ struct PhoneOverlayView: View {
         switch app {
         case .messages:
             InboxView()
+        case .email:
+            EmailInboxView()
         case .calendar:
             PhoneCalendarView()
-        case .bank:
-            PhoneBankView()
-        case .contacts:
-            PhoneContactsView()
-        case .reviews:
-            PhoneReviewsView()
         case .tasks:
-            PhoneTasksView()
-        case .clients:
-            PhoneClientsView()
-        case .marketing:
-            placeholderAppView(title: "Marketing", icon: "megaphone")
+            ProgressView_()
+        default:
+            placeholderAppView(title: app.title, icon: app.icon)
         }
     }
 
@@ -159,11 +153,13 @@ struct PhoneOverlayView: View {
     private func badgeCount(for app: PhoneApp) -> Int {
         switch app {
         case .messages:
-            return gameManager.inboxActivities.count
-        case .calendar:
-            return gameManager.activeEvents.count
-        case .clients:
-            return gameManager.pendingInquiries.count
+            // Only texts and calls that need action
+            return gameManager.messageActivities.count
+        case .email:
+            // Emails that need action + pending inquiries
+            return gameManager.emailActivities.count + gameManager.pendingInquiries.count
+        case .calendar, .tasks:
+            return 0  // Informational only — no actionable badge
         default:
             return 0
         }
@@ -174,19 +170,22 @@ struct PhoneOverlayView: View {
 
 extension PhoneApp {
     /// Apps shown on the phone home screen (excludes marketing for now).
-    /// Apps shown on the phone home screen. Clients moved to laptop CRM.
+    /// Apps shown on the phone home screen.
+    /// Communication (Messages + Email) + Calendar + Progress.
+    /// Business ops (vendors, CRM, financials) live in the laptop.
     static var homeScreenApps: [PhoneApp] {
-        [.messages, .calendar, .bank, .contacts, .reviews, .tasks]
+        [.messages, .email, .calendar, .tasks]
     }
 
     var title: String {
         switch self {
         case .messages: return "Messages"
+        case .email: return "Email"
         case .calendar: return "Calendar"
+        case .tasks: return "Progress"
         case .bank: return "Bank"
         case .contacts: return "Contacts"
         case .reviews: return "Reviews"
-        case .tasks: return "Tasks"
         case .clients: return "Clients"
         case .marketing: return "Marketing"
         }
@@ -195,11 +194,12 @@ extension PhoneApp {
     var icon: String {
         switch self {
         case .messages: return "message"
+        case .email: return "envelope"
         case .calendar: return "calendar"
+        case .tasks: return "checklist"
         case .bank: return "banknote"
         case .contacts: return "person.crop.rectangle.stack"
         case .reviews: return "star"
-        case .tasks: return "checklist"
         case .clients: return "person.2"
         case .marketing: return "megaphone"
         }
@@ -208,11 +208,12 @@ extension PhoneApp {
     var color: Color {
         switch self {
         case .messages: return GameTheme.Colors.accent
+        case .email: return GameTheme.Colors.warning
         case .calendar: return GameTheme.Colors.warning
+        case .tasks: return GameTheme.Colors.success
         case .bank: return GameTheme.Colors.money
         case .contacts: return GameTheme.Colors.textSecondary
         case .reviews: return GameTheme.Colors.reputation
-        case .tasks: return GameTheme.Colors.success
         case .clients: return GameTheme.Colors.accent
         case .marketing: return GameTheme.Colors.warning
         }

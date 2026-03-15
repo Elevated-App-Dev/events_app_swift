@@ -3,10 +3,11 @@ import Foundation
 enum PhoneApp: String, CaseIterable, Codable, Hashable {
     case calendar
     case messages
+    case email
+    case tasks       // Repurposed as "Progress" — completed milestones per event
     case bank
     case contacts
     case reviews
-    case tasks
     case clients
     case marketing
 }
