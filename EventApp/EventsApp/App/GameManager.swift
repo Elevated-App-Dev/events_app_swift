@@ -511,7 +511,7 @@ class GameManager: GameContext {
             content: ActivityContent(
                 senderName: vendor.vendorName,
                 subject: "Re: Availability inquiry",
-                body: "" // Will be populated when the activity becomes ready
+                body: "Hi! Thanks for reaching out. I checked my calendar and I'm available on your event date. I'd be happy to put together a quote for you."
             )
         )
         advanceSystem.scheduleActivity(responseActivity)
@@ -655,6 +655,9 @@ class GameManager: GameContext {
             onClientDepositAcknowledged(activity)
         case .vendorAvailabilityResponse:
             onVendorAvailabilityReceived(activity)
+        case .vendorOptionsReview:
+            // Quote reviewed — handled by accept/negotiate actions in UI
+            break
         default:
             break
         }
@@ -764,11 +767,76 @@ class GameManager: GameContext {
         activeEvents[eventIndex].status = .planning
     }
 
-    /// After vendor confirms availability: acknowledge and allow next steps.
+    /// Player accepts a vendor quote — books the vendor for the event.
+    func acceptVendorQuote(activityId: String) {
+        guard let activity = advanceSystem.scheduledActivities.first(where: { $0.id == activityId }),
+              let vendorId = activity.vendorId,
+              let vendor = SeedData.vendor(byId: vendorId),
+              let eventIndex = activeEvents.firstIndex(where: { $0.id == activity.eventId }) else { return }
+
+        let price = activity.content.quoteAmount ?? vendor.basePrice
+
+        // Book the vendor
+        let assignment = VendorAssignment(
+            vendorId: vendor.id,
+            category: vendor.category,
+            agreedPrice: price,
+            isConfirmed: true,
+            bookingDate: advanceSystem.currentDate
+        )
+        activeEvents[eventIndex].vendors.append(assignment)
+        activeEvents[eventIndex].budget.spent += price
+        saveData.addVendorBooking(vendor.id, date: activeEvents[eventIndex].eventDate)
+
+        // Log transaction
+        transactions.append(.expense(date: advanceSystem.currentDate, amount: price, description: "Vendor — \(vendor.vendorName)", category: .vendorPayment))
+        playerData.money -= price
+
+        // Mark quote as completed
+        advanceSystem.completeActivity(id: activityId)
+
+        // Send confirmation message
+        let confirmActivity = PlanningActivity.create(
+            eventId: activity.eventId,
+            vendorId: vendorId,
+            vendorCategory: activity.vendorCategory,
+            type: .vendorContractSent,
+            medium: .email,
+            scheduledDate: advanceSystem.currentDate,
+            content: ActivityContent(
+                senderName: "You",
+                subject: "Booking confirmed — \(vendor.vendorName)",
+                body: "Booked \(vendor.vendorName) for $\(Int(price)). They're confirmed for your event."
+            )
+        )
+        advanceSystem.scheduleActivity(confirmActivity)
+        advanceSystem.completeActivity(id: confirmActivity.id)
+    }
+
+    /// After vendor confirms availability: schedule a quote.
     private func onVendorAvailabilityReceived(_ activity: PlanningActivity) {
-        // Vendor availability responses are informational — player reads them
-        // and decides whether to proceed. Future: wire up the "send quote request"
-        // step from the inbox or event detail view.
+        guard let vendorId = activity.vendorId,
+              let vendor = SeedData.vendor(byId: vendorId) else { return }
+
+        // Vendor sends a quote 1 day after availability confirmation
+        let quoteDate = advanceSystem.currentDate.adding(days: 1)
+
+        let quoteActivity = PlanningActivity.create(
+            eventId: activity.eventId,
+            vendorId: vendorId,
+            vendorCategory: activity.vendorCategory,
+            type: .vendorOptionsReview,
+            medium: .email,
+            scheduledDate: quoteDate,
+            responseDeadline: quoteDate.adding(days: 5),
+            content: ActivityContent(
+                senderName: vendor.vendorName,
+                subject: "Quote for your event",
+                body: "Thanks for reaching out! I'm available on your event date. Here's my pricing:\n\nBase rate: $\(Int(vendor.basePrice))\nSpecialty: \(vendor.specialty)\n\nLet me know if you'd like to proceed, or if you'd like to discuss pricing.",
+                quoteAmount: vendor.basePrice
+            )
+        )
+        advanceSystem.scheduleActivity(quoteActivity)
     }
 
     // MARK: - Tutorial

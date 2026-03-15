@@ -244,13 +244,35 @@ struct ThreadDetailView: View {
             ScrollView {
                 VStack(spacing: GameTheme.Spacing.sm) {
                     ForEach(thread.activities) { activity in
-                        MessageBubble(activity: activity, onAction: {
-                            if activity.status == .ready {
+                        MessageBubble(
+                            activity: activity,
+                            onAction: {
+                                if activity.status == .ready {
+                                    withAnimation(GameTheme.Anim.spring) {
+                                        gameManager.completeActivity(activity.id)
+                                    }
+                                }
+                            },
+                            onAcceptQuote: {
                                 withAnimation(GameTheme.Anim.spring) {
-                                    gameManager.completeActivity(activity.id)
+                                    gameManager.acceptVendorQuote(activityId: activity.id)
+                                }
+                            },
+                            onNegotiate: {
+                                if let vendorId = activity.vendorId,
+                                   let vendor = SeedData.vendor(byId: vendorId) {
+                                    let offerAmount = (activity.content.quoteAmount ?? vendor.basePrice) * 0.85
+                                    withAnimation(GameTheme.Anim.spring) {
+                                        gameManager.sendNegotiationOffer(
+                                            activityId: activity.id,
+                                            eventId: activity.eventId,
+                                            vendor: vendor,
+                                            offerAmount: offerAmount
+                                        )
+                                    }
                                 }
                             }
-                        })
+                        )
                     }
                 }
                 .padding(.horizontal, GameTheme.Spacing.md)
@@ -265,6 +287,12 @@ struct ThreadDetailView: View {
 struct MessageBubble: View {
     let activity: PlanningActivity
     let onAction: () -> Void
+    var onAcceptQuote: (() -> Void)? = nil
+    var onNegotiate: (() -> Void)? = nil
+
+    private var isVendorQuote: Bool {
+        activity.type == .vendorOptionsReview && activity.status == .ready && activity.content.quoteAmount != nil
+    }
 
     private var isFromPlayer: Bool {
         activity.content.senderName == "You"
@@ -351,8 +379,39 @@ struct MessageBubble: View {
                         .foregroundStyle(activity.status == .overdue ? GameTheme.Colors.error : GameTheme.Colors.warning)
                     }
 
-                    // Action button for unread messages
-                    if activity.status == .ready && !isFromPlayer {
+                    // Vendor quote actions: Accept / Negotiate
+                    if isVendorQuote {
+                        HStack(spacing: GameTheme.Spacing.xs) {
+                            if let accept = onAcceptQuote {
+                                Button(action: accept) {
+                                    Text("Accept Quote")
+                                        .font(GameTheme.Typography.micro)
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(.white)
+                                        .padding(.horizontal, GameTheme.Spacing.sm)
+                                        .padding(.vertical, 6)
+                                        .background(GameTheme.Colors.success)
+                                        .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
+                                }
+                            }
+                            if let negotiate = onNegotiate {
+                                Button(action: negotiate) {
+                                    Text("Negotiate")
+                                        .font(GameTheme.Typography.micro)
+                                        .fontWeight(.semibold)
+                                        .foregroundStyle(GameTheme.Colors.warning)
+                                        .padding(.horizontal, GameTheme.Spacing.sm)
+                                        .padding(.vertical, 6)
+                                        .overlay(
+                                            RoundedRectangle(cornerRadius: GameTheme.Radius.small)
+                                                .stroke(GameTheme.Colors.warning, lineWidth: 1)
+                                        )
+                                }
+                            }
+                        }
+                    }
+                    // Generic action button for other unread messages
+                    else if activity.status == .ready && !isFromPlayer {
                         Button(action: onAction) {
                             Text(acknowledgeLabel)
                                 .font(GameTheme.Typography.micro)

@@ -4,8 +4,8 @@ struct EventDetailView: View {
     @Environment(GameManager.self) private var gameManager
     let eventIndex: Int
     @State private var showVenuePicker = false
-    @State private var showVendorPicker = false
-    @State private var vendorCategoryToPick: VendorCategory = .caterer
+    @State private var showVendorBrowser = false
+    @State private var vendorCategoryToBrowse: VendorCategory = .caterer
     @State private var bookingMessage: String?
     @State private var showBookingAlert = false
 
@@ -14,7 +14,6 @@ struct EventDetailView: View {
         return gameManager.activeEvents[eventIndex]
     }
 
-    /// Allow venue/vendor selection during booking, planning, and active planning phases.
     private func canEditPlanning(_ event: EventData) -> Bool {
         switch event.phase {
         case .booking, .prePlanning, .activePlanning:
@@ -36,6 +35,7 @@ struct EventDetailView: View {
                     LabeledContent("Phase") {
                         PhaseBadge(phase: event.phase)
                     }
+                    LabeledContent("Status", value: event.status.rawValue.capitalized)
                 }
 
                 // Budget
@@ -76,8 +76,9 @@ struct EventDetailView: View {
                     }
                 }
 
-                // Vendors
+                // Vendors — show booked vendors and allow contacting new ones
                 Section("Vendors") {
+                    // Already booked vendors
                     ForEach(event.vendors, id: \.vendorId) { assignment in
                         if let vendor = SeedData.vendor(byId: assignment.vendorId) {
                             HStack {
@@ -89,23 +90,87 @@ struct EventDetailView: View {
                                         .foregroundStyle(.secondary)
                                 }
                                 Spacer()
-                                Text("$\(assignment.agreedPrice, specifier: "%.0f")")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
+                                VStack(alignment: .trailing) {
+                                    Text("$\(assignment.agreedPrice, specifier: "%.0f")")
+                                        .font(.caption)
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundStyle(.green)
+                                        .font(.caption)
+                                }
                             }
                         }
                     }
 
+                    // Vendors in progress (contacted but not booked)
+                    let contactedVendorIds = Set(
+                        gameManager.advanceSystem.getActivitiesForEvent(eventId: event.id)
+                            .compactMap { $0.vendorId }
+                    )
+                    let bookedVendorIds = Set(event.vendors.map { $0.vendorId })
+                    let pendingVendorIds = contactedVendorIds.subtracting(bookedVendorIds)
+
+                    ForEach(Array(pendingVendorIds), id: \.self) { vendorId in
+                        if let vendor = SeedData.vendor(byId: vendorId) {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(vendor.vendorName)
+                                        .font(.subheadline)
+                                    Text(vendor.category.rawValue.capitalized)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                                Spacer()
+                                Text("In progress")
+                                    .font(.caption)
+                                    .foregroundStyle(.orange)
+                            }
+                        }
+                    }
+
+                    // Contact new vendors
                     if canEditPlanning(event) {
-                        Menu("Add Vendor") {
-                            ForEach(VendorCategory.allCases, id: \.self) { category in
-                                let alreadyHas = event.vendors.contains { $0.category == category }
-                                if !alreadyHas {
+                        let bookedCategories = Set(event.vendors.map { $0.category })
+                        let pendingCategories = Set(
+                            pendingVendorIds.compactMap { id in SeedData.vendor(byId: id)?.category }
+                        )
+                        let availableCategories = VendorCategory.allCases.filter {
+                            !bookedCategories.contains($0) && !pendingCategories.contains($0)
+                        }
+
+                        if !availableCategories.isEmpty {
+                            Menu("Contact Vendor") {
+                                ForEach(availableCategories, id: \.self) { category in
                                     Button(category.rawValue.capitalized) {
-                                        vendorCategoryToPick = category
-                                        showVendorPicker = true
+                                        vendorCategoryToBrowse = category
+                                        showVendorBrowser = true
                                     }
                                 }
+                            }
+                        }
+                    }
+                }
+
+                // Activity log for this event
+                let activities = gameManager.advanceSystem.getActivitiesForEvent(eventId: event.id)
+                if !activities.isEmpty {
+                    Section("Activity Log") {
+                        ForEach(activities) { activity in
+                            HStack {
+                                Circle()
+                                    .fill(statusColor(activity.status))
+                                    .frame(width: 8, height: 8)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(activity.content.subject)
+                                        .font(.caption)
+                                        .lineLimit(1)
+                                    Text(activity.scheduledDate.shortFormatted)
+                                        .font(.caption2)
+                                        .foregroundStyle(.secondary)
+                                }
+                                Spacer()
+                                Text(activity.status.rawValue)
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
                             }
                         }
                     }
@@ -119,11 +184,12 @@ struct EventDetailView: View {
                     showBookingAlert = true
                 }
             }
-            .sheet(isPresented: $showVendorPicker) {
-                VendorPickerView(eventIndex: eventIndex, category: vendorCategoryToPick) { message in
-                    bookingMessage = message
-                    showBookingAlert = true
-                }
+            .sheet(isPresented: $showVendorBrowser) {
+                VendorBrowserView(
+                    eventId: event.id,
+                    category: vendorCategoryToBrowse,
+                    eventDate: event.eventDate
+                )
             }
             .alert("Booking", isPresented: $showBookingAlert) {
                 Button("OK") {}
@@ -132,6 +198,17 @@ struct EventDetailView: View {
             }
         } else {
             ContentUnavailableView("Event Not Found", systemImage: "exclamationmark.triangle")
+        }
+    }
+
+    private func statusColor(_ status: ActivityStatus) -> Color {
+        switch status {
+        case .completed: return .green
+        case .ready: return .orange
+        case .scheduled: return .blue
+        case .overdue: return .red
+        case .missed: return .red
+        case .cancelled: return .gray
         }
     }
 }

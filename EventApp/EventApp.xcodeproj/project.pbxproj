@@ -118,6 +118,7 @@
 		BB3F4A02F661457D003BADE3 /* PhoneOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = BB3F4A01F661457D003BADE3 /* PhoneOverlayView.swift */; };
 		CC1D4A02F661457D003BADE3 /* Transaction.swift in Sources */ = {isa = PBXBuildFile; fileRef = CC1D4A01F661457D003BADE3 /* Transaction.swift */; };
 		DD4B5A02F661457D003BADE3 /* LaptopOverlayView.swift in Sources */ = {isa = PBXBuildFile; fileRef = DD4B5A01F661457D003BADE3 /* LaptopOverlayView.swift */; };
+		EE6A7B02F661457D003BAD02 /* VendorBrowserView.swift in Sources */ = {isa = PBXBuildFile; fileRef = EE6A7B01F661457D003BAD01 /* VendorBrowserView.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -252,6 +253,7 @@
 		BB3F4A01F661457D003BADE3 /* PhoneOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PhoneOverlayView.swift; sourceTree = "<group>"; };
 		CC1D4A01F661457D003BADE3 /* Transaction.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Transaction.swift; sourceTree = "<group>"; };
 		DD4B5A01F661457D003BADE3 /* LaptopOverlayView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = LaptopOverlayView.swift; sourceTree = "<group>"; };
+		EE6A7B01F661457D003BAD01 /* VendorBrowserView.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = VendorBrowserView.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFileSystemSynchronizedRootGroup section */
@@ -520,6 +522,7 @@
 				033C8D642F61505F003BADE3 /* EventResultsView.swift */,
 				033C8D662F615061003BADE3 /* TutorialOverlayView.swift */,
 				033C8D682F615062003BADE3 /* InboxView.swift */,
+				EE6A7B01F661457D003BAD01 /* VendorBrowserView.swift */,
 			);
 			path = Gameplay;
 			sourceTree = "<group>";
@@ -787,6 +790,7 @@
 				BB3F4A02F661457D003BADE3 /* PhoneOverlayView.swift in Sources */,
 				CC1D4A02F661457D003BADE3 /* Transaction.swift in Sources */,
 				DD4B5A02F661457D003BADE3 /* LaptopOverlayView.swift in Sources */,
+				EE6A7B02F661457D003BAD02 /* VendorBrowserView.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
