@@ -18,6 +18,7 @@ class GameManager: GameContext {
     var completedEvents: [EventData] = []
     var lastCompletedEvent: EventData?
     var vendorRelationships: [String: VendorRelationship] = [:]
+    var transactions: [Transaction] = []
 
     // MARK: - Systems
 
@@ -41,14 +42,83 @@ class GameManager: GameContext {
     /// Current game date — views should use this instead of timeSystem.currentDate.
     var currentDate: GameDate { advanceSystem.currentDate }
 
-    /// Activities currently in the player's inbox (ready on today's date).
+    /// All activities currently in the player's inbox (ready on today's date).
     var inboxActivities: [PlanningActivity] { advanceSystem.getInboxActivities() }
 
-    /// Whether there are unread inbox items.
-    var hasInboxItems: Bool { !inboxActivities.isEmpty }
+    /// Email activities only (formal: contracts, quotes, vendor correspondence).
+    var emailActivities: [PlanningActivity] {
+        inboxActivities.filter { $0.medium == .email }
+    }
+
+    /// Message/call activities only (quick: texts, calls, confirmations).
+    var messageActivities: [PlanningActivity] {
+        inboxActivities.filter { $0.medium == .text || $0.medium == .call || $0.medium == .inPerson }
+    }
+
+    /// Whether there are actionable inbox items that need player attention.
+    /// System messages (event day, event results) don't block advance.
+    var hasInboxItems: Bool {
+        inboxActivities.contains { activity in
+            activity.type != .eventExecution && activity.type != .eventResults
+        }
+    }
+
+    /// All activities grouped by contact name for threaded message display.
+    /// Includes both active (ready) and completed activities.
+    var messageThreads: [ConversationThread] {
+        // Only show activities that have actually arrived (not future scheduled)
+        let allActivities = advanceSystem.scheduledActivities
+            .filter { ($0.status == .ready || $0.status == .completed || $0.status == .overdue)
+                      && $0.scheduledDate <= currentDate }
+
+        // Group by contact — resolve "You" sender to the event's client or vendor name
+        var threadMap: [String: [PlanningActivity]] = [:]
+        for activity in allActivities {
+            let contactName = resolveContactName(for: activity)
+            threadMap[contactName, default: []].append(activity)
+        }
+
+        return threadMap
+            .filter { $0.key != "System" } // Exclude system messages
+            .map { name, activities in
+                let sorted = activities.sorted { $0.scheduledDate < $1.scheduledDate }
+                let unread = activities.filter { $0.status == .ready }.count
+                return ConversationThread(
+                    contactName: name,
+                    activities: sorted,
+                    unreadCount: unread,
+                    latestDate: sorted.last?.scheduledDate ?? currentDate
+                )
+            }
+            .sorted { lhs, rhs in
+                if lhs.unreadCount > 0 && rhs.unreadCount == 0 { return true }
+                if lhs.unreadCount == 0 && rhs.unreadCount > 0 { return false }
+                return lhs.latestDate > rhs.latestDate
+            }
+    }
+
+    /// Resolve the contact name for threading — "You"-sent activities get
+    /// grouped with the client or vendor they belong to, not a "You" thread.
+    func resolveContactName(for activity: PlanningActivity) -> String {
+        // If clientName is set, use it (client-related activities)
+        if let clientName = activity.clientName, !clientName.isEmpty {
+            return clientName
+        }
+        // If it's from a vendor, use the vendor name
+        if let vendorId = activity.vendorId, let vendor = SeedData.vendor(byId: vendorId) {
+            return vendor.vendorName
+        }
+        // If sender is "You", look up the event's client name
+        if activity.content.senderName == "You" {
+            if let event = activeEvents.first(where: { $0.id == activity.eventId }) {
+                return event.clientName
+            }
+        }
+        return activity.content.senderName
+    }
 
     init() {
-        let startDate = GameDate(month: 3, day: 1, year: 1)
+        let startDate = GameDate(month: 3, day: 1, year: 2026)
         advanceSystem = AdvanceSystem(startDate: startDate)
         timeSystem = TimeSystem()
         satisfactionCalculator = SatisfactionCalculator()
@@ -71,7 +141,7 @@ class GameManager: GameContext {
         playerData = PlayerData()
         saveData = SaveData()
         saveData.playerData = playerData
-        saveData.currentDate = GameDate(month: 3, day: 1, year: 1)
+        saveData.currentDate = GameDate(month: 3, day: 1, year: 2026)
         saveData.journeyStartTime = Date()
 
         pendingInquiries = []
@@ -99,12 +169,19 @@ class GameManager: GameContext {
             )
         }
 
-        // Schedule the first inquiry
+        // Generate the first inquiry immediately so there's something to do
+        let firstInquiry = eventPlanningSystem.generateInquiry(
+            stage: 1,
+            reputation: 0,
+            currentDate: advanceSystem.currentDate
+        )
+        pendingInquiries.append(firstInquiry)
+
+        // Schedule the next inquiry (delayed until first event completes)
         advanceSystem.scheduleNextInquiry(stage: playerData.stageNumber, reputation: playerData.reputation)
 
-        // Start tutorial
-        startTutorial()
-        gameState = .tutorial
+        // Go straight to playing — no tutorial
+        gameState = .playing
         isInitialized = true
     }
 
@@ -133,19 +210,42 @@ class GameManager: GameContext {
     /// Called when the player taps the Advance button.
     /// Finds the next decision point, advances time, and presents inbox.
     func advanceToNextPoint() {
+        // Auto-complete stale ready activities from past days that might be blocking
+        autoCompleteStaleActivities()
+
         // Check for overdue activities before advancing
         let overdueWarnings = advanceSystem.processOverdueActivities()
         processOverdueVendorImpacts(overdueWarnings)
 
-        guard let nextPoint = advanceSystem.findNextDecisionPoint() else {
-            // Nothing scheduled — generate an inquiry and try again
-            advanceSystem.scheduleNextInquiry(stage: playerData.stageNumber, reputation: playerData.reputation)
-            guard let fallbackPoint = advanceSystem.findNextDecisionPoint() else { return }
+        if let nextPoint = advanceSystem.findNextDecisionPoint() {
+            performAdvance(to: nextPoint)
+            return
+        }
+
+        // Nothing scheduled — try scheduling an inquiry
+        advanceSystem.scheduleNextInquiry(stage: playerData.stageNumber, reputation: playerData.reputation)
+
+        if let fallbackPoint = advanceSystem.findNextDecisionPoint() {
             performAdvance(to: fallbackPoint)
             return
         }
 
-        performAdvance(to: nextPoint)
+        // Absolute fallback — advance one day so the game never gets stuck
+        let tomorrow = advanceSystem.currentDate.adding(days: 1)
+        let fallbackDecision = DecisionPoint(date: tomorrow, activities: [])
+        performAdvance(to: fallbackDecision)
+    }
+
+    /// Auto-complete any ready activities that the player hasn't explicitly
+    /// handled. Runs their completion handlers so follow-up activities get scheduled.
+    private func autoCompleteStaleActivities() {
+        let stale = advanceSystem.scheduledActivities.filter {
+            $0.status == .ready && $0.scheduledDate < advanceSystem.currentDate
+        }
+        for activity in stale {
+            // Run through the full completion handler so follow-ups get scheduled
+            completeActivity(activity.id)
+        }
     }
 
     private func performAdvance(to point: DecisionPoint) {
@@ -165,7 +265,10 @@ class GameManager: GameContext {
         saveData.currentDate = advanceSystem.currentDate
 
         // Check if today is an inquiry day
-        if let inquiryDate = advanceSystem.nextScheduledInquiryDate,
+        // Don't generate new inquiries until at least one event has been completed
+        let hasCompletedFirstEvent = !completedEvents.isEmpty
+        if hasCompletedFirstEvent,
+           let inquiryDate = advanceSystem.nextScheduledInquiryDate,
            inquiryDate <= advanceSystem.currentDate {
             generateNewInquiry()
             advanceSystem.scheduleNextInquiry(stage: playerData.stageNumber, reputation: playerData.reputation)
@@ -201,14 +304,15 @@ class GameManager: GameContext {
 
             activeEvents[i].phase = phaseInfo.phase
 
-            // Execution day
-            if phaseInfo.phase == .executionDay && activeEvents[i].status != .executing {
+            // Execution day — or we've passed it
+            if (phaseInfo.phase == .executionDay || currentDate >= activeEvents[i].eventDate)
+                && activeEvents[i].status != .executing && activeEvents[i].status != .completed {
                 activeEvents[i].status = .executing
                 executeEvent(at: i)
             }
 
-            // Results phase (day after event)
-            if phaseInfo.phase == .results && activeEvents[i].status == .executing {
+            // Results phase — day after event or later
+            if currentDate > activeEvents[i].eventDate && activeEvents[i].status == .executing {
                 completeEvent(at: i)
             }
         }
@@ -257,7 +361,6 @@ class GameManager: GameContext {
         event.status = .completed
 
         let satisfaction = event.results?.finalSatisfaction ?? 50
-        let profit = event.results?.profit ?? 0
 
         let repChange = progressionSystem.applyEventResult(
             satisfaction: satisfaction,
@@ -267,7 +370,14 @@ class GameManager: GameContext {
         playerData.reputation = repChange.newReputation
         event.results?.reputationChange = repChange.change
 
-        playerData.money += profit
+        // Player earns their service fee on completion
+        // Vendor costs were paid from the client's event budget
+        let serviceFee = event.serviceFee
+        event.results?.profit = serviceFee
+        playerData.money += serviceFee
+        if serviceFee > 0 {
+            transactions.append(.income(date: advanceSystem.currentDate, amount: serviceFee, description: "Service fee — \(event.eventTitle)", category: .eventProfit))
+        }
 
         event.results?.clientFeedback = generateFeedback(satisfaction: satisfaction, tier: repChange.satisfactionTier)
 
@@ -407,6 +517,36 @@ class GameManager: GameContext {
         )
         advanceSystem.scheduleActivity(meetingActivity)
 
+        // Schedule event execution day as a decision point
+        let eventDayActivity = PlanningActivity.create(
+            eventId: event.id,
+            clientName: event.clientName,
+            type: .eventExecution,
+            medium: .text,
+            scheduledDate: event.eventDate,
+            content: ActivityContent(
+                senderName: "System",
+                subject: "Event Day — \(event.eventTitle)",
+                body: "Today is the day! \(event.eventTitle) is happening."
+            )
+        )
+        advanceSystem.scheduleActivity(eventDayActivity)
+
+        // Schedule results day (day after event)
+        let resultsDayActivity = PlanningActivity.create(
+            eventId: event.id,
+            clientName: event.clientName,
+            type: .eventResults,
+            medium: .email,
+            scheduledDate: event.eventDate.adding(days: 1),
+            content: ActivityContent(
+                senderName: event.clientName,
+                subject: "How did it go? — \(event.eventTitle)",
+                body: ""  // Populated when event completes
+            )
+        )
+        advanceSystem.scheduleActivity(resultsDayActivity)
+
         if tutorialSystem.isTutorialActive && tutorialSystem.currentStep == .acceptClient {
             advanceTutorial()
         }
@@ -422,7 +562,6 @@ class GameManager: GameContext {
     /// Player initiates contact with a vendor for an event.
     /// Schedules the availability check and response activities.
     func initiateVendorContact(eventId: String, vendor: VendorData) {
-        // Create or get vendor relationship
         if vendorRelationships[vendor.id] == nil {
             vendorRelationships[vendor.id] = VendorRelationship.createNew(vendorId: vendor.id)
         }
@@ -430,9 +569,11 @@ class GameManager: GameContext {
         guard let relationship = vendorRelationships[vendor.id],
               relationship.willAcceptBooking else { return }
 
+        let eventTitle = activeEvents.first(where: { $0.id == eventId })?.eventTitle ?? "your event"
+
         vendorRelationships[vendor.id]?.recordBookingStarted()
 
-        // Step 1: Availability request (immediate — same day, player-initiated)
+        // Step 1: Availability request (immediate)
         let requestActivity = PlanningActivity.create(
             eventId: eventId,
             vendorId: vendor.id,
@@ -442,14 +583,14 @@ class GameManager: GameContext {
             scheduledDate: advanceSystem.currentDate,
             content: ActivityContent(
                 senderName: "You",
-                subject: "Availability inquiry — \(vendor.vendorName)",
-                body: "Sent availability request to \(vendor.vendorName) for your event."
+                subject: "Availability inquiry — \(vendor.vendorName) for \(eventTitle)",
+                body: "Sent availability request to \(vendor.vendorName) for \(eventTitle)."
             )
         )
         advanceSystem.scheduleActivity(requestActivity)
         advanceSystem.completeActivity(id: requestActivity.id)
 
-        // Step 2: Availability response (1-2 days, vendor-initiated)
+        // Step 2: Availability response (1-2 days)
         let responseSpeedBonus = relationship.responseSpeedBonus
         let responseDays = max(1, Int.random(in: 1...2) - responseSpeedBonus)
         let responseDate = advanceSystem.currentDate.adding(days: responseDays)
@@ -464,8 +605,8 @@ class GameManager: GameContext {
             responseDeadline: responseDate.adding(days: 3),
             content: ActivityContent(
                 senderName: vendor.vendorName,
-                subject: "Re: Availability inquiry",
-                body: "" // Will be populated when the activity becomes ready
+                subject: "Re: Availability for \(eventTitle)",
+                body: "Hi! Thanks for reaching out about \(eventTitle). I checked my calendar and I'm available on the event date. I'd be happy to put together a quote for you."
             )
         )
         advanceSystem.scheduleActivity(responseActivity)
@@ -499,6 +640,33 @@ class GameManager: GameContext {
         let responseDate = advanceSystem.currentDate.adding(days: 1)
         let negotiationRound = (getCurrentNegotiationRound(eventId: eventId, vendorId: vendor.id)) + 1
 
+        // Determine vendor's response based on relationship and offer
+        let flexibility = relationship.pricingFlexibility
+        let minAcceptable = vendor.basePrice * (1.0 - flexibility)
+        let eventTitle = activeEvents.first(where: { $0.id == eventId })?.eventTitle ?? "your event"
+
+        let responseBody: String
+        let responseSubject: String
+        let responseQuote: Double?
+
+        if offerAmount >= minAcceptable {
+            // Vendor accepts
+            responseSubject = "Re: Your offer for \(eventTitle) — Accepted!"
+            responseBody = "Thanks for the offer. $\(Int(offerAmount)) works for me for \(eventTitle). I'll confirm the booking once you give the go-ahead."
+            responseQuote = offerAmount
+        } else if negotiationRound < 2 {
+            // Vendor counters
+            let counterAmount = ((offerAmount + vendor.basePrice) / 2).rounded()
+            responseSubject = "Re: Your offer for \(eventTitle) — Counter"
+            responseBody = "I appreciate the offer, but $\(Int(offerAmount)) is a bit low for \(eventTitle). I could do $\(Int(counterAmount)) — that's the best I can offer. Let me know."
+            responseQuote = counterAmount
+        } else {
+            // Vendor walks away
+            responseSubject = "Re: Your offer for \(eventTitle) — Can't do it"
+            responseBody = "Sorry, I can't go that low for \(eventTitle). I wish you the best finding someone in your budget. Feel free to reach out for future events."
+            responseQuote = nil
+        }
+
         let responseActivity = PlanningActivity.create(
             eventId: eventId,
             vendorId: vendor.id,
@@ -509,16 +677,15 @@ class GameManager: GameContext {
             responseDeadline: responseDate.adding(days: 3),
             content: ActivityContent(
                 senderName: vendor.vendorName,
-                subject: "Re: Your offer",
-                body: "", // Populated on delivery based on negotiation logic
+                subject: responseSubject,
+                body: responseBody,
+                quoteAmount: responseQuote,
                 negotiationRound: negotiationRound
             )
         )
         advanceSystem.scheduleActivity(responseActivity)
 
-        vendorRelationships[vendor.id]?.recordNegotiation(
-            successful: offerAmount >= vendor.basePrice * (1.0 - relationship.pricingFlexibility)
-        )
+        vendorRelationships[vendor.id]?.recordNegotiation(successful: offerAmount >= minAcceptable)
     }
 
     private func getCurrentNegotiationRound(eventId: String, vendorId: String) -> Int {
@@ -606,18 +773,54 @@ class GameManager: GameContext {
         case .clientContractSigned:
             onClientContractSigned(activity)
         case .clientDepositReceived:
-            // Deposit acknowledged — player can now start booking vendors
-            break
+            onClientDepositAcknowledged(activity)
+        case .clientFinalPayment:
+            onClientFinalPayment(activity)
+        case .clientDateChangeRequest:
+            onHeadcountRequestSent(activity)
         case .vendorAvailabilityResponse:
             onVendorAvailabilityReceived(activity)
+        case .vendorOptionsReview:
+            break
+        case .vendorDepositPayment:
+            onVendorDepositPaid(activity)
         default:
             break
         }
     }
 
-    /// After client meeting: schedule the contract.
+    /// After client meeting: schedule the contract with event details for review.
     private func onClientMeetingCompleted(_ activity: PlanningActivity) {
+        guard let event = activeEvents.first(where: { $0.id == activity.eventId }) else { return }
+
         let contractDate = advanceSystem.currentDate.adding(days: 1)
+        let depositAmount = event.budget.total * 0.25
+        let eventName = event.subCategory
+
+        let contractBody = """
+        Draft contract ready for your review before sending to \(event.clientName).
+
+        — EVENT PLANNING CONTRACT —
+
+        Client: \(event.clientName)
+        Event: \(eventName)
+        Date: \(event.eventDate.formatted)
+        Guests: \(event.guestCount)
+        Total Budget: $\(Int(event.budget.total))
+        Deposit (25%): $\(Int(depositAmount))
+
+        Services included:
+        • Event planning and coordination
+        • Venue sourcing and booking
+        • Vendor management (catering, entertainment, etc.)
+        • Day-of event oversight
+
+        Payment terms:
+        • 25% deposit due upon signing ($\(Int(depositAmount)))
+        • Remaining balance due 5 days before the event
+
+        Review the details above, then tap Send to Client.
+        """
 
         let contractActivity = PlanningActivity.create(
             eventId: activity.eventId,
@@ -627,12 +830,93 @@ class GameManager: GameContext {
             scheduledDate: contractDate,
             responseDeadline: contractDate.adding(days: 3),
             content: ActivityContent(
-                senderName: activity.content.senderName,
-                subject: "Contract for \(activity.content.subject.replacingOccurrences(of: "Call with \(activity.content.senderName) — ", with: ""))",
-                body: "Hi! Thanks for the great conversation. I've attached the event planning contract with the details we discussed. Please review and sign at your convenience."
+                senderName: "You",
+                subject: "Contract — \(event.clientName), \(eventName)",
+                body: contractBody,
+                contractAmount: event.budget.total
             )
         )
         advanceSystem.scheduleActivity(contractActivity)
+    }
+
+    /// Player sends contract with their chosen service fee.
+    /// The client may accept or negotiate based on personality.
+    func sendContractWithFee(activityId: String, serviceFeePercent: Double) {
+        guard let activity = advanceSystem.scheduledActivities.first(where: { $0.id == activityId }),
+              let eventIndex = activeEvents.firstIndex(where: { $0.id == activity.eventId }) else { return }
+
+        let event = activeEvents[eventIndex]
+        let serviceFee = event.budget.total * (serviceFeePercent / 100)
+
+        activeEvents[eventIndex].serviceFeePercent = serviceFeePercent
+        activeEvents[eventIndex].serviceFee = serviceFee
+
+        advanceSystem.completeActivity(id: activityId)
+
+        // Client response depends on personality and fee level
+        let signDays = Int.random(in: 1...2)
+        let signDate = advanceSystem.currentDate.adding(days: signDays)
+
+        let willNegotiate = shouldClientNegotiateFee(personality: event.personality, feePercent: serviceFeePercent)
+
+        if willNegotiate && event.negotiationRoundsUsed < 2 {
+            // Client pushes back
+            let counterPercent = max(5, serviceFeePercent - Double.random(in: 3...8))
+            let counterFee = event.budget.total * (counterPercent / 100)
+
+            let pushbackActivity = PlanningActivity.create(
+                eventId: event.id,
+                clientName: event.clientName,
+                type: .clientContractSent, // Reuse type — it's another contract draft
+                medium: .email,
+                scheduledDate: signDate,
+                responseDeadline: signDate.adding(days: 3),
+                content: ActivityContent(
+                    senderName: event.clientName,
+                    subject: "Re: Contract — fee discussion",
+                    body: clientNegotiationResponse(personality: event.personality, originalFee: serviceFee, counterFee: counterFee, feePercent: serviceFeePercent, counterPercent: counterPercent),
+                    counterOfferAmount: counterPercent,
+                    contractAmount: event.budget.total
+                )
+            )
+            advanceSystem.scheduleActivity(pushbackActivity)
+            activeEvents[eventIndex].negotiationRoundsUsed += 1
+        } else {
+            // Client accepts
+            onClientContractSent(activity)
+        }
+    }
+
+    private func shouldClientNegotiateFee(personality: ClientPersonality, feePercent: Double) -> Bool {
+        switch personality {
+        case .easyGoing:
+            return feePercent > 20 // Only pushes back on high fees
+        case .budgetConscious:
+            return feePercent > 10 // Very sensitive to fees
+        case .perfectionist:
+            return feePercent > 25 // Expects to pay for quality
+        case .demanding:
+            return feePercent > 15 // Negotiates everything
+        case .indecisive:
+            return false // Doesn't negotiate, accepts whatever
+        case .celebrity:
+            return false // Money isn't the issue
+        }
+    }
+
+    private func clientNegotiationResponse(personality: ClientPersonality, originalFee: Double, counterFee: Double, feePercent: Double, counterPercent: Double) -> String {
+        let response: String
+        switch personality {
+        case .budgetConscious:
+            response = "I appreciate the detailed contract, but the \(Int(feePercent))% service fee is higher than I was expecting. Would you consider \(Int(counterPercent))% ($\(Int(counterFee)))? That would help us stay within our budget."
+        case .demanding:
+            response = "The contract looks good, but I've worked with planners who charge less. I think \(Int(counterPercent))% ($\(Int(counterFee))) is more in line with what I'd expect. Can we make that work?"
+        case .easyGoing:
+            response = "Hey, the contract looks great overall! Just wondering if there's any flexibility on the fee? Something around \(Int(counterPercent))% would be easier for us."
+        default:
+            response = "Thanks for sending this over. Could we discuss the service fee? I was thinking something closer to \(Int(counterPercent))% ($\(Int(counterFee))) might be more reasonable."
+        }
+        return response
     }
 
     /// After contract sent: client signs in 1-2 days.
@@ -655,14 +939,12 @@ class GameManager: GameContext {
         advanceSystem.scheduleActivity(signedActivity)
     }
 
-    /// After contract signed: schedule deposit and enable vendor planning.
+    /// After contract signed: schedule deposit notification and enable vendor planning.
     private func onClientContractSigned(_ activity: PlanningActivity) {
         guard let eventIndex = activeEvents.firstIndex(where: { $0.id == activity.eventId }) else { return }
         let event = activeEvents[eventIndex]
 
-        // Client deposit received (immediate)
         let depositAmount = event.budget.total * 0.25
-        playerData.money += depositAmount
 
         let depositActivity = PlanningActivity.create(
             eventId: activity.eventId,
@@ -678,16 +960,235 @@ class GameManager: GameContext {
             )
         )
         advanceSystem.scheduleActivity(depositActivity)
-
-        // Update event status to planning
-        activeEvents[eventIndex].status = .planning
     }
 
-    /// After vendor confirms availability: acknowledge and allow next steps.
+    /// After player acknowledges deposit: money arrives, event enters planning.
+    /// Schedules natural checkpoints leading up to the event day.
+    private func onClientDepositAcknowledged(_ activity: PlanningActivity) {
+        guard let eventIndex = activeEvents.firstIndex(where: { $0.id == activity.eventId }) else { return }
+
+        let event = activeEvents[eventIndex]
+        let depositAmount = activity.content.depositAmount ?? (event.budget.total * 0.25)
+        let eventTitle = event.eventTitle
+        playerData.money += depositAmount
+        transactions.append(.income(date: advanceSystem.currentDate, amount: depositAmount, description: "Client deposit — \(eventTitle)", category: .clientDeposit))
+
+        activeEvents[eventIndex].status = .planning
+
+        // Schedule client final payment (-7 days before event)
+        let finalPaymentDate = event.eventDate.adding(days: -7)
+        if finalPaymentDate > advanceSystem.currentDate {
+            let remainingBalance = event.budget.total + event.serviceFee - depositAmount
+            let paymentActivity = PlanningActivity.create(
+                eventId: event.id,
+                clientName: event.clientName,
+                type: .clientFinalPayment,
+                medium: .email,
+                scheduledDate: finalPaymentDate,
+                content: ActivityContent(
+                    senderName: event.clientName,
+                    subject: "Final payment — \(eventTitle)",
+                    body: "\(event.clientName) has sent the remaining balance of $\(Int(max(0, remainingBalance))) for \(eventTitle).",
+                    depositAmount: max(0, remainingBalance)
+                )
+            )
+            advanceSystem.scheduleActivity(paymentActivity)
+        }
+
+        // Schedule client headcount request (-5 days before event)
+        let headcountRequestDate = event.eventDate.adding(days: -5)
+        if headcountRequestDate > advanceSystem.currentDate {
+            let headcountActivity = PlanningActivity.create(
+                eventId: event.id,
+                clientName: event.clientName,
+                type: .clientDateChangeRequest, // Reuse for headcount communication
+                medium: .email,
+                scheduledDate: headcountRequestDate,
+                content: ActivityContent(
+                    senderName: "You",
+                    subject: "Final headcount needed — \(eventTitle)",
+                    body: "Hi \(event.clientName), the event is coming up! Can you confirm the final guest count? Our caterer needs the number by \(event.eventDate.adding(days: -3).formatted)."
+                )
+            )
+            advanceSystem.scheduleActivity(headcountActivity)
+        }
+    }
+
+    /// Client final payment received before event.
+    private func onClientFinalPayment(_ activity: PlanningActivity) {
+        let amount = activity.content.depositAmount ?? 0
+        if amount > 0 {
+            playerData.money += amount
+            let eventTitle = activeEvents.first(where: { $0.id == activity.eventId })?.eventTitle ?? "Event"
+            transactions.append(.income(date: advanceSystem.currentDate, amount: amount, description: "Final payment — \(eventTitle)", category: .clientPayment))
+        }
+    }
+
+    /// After vendor deposit/final invoice is paid.
+    private func onVendorDepositPaid(_ activity: PlanningActivity) {
+        let amount = activity.content.depositAmount ?? 0
+        guard amount > 0,
+              let vendorId = activity.vendorId,
+              let vendor = SeedData.vendor(byId: vendorId) else { return }
+
+        let eventTitle = activeEvents.first(where: { $0.id == activity.eventId })?.eventTitle ?? "Event"
+        transactions.append(.expense(date: advanceSystem.currentDate, amount: amount, description: "\(vendor.vendorName) payment — \(eventTitle)", category: .vendorPayment))
+    }
+
+    /// After headcount request sent: client responds next day with final count.
+    private func onHeadcountRequestSent(_ activity: PlanningActivity) {
+        guard let event = activeEvents.first(where: { $0.id == activity.eventId }) else { return }
+
+        let responseDate = advanceSystem.currentDate.adding(days: 1)
+
+        // Client responds with headcount
+        let responseActivity = PlanningActivity.create(
+            eventId: event.id,
+            clientName: event.clientName,
+            type: .clientDateChangeRequest,
+            medium: .email,
+            scheduledDate: responseDate,
+            content: ActivityContent(
+                senderName: event.clientName,
+                subject: "Re: Final headcount — \(event.eventTitle)",
+                body: "We're confirmed at \(event.guestCount) guests! A couple might not make it but let's plan for the full count to be safe."
+            )
+        )
+        advanceSystem.scheduleActivity(responseActivity)
+
+        // Schedule caterer headcount verification (-3 days)
+        let catererVerifyDate = event.eventDate.adding(days: -3)
+        if catererVerifyDate > advanceSystem.currentDate {
+            // Find the caterer for this event
+            if let catererAssignment = event.vendors.first(where: { $0.category == .caterer }),
+               let caterer = SeedData.vendor(byId: catererAssignment.vendorId) {
+                let catererActivity = PlanningActivity.create(
+                    eventId: event.id,
+                    vendorId: caterer.id,
+                    vendorCategory: .caterer,
+                    type: .vendorFinalConfirmation,
+                    medium: .email,
+                    scheduledDate: catererVerifyDate,
+                    content: ActivityContent(
+                        senderName: "You",
+                        subject: "Final headcount confirmation — \(event.eventTitle)",
+                        body: "Hi \(caterer.vendorName), confirming \(event.guestCount) guests for \(event.eventTitle) on \(event.eventDate.formatted). Please confirm you're all set."
+                    )
+                )
+                advanceSystem.scheduleActivity(catererActivity)
+            }
+        }
+    }
+
+    /// Player accepts a vendor quote — vendor sends deposit invoice.
+    func acceptVendorQuote(activityId: String) {
+        guard let activity = advanceSystem.scheduledActivities.first(where: { $0.id == activityId }),
+              let vendorId = activity.vendorId,
+              let vendor = SeedData.vendor(byId: vendorId),
+              let eventIndex = activeEvents.firstIndex(where: { $0.id == activity.eventId }) else { return }
+
+        let price = activity.content.quoteAmount ?? vendor.basePrice
+        let eventTitle = activeEvents[eventIndex].eventTitle
+
+        // Book the vendor (price agreed, not fully paid yet)
+        let assignment = VendorAssignment(
+            vendorId: vendor.id,
+            category: vendor.category,
+            agreedPrice: price,
+            isConfirmed: true,
+            bookingDate: advanceSystem.currentDate
+        )
+        activeEvents[eventIndex].vendors.append(assignment)
+        activeEvents[eventIndex].budget.spent += price
+        saveData.addVendorBooking(vendor.id, date: activeEvents[eventIndex].eventDate)
+
+        advanceSystem.completeActivity(id: activityId)
+
+        // Vendor sends deposit invoice (+1 day)
+        let depositAmount = (price * 0.5).rounded()
+        let invoiceDate = advanceSystem.currentDate.adding(days: 1)
+
+        let invoiceActivity = PlanningActivity.create(
+            eventId: activity.eventId,
+            vendorId: vendorId,
+            vendorCategory: activity.vendorCategory,
+            type: .vendorDepositPayment,
+            medium: .email,
+            scheduledDate: invoiceDate,
+            responseDeadline: invoiceDate.adding(days: 3),
+            content: ActivityContent(
+                senderName: vendor.vendorName,
+                subject: "Deposit invoice — \(eventTitle)",
+                body: "Thanks for booking! To secure your date for \(eventTitle), please send a 50% deposit of $\(Int(depositAmount)). The remaining $\(Int(price - depositAmount)) is due after the event.",
+                quoteAmount: depositAmount,
+                depositAmount: depositAmount
+            )
+        )
+        advanceSystem.scheduleActivity(invoiceActivity)
+
+        // Schedule vendor final invoice (+1 day after event)
+        let finalInvoiceDate = activeEvents[eventIndex].eventDate.adding(days: 1)
+        let finalAmount = price - depositAmount
+        let finalInvoiceActivity = PlanningActivity.create(
+            eventId: activity.eventId,
+            vendorId: vendorId,
+            vendorCategory: activity.vendorCategory,
+            type: .vendorDepositPayment, // Reuse type for final payment
+            medium: .email,
+            scheduledDate: finalInvoiceDate,
+            content: ActivityContent(
+                senderName: vendor.vendorName,
+                subject: "Final invoice — \(eventTitle)",
+                body: "Thanks for a great event! Here's the final invoice for the remaining balance of $\(Int(finalAmount)) for \(eventTitle).",
+                quoteAmount: finalAmount,
+                depositAmount: finalAmount
+            )
+        )
+        advanceSystem.scheduleActivity(finalInvoiceActivity)
+
+        // Confirmation message (immediate)
+        let confirmActivity = PlanningActivity.create(
+            eventId: activity.eventId,
+            vendorId: vendorId,
+            vendorCategory: activity.vendorCategory,
+            type: .vendorContractSent,
+            medium: .email,
+            scheduledDate: advanceSystem.currentDate,
+            content: ActivityContent(
+                senderName: "You",
+                subject: "Booking confirmed — \(vendor.vendorName) for \(eventTitle)",
+                body: "Booked \(vendor.vendorName) for $\(Int(price)) for \(eventTitle). Deposit of $\(Int(depositAmount)) due, remaining $\(Int(finalAmount)) after the event."
+            )
+        )
+        advanceSystem.scheduleActivity(confirmActivity)
+    }
+
+    /// After vendor confirms availability: schedule a quote.
     private func onVendorAvailabilityReceived(_ activity: PlanningActivity) {
-        // Vendor availability responses are informational — player reads them
-        // and decides whether to proceed. Future: wire up the "send quote request"
-        // step from the inbox or event detail view.
+        guard let vendorId = activity.vendorId,
+              let vendor = SeedData.vendor(byId: vendorId) else { return }
+
+        let eventTitle = activeEvents.first(where: { $0.id == activity.eventId })?.eventTitle ?? "your event"
+
+        // Vendor sends a quote 1 day after availability confirmation
+        let quoteDate = advanceSystem.currentDate.adding(days: 1)
+
+        let quoteActivity = PlanningActivity.create(
+            eventId: activity.eventId,
+            vendorId: vendorId,
+            vendorCategory: activity.vendorCategory,
+            type: .vendorOptionsReview,
+            medium: .email,
+            scheduledDate: quoteDate,
+            responseDeadline: quoteDate.adding(days: 5),
+            content: ActivityContent(
+                senderName: vendor.vendorName,
+                subject: "Quote — \(eventTitle)",
+                body: "Thanks for reaching out about \(eventTitle)! Here's my pricing:\n\nBase rate: $\(Int(vendor.basePrice))\nSpecialty: \(vendor.specialty)\n\nLet me know if you'd like to proceed, or if you'd like to discuss pricing.",
+                quoteAmount: vendor.basePrice
+            )
+        )
+        advanceSystem.scheduleActivity(quoteActivity)
     }
 
     // MARK: - Tutorial

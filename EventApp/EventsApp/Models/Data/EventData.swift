@@ -18,6 +18,9 @@ struct EventData: Codable, Equatable, Identifiable {
     var vendors: [VendorAssignment] = []
     var tasks: [EventTask] = []
     var results: EventResults?
+    var serviceFeePercent: Double = 0
+    var serviceFee: Double = 0
+    var negotiationRoundsUsed: Int = 0
     var isCompanyEvent: Bool = false
     var isReferral: Bool = false
     var referredByClientName: String?

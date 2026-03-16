@@ -168,6 +168,44 @@ enum SeedData {
             reliability: 0.95,
             flexibility: 0.40
         ),
+        // Florist
+        VendorData(
+            id: "vendor_florist_petal",
+            vendorName: "Petal & Stem Florals",
+            category: .florist,
+            tier: .budget,
+            basePrice: 150,
+            qualityRating: 65,
+            specialty: "Centerpieces & Bouquets",
+            zone: .neighborhood,
+            reliability: 0.90,
+            flexibility: 0.55
+        ),
+        VendorData(
+            id: "vendor_florist_wild",
+            vendorName: "Wildflower Arrangements",
+            category: .florist,
+            tier: .standard,
+            basePrice: 300,
+            qualityRating: 78,
+            specialty: "Organic & Garden Style",
+            zone: .neighborhood,
+            reliability: 0.85,
+            flexibility: 0.65
+        ),
+        // Rental Company
+        VendorData(
+            id: "vendor_rental_party",
+            vendorName: "Party Perfect Rentals",
+            category: .rentalCompany,
+            tier: .budget,
+            basePrice: 200,
+            qualityRating: 60,
+            specialty: "Tables, Chairs & Linens",
+            zone: .neighborhood,
+            reliability: 0.85,
+            flexibility: 0.70
+        ),
     ]
 
     // MARK: - Lookup Helpers

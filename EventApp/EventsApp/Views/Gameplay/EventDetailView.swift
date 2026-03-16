@@ -4,14 +4,23 @@ struct EventDetailView: View {
     @Environment(GameManager.self) private var gameManager
     let eventIndex: Int
     @State private var showVenuePicker = false
-    @State private var showVendorPicker = false
-    @State private var vendorCategoryToPick: VendorCategory = .caterer
+    @State private var vendorCategoryToBrowse: IdentifiableVendorCategory?
     @State private var bookingMessage: String?
     @State private var showBookingAlert = false
 
     private var event: EventData? {
         guard eventIndex >= 0 && eventIndex < gameManager.activeEvents.count else { return nil }
         return gameManager.activeEvents[eventIndex]
+    }
+
+    private func canEditPlanning(_ event: EventData) -> Bool {
+        // Allow planning during any pre-execution phase
+        switch event.phase {
+        case .booking, .prePlanning, .activePlanning, .finalPrep:
+            return true
+        default:
+            return false
+        }
     }
 
     var body: some View {
@@ -26,6 +35,7 @@ struct EventDetailView: View {
                     LabeledContent("Phase") {
                         PhaseBadge(phase: event.phase)
                     }
+                    LabeledContent("Status", value: event.status.rawValue.capitalized)
                 }
 
                 // Budget
@@ -56,7 +66,7 @@ struct EventDetailView: View {
                             .font(.caption)
                             .foregroundStyle(.secondary)
                         }
-                    } else if event.phase == .booking {
+                    } else if canEditPlanning(event) {
                         Button("Select Venue") {
                             showVenuePicker = true
                         }
@@ -66,8 +76,9 @@ struct EventDetailView: View {
                     }
                 }
 
-                // Vendors
+                // Vendors — show booked vendors and allow contacting new ones
                 Section("Vendors") {
+                    // Already booked vendors
                     ForEach(event.vendors, id: \.vendorId) { assignment in
                         if let vendor = SeedData.vendor(byId: assignment.vendorId) {
                             HStack {
@@ -79,23 +90,86 @@ struct EventDetailView: View {
                                         .foregroundStyle(.secondary)
                                 }
                                 Spacer()
-                                Text("$\(assignment.agreedPrice, specifier: "%.0f")")
-                                    .font(.caption)
-                                    .foregroundStyle(.secondary)
+                                VStack(alignment: .trailing) {
+                                    Text("$\(assignment.agreedPrice, specifier: "%.0f")")
+                                        .font(.caption)
+                                    Image(systemName: "checkmark.circle.fill")
+                                        .foregroundStyle(.green)
+                                        .font(.caption)
+                                }
                             }
                         }
                     }
 
-                    if event.phase == .booking {
-                        Menu("Add Vendor") {
-                            ForEach(VendorCategory.allCases, id: \.self) { category in
-                                let alreadyHas = event.vendors.contains { $0.category == category }
-                                if !alreadyHas {
+                    // Vendors in progress (contacted but not booked)
+                    let contactedVendorIds = Set(
+                        gameManager.advanceSystem.getActivitiesForEvent(eventId: event.id)
+                            .compactMap { $0.vendorId }
+                    )
+                    let bookedVendorIds = Set(event.vendors.map { $0.vendorId })
+                    let pendingVendorIds = contactedVendorIds.subtracting(bookedVendorIds)
+
+                    ForEach(Array(pendingVendorIds), id: \.self) { vendorId in
+                        if let vendor = SeedData.vendor(byId: vendorId) {
+                            HStack {
+                                VStack(alignment: .leading) {
+                                    Text(vendor.vendorName)
+                                        .font(.subheadline)
+                                    Text(vendor.category.rawValue.capitalized)
+                                        .font(.caption)
+                                        .foregroundStyle(.secondary)
+                                }
+                                Spacer()
+                                Text("In progress")
+                                    .font(.caption)
+                                    .foregroundStyle(.orange)
+                            }
+                        }
+                    }
+
+                    // Contact new vendors
+                    if canEditPlanning(event) {
+                        let bookedCategories = Set(event.vendors.map { $0.category })
+                        let pendingCategories = Set(
+                            pendingVendorIds.compactMap { id in SeedData.vendor(byId: id)?.category }
+                        )
+                        let availableCategories = VendorCategory.allCases.filter {
+                            !bookedCategories.contains($0) && !pendingCategories.contains($0)
+                        }
+
+                        if !availableCategories.isEmpty {
+                            Menu("Contact Vendor") {
+                                ForEach(availableCategories, id: \.self) { category in
                                     Button(category.rawValue.capitalized) {
-                                        vendorCategoryToPick = category
-                                        showVendorPicker = true
+                                        vendorCategoryToBrowse = IdentifiableVendorCategory(category: category)
                                     }
                                 }
+                            }
+                        }
+                    }
+                }
+
+                // Activity log for this event
+                let activities = gameManager.advanceSystem.getActivitiesForEvent(eventId: event.id)
+                if !activities.isEmpty {
+                    Section("Activity Log") {
+                        ForEach(activities) { activity in
+                            HStack {
+                                Circle()
+                                    .fill(statusColor(activity.status))
+                                    .frame(width: 8, height: 8)
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(activity.content.subject)
+                                        .font(.caption)
+                                        .lineLimit(1)
+                                    Text(activity.scheduledDate.shortFormatted)
+                                        .font(.caption2)
+                                        .foregroundStyle(.secondary)
+                                }
+                                Spacer()
+                                Text(activity.status.rawValue)
+                                    .font(.caption2)
+                                    .foregroundStyle(.secondary)
                             }
                         }
                     }
@@ -109,11 +183,12 @@ struct EventDetailView: View {
                     showBookingAlert = true
                 }
             }
-            .sheet(isPresented: $showVendorPicker) {
-                VendorPickerView(eventIndex: eventIndex, category: vendorCategoryToPick) { message in
-                    bookingMessage = message
-                    showBookingAlert = true
-                }
+            .sheet(item: $vendorCategoryToBrowse) { item in
+                VendorBrowserView(
+                    eventId: event.id,
+                    category: item.category,
+                    eventDate: event.eventDate
+                )
             }
             .alert("Booking", isPresented: $showBookingAlert) {
                 Button("OK") {}
@@ -123,5 +198,25 @@ struct EventDetailView: View {
         } else {
             ContentUnavailableView("Event Not Found", systemImage: "exclamationmark.triangle")
         }
+    }
+
+    private func statusColor(_ status: ActivityStatus) -> Color {
+        switch status {
+        case .completed: return .green
+        case .ready: return .orange
+        case .scheduled: return .blue
+        case .overdue: return .red
+        case .missed: return .red
+        case .cancelled: return .gray
+        }
+    }
+}
+
+struct IdentifiableVendorCategory: Identifiable {
+    let id: String
+    let category: VendorCategory
+    init(category: VendorCategory) {
+        self.id = category.rawValue
+        self.category = category
     }
 }

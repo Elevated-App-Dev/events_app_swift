@@ -19,39 +19,43 @@ struct EventResultsView: View {
 
     private var tierColor: Color {
         switch satisfactionTier {
-        case "Excellent": return .green
-        case "Good": return .blue
-        case "Okay": return .yellow
-        case "Poor": return .orange
-        default: return .red
+        case "Excellent": return GameTheme.Colors.success
+        case "Good": return GameTheme.Colors.accent
+        case "Okay": return GameTheme.Colors.reputation
+        case "Poor": return GameTheme.Colors.warning
+        default: return GameTheme.Colors.error
         }
     }
 
     var body: some View {
         NavigationStack {
             ScrollView {
-                VStack(spacing: 20) {
+                VStack(spacing: GameTheme.Spacing.md) {
                     // Title
                     Text(event.eventTitle)
-                        .font(.title2)
-                        .fontWeight(.bold)
+                        .font(GameTheme.Typography.h1)
+                        .foregroundStyle(GameTheme.Colors.textPrimary)
+
+                    Text(event.clientName)
+                        .font(GameTheme.Typography.caption)
+                        .foregroundStyle(GameTheme.Colors.textSecondary)
 
                     // Overall score
                     VStack(spacing: 4) {
                         Text("\(results.finalSatisfaction, specifier: "%.0f")")
-                            .font(.system(size: 64, weight: .bold, design: .rounded))
+                            .font(.system(size: 72, weight: .bold, design: .rounded))
                             .foregroundStyle(tierColor)
                         Text(satisfactionTier)
-                            .font(.title3)
-                            .fontWeight(.semibold)
+                            .font(GameTheme.Typography.h2)
                             .foregroundStyle(tierColor)
                     }
-                    .padding()
+                    .padding(.vertical, GameTheme.Spacing.sm)
 
                     // Category scores
-                    VStack(alignment: .leading, spacing: 12) {
+                    VStack(alignment: .leading, spacing: GameTheme.Spacing.sm) {
                         Text("Category Scores")
-                            .font(.headline)
+                            .font(GameTheme.Typography.h3)
+                            .foregroundStyle(GameTheme.Colors.textPrimary)
                         ScoreBar(label: "Venue", score: results.venueScore)
                         ScoreBar(label: "Food", score: results.foodScore)
                         ScoreBar(label: "Entertainment", score: results.entertainmentScore)
@@ -59,83 +63,92 @@ struct EventResultsView: View {
                         ScoreBar(label: "Service", score: results.serviceScore)
                         ScoreBar(label: "Expectations", score: results.expectationScore)
                     }
-                    .padding()
-                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+                    .surfaceCard()
 
                     // Financial results
-                    VStack(alignment: .leading, spacing: 8) {
+                    VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
                         Text("Financial Results")
-                            .font(.headline)
+                            .font(GameTheme.Typography.h3)
+                            .foregroundStyle(GameTheme.Colors.textPrimary)
                         HStack {
-                            Text("Profit")
+                            Text("Service Fee")
+                                .font(GameTheme.Typography.caption)
+                                .foregroundStyle(GameTheme.Colors.textSecondary)
                             Spacer()
-                            Text(results.profit >= 0 ? "+$\(results.profit, specifier: "%.0f")" : "-$\(abs(results.profit), specifier: "%.0f")")
-                                .fontWeight(.semibold)
-                                .foregroundStyle(results.profit >= 0 ? .green : .red)
+                            Text("+$\(results.profit, specifier: "%.0f")")
+                                .font(GameTheme.Typography.money)
+                                .foregroundStyle(GameTheme.Colors.success)
                         }
                         HStack {
                             Text("Reputation")
+                                .font(GameTheme.Typography.caption)
+                                .foregroundStyle(GameTheme.Colors.textSecondary)
                             Spacer()
                             let change = results.reputationChange
                             Text(change >= 0 ? "+\(change)" : "\(change)")
-                                .fontWeight(.semibold)
-                                .foregroundStyle(change >= 0 ? .green : .red)
+                                .font(GameTheme.Typography.money)
+                                .foregroundStyle(change >= 0 ? GameTheme.Colors.success : GameTheme.Colors.error)
                         }
                         if results.triggeredReferral {
-                            HStack {
+                            HStack(spacing: 4) {
                                 Image(systemName: "person.badge.plus")
-                                    .foregroundStyle(.blue)
                                 Text("Client referred you to a friend!")
-                                    .foregroundStyle(.blue)
                             }
+                            .font(GameTheme.Typography.caption)
+                            .foregroundStyle(GameTheme.Colors.accent)
                         }
                     }
-                    .padding()
-                    .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+                    .surfaceCard()
 
                     // Random events
                     if !results.randomEventsOccurred.isEmpty {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Random Events")
-                                .font(.headline)
+                        VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
+                            Text("What Happened")
+                                .font(GameTheme.Typography.h3)
+                                .foregroundStyle(GameTheme.Colors.textPrimary)
                             ForEach(results.randomEventsOccurred, id: \.self) { eventDesc in
-                                HStack {
+                                HStack(spacing: 4) {
                                     Image(systemName: "exclamationmark.triangle")
-                                        .foregroundStyle(.orange)
+                                        .foregroundStyle(GameTheme.Colors.warning)
                                     Text(eventDesc)
-                                        .font(.subheadline)
+                                        .font(GameTheme.Typography.caption)
+                                        .foregroundStyle(GameTheme.Colors.textSecondary)
                                 }
                             }
                         }
-                        .padding()
-                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+                        .surfaceCard()
                     }
 
                     // Client feedback
                     if !results.clientFeedback.isEmpty {
-                        VStack(alignment: .leading, spacing: 8) {
-                            Text("Client Feedback")
-                                .font(.headline)
+                        VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
+                            Text("Client Review")
+                                .font(GameTheme.Typography.h3)
+                                .foregroundStyle(GameTheme.Colors.textPrimary)
                             Text("\"\(results.clientFeedback)\"")
-                                .font(.subheadline)
+                                .font(GameTheme.Typography.body)
                                 .italic()
-                                .foregroundStyle(.secondary)
+                                .foregroundStyle(GameTheme.Colors.textSecondary)
+                            Text("— \(event.clientName)")
+                                .font(GameTheme.Typography.caption)
+                                .foregroundStyle(GameTheme.Colors.textMuted)
                         }
-                        .padding()
-                        .background(.ultraThinMaterial, in: RoundedRectangle(cornerRadius: 12))
+                        .surfaceCard()
                     }
 
-                    Button("Continue") {
-                        dismiss()
+                    Button(action: { dismiss() }) {
+                        Text("Continue")
+                            .primaryButton()
                     }
-                    .buttonStyle(.borderedProminent)
-                    .controlSize(.large)
-                    .padding(.top)
+                    .padding(.top, GameTheme.Spacing.sm)
                 }
-                .padding()
+                .padding(.horizontal, GameTheme.Spacing.md)
+                .padding(.vertical, GameTheme.Spacing.md)
             }
+            .background(GameTheme.Colors.background)
             .navigationBarTitleDisplayMode(.inline)
         }
+        .preferredColorScheme(.dark)
     }
 }
 
@@ -146,21 +159,32 @@ struct ScoreBar: View {
     var body: some View {
         HStack {
             Text(label)
-                .font(.subheadline)
+                .font(GameTheme.Typography.caption)
+                .foregroundStyle(GameTheme.Colors.textSecondary)
                 .frame(width: 100, alignment: .leading)
-            ProgressView(value: score, total: 100)
-                .tint(scoreColor)
+            GeometryReader { geo in
+                ZStack(alignment: .leading) {
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(GameTheme.Colors.border)
+                        .frame(height: GameTheme.Size.progressBarHeight)
+                    RoundedRectangle(cornerRadius: 2)
+                        .fill(scoreColor)
+                        .frame(width: geo.size.width * min(score / 100, 1.0), height: GameTheme.Size.progressBarHeight)
+                }
+            }
+            .frame(height: GameTheme.Size.progressBarHeight)
             Text("\(score, specifier: "%.0f")")
-                .font(.caption)
+                .font(GameTheme.Typography.micro)
                 .monospacedDigit()
+                .foregroundStyle(scoreColor)
                 .frame(width: 30, alignment: .trailing)
         }
     }
 
     private var scoreColor: Color {
-        if score >= 80 { return .green }
-        if score >= 60 { return .blue }
-        if score >= 40 { return .orange }
-        return .red
+        if score >= 80 { return GameTheme.Colors.success }
+        if score >= 60 { return GameTheme.Colors.accent }
+        if score >= 40 { return GameTheme.Colors.warning }
+        return GameTheme.Colors.error
     }
 }

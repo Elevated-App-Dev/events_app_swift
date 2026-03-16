@@ -8,13 +8,10 @@ struct ContentView: View {
             switch gameManager.gameState {
             case .mainMenu:
                 MainMenuView()
-            case .playing, .tutorial:
-                GameplayView()
+            case .playing, .tutorial, .results:
+                OfficeDeskView()
             case .paused:
-                GameplayView()
-                    .overlay(PauseOverlay())
-            case .results:
-                GameplayView()
+                OfficeDeskView()
             case .settings:
                 SettingsView()
             case .loading:

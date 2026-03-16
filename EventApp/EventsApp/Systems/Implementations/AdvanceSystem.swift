@@ -26,7 +26,7 @@ struct AdvanceSystem: AdvanceSystemProtocol {
 
     // MARK: - Init
 
-    init(startDate: GameDate = GameDate(month: 3, day: 1, year: 1)) {
+    init(startDate: GameDate = GameDate(month: 3, day: 1, year: 2026)) {
         self.currentDate = startDate
         self.scheduledActivities = []
         self.nextScheduledInquiryDate = nil
@@ -39,14 +39,15 @@ struct AdvanceSystem: AdvanceSystemProtocol {
         var candidateDates: Set<GameDate> = []
 
         for activity in scheduledActivities {
-            guard activity.status == .scheduled || activity.status == .ready else { continue }
-            if activity.scheduledDate >= currentDate {
+            // Only look at scheduled (future) activities, not ready (already arrived) ones
+            guard activity.status == .scheduled else { continue }
+            if activity.scheduledDate > currentDate {
                 candidateDates.insert(activity.scheduledDate)
             }
         }
 
-        // Include the next inquiry date
-        if let inquiryDate = nextScheduledInquiryDate, inquiryDate >= currentDate {
+        // Include the next inquiry date if it's in the future
+        if let inquiryDate = nextScheduledInquiryDate, inquiryDate > currentDate {
             candidateDates.insert(inquiryDate)
         }
 
@@ -54,7 +55,7 @@ struct AdvanceSystem: AdvanceSystemProtocol {
 
         // Gather all activities for that date
         let activitiesForDate = scheduledActivities.filter {
-            $0.scheduledDate == nextDate && ($0.status == .scheduled || $0.status == .ready)
+            $0.scheduledDate == nextDate && $0.status == .scheduled
         }
 
         return DecisionPoint(date: nextDate, activities: activitiesForDate)
@@ -65,19 +66,19 @@ struct AdvanceSystem: AdvanceSystemProtocol {
     mutating func advance(to point: DecisionPoint) -> [PlanningActivity] {
         var overdueActivities: [PlanningActivity] = []
 
-        // Process all activities between current date and target date
         for i in scheduledActivities.indices {
             let activity = scheduledActivities[i]
+            guard activity.status == .scheduled else { continue }
 
-            // Mark activities on the target date as ready
-            if activity.scheduledDate == point.date && activity.status == .scheduled {
+            // Activities on or before the target date become ready
+            if activity.scheduledDate <= point.date {
                 scheduledActivities[i].status = .ready
             }
 
             // Check for activities that became overdue during the jump
             if let deadline = activity.responseDeadline,
                deadline < point.date,
-               activity.status == .ready || activity.status == .scheduled {
+               scheduledActivities[i].status == .ready {
                 scheduledActivities[i].status = .overdue
                 overdueActivities.append(scheduledActivities[i])
             }
@@ -90,7 +91,12 @@ struct AdvanceSystem: AdvanceSystemProtocol {
     // MARK: - Schedule Activities
 
     mutating func scheduleActivity(_ activity: PlanningActivity) {
-        scheduledActivities.append(activity)
+        var newActivity = activity
+        // If scheduled for today or earlier, mark as ready immediately
+        if newActivity.scheduledDate <= currentDate && newActivity.status == .scheduled {
+            newActivity.status = .ready
+        }
+        scheduledActivities.append(newActivity)
     }
 
     mutating func scheduleNextInquiry(stage: Int, reputation: Int) {
@@ -131,7 +137,7 @@ struct AdvanceSystem: AdvanceSystemProtocol {
 
     func getInboxActivities() -> [PlanningActivity] {
         scheduledActivities.filter {
-            $0.scheduledDate == currentDate && $0.status == .ready
+            $0.scheduledDate <= currentDate && $0.status == .ready
         }
     }
 

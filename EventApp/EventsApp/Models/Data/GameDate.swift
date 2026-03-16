@@ -5,7 +5,7 @@ struct GameDate: Codable, Equatable, Hashable, Comparable {
     var day: Int
     var year: Int
 
-    init(month: Int = 1, day: Int = 1, year: Int = 1) {
+    init(month: Int = 1, day: Int = 1, year: Int = 2026) {
         self.month = month
         self.day = day
         self.year = year
@@ -14,11 +14,11 @@ struct GameDate: Codable, Equatable, Hashable, Comparable {
     // MARK: - Display
 
     var formatted: String {
-        "\(monthName) \(day), Year \(year)"
+        "\(monthName) \(day), \(year)"
     }
 
     var shortFormatted: String {
-        "\(month)/\(day)/Y\(year)"
+        "\(month)/\(day)/\(year)"
     }
 
     var monthName: String {
