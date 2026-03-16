@@ -230,7 +230,10 @@ class GameManager: GameContext {
         saveData.currentDate = advanceSystem.currentDate
 
         // Check if today is an inquiry day
-        if let inquiryDate = advanceSystem.nextScheduledInquiryDate,
+        // Don't generate new inquiries until at least one event has been completed
+        let hasCompletedFirstEvent = !completedEvents.isEmpty
+        if hasCompletedFirstEvent,
+           let inquiryDate = advanceSystem.nextScheduledInquiryDate,
            inquiryDate <= advanceSystem.currentDate {
             generateNewInquiry()
             advanceSystem.scheduleNextInquiry(stage: playerData.stageNumber, reputation: playerData.reputation)
@@ -266,14 +269,15 @@ class GameManager: GameContext {
 
             activeEvents[i].phase = phaseInfo.phase
 
-            // Execution day
-            if phaseInfo.phase == .executionDay && activeEvents[i].status != .executing {
+            // Execution day — or we've passed it
+            if (phaseInfo.phase == .executionDay || currentDate >= activeEvents[i].eventDate)
+                && activeEvents[i].status != .executing && activeEvents[i].status != .completed {
                 activeEvents[i].status = .executing
                 executeEvent(at: i)
             }
 
-            // Results phase (day after event)
-            if phaseInfo.phase == .results && activeEvents[i].status == .executing {
+            // Results phase — day after event or later
+            if currentDate > activeEvents[i].eventDate && activeEvents[i].status == .executing {
                 completeEvent(at: i)
             }
         }
@@ -477,6 +481,36 @@ class GameManager: GameContext {
         )
         advanceSystem.scheduleActivity(meetingActivity)
 
+        // Schedule event execution day as a decision point
+        let eventDayActivity = PlanningActivity.create(
+            eventId: event.id,
+            clientName: event.clientName,
+            type: .eventExecution,
+            medium: .text,
+            scheduledDate: event.eventDate,
+            content: ActivityContent(
+                senderName: "System",
+                subject: "Event Day — \(event.eventTitle)",
+                body: "Today is the day! \(event.eventTitle) is happening."
+            )
+        )
+        advanceSystem.scheduleActivity(eventDayActivity)
+
+        // Schedule results day (day after event)
+        let resultsDayActivity = PlanningActivity.create(
+            eventId: event.id,
+            clientName: event.clientName,
+            type: .eventResults,
+            medium: .email,
+            scheduledDate: event.eventDate.adding(days: 1),
+            content: ActivityContent(
+                senderName: event.clientName,
+                subject: "How did it go? — \(event.eventTitle)",
+                body: ""  // Populated when event completes
+            )
+        )
+        advanceSystem.scheduleActivity(resultsDayActivity)
+
         if tutorialSystem.isTutorialActive && tutorialSystem.currentStep == .acceptClient {
             advanceTutorial()
         }
@@ -570,6 +604,33 @@ class GameManager: GameContext {
         let responseDate = advanceSystem.currentDate.adding(days: 1)
         let negotiationRound = (getCurrentNegotiationRound(eventId: eventId, vendorId: vendor.id)) + 1
 
+        // Determine vendor's response based on relationship and offer
+        let flexibility = relationship.pricingFlexibility
+        let minAcceptable = vendor.basePrice * (1.0 - flexibility)
+        let eventTitle = activeEvents.first(where: { $0.id == eventId })?.eventTitle ?? "your event"
+
+        let responseBody: String
+        let responseSubject: String
+        let responseQuote: Double?
+
+        if offerAmount >= minAcceptable {
+            // Vendor accepts
+            responseSubject = "Re: Your offer for \(eventTitle) — Accepted!"
+            responseBody = "Thanks for the offer. $\(Int(offerAmount)) works for me for \(eventTitle). I'll confirm the booking once you give the go-ahead."
+            responseQuote = offerAmount
+        } else if negotiationRound < 2 {
+            // Vendor counters
+            let counterAmount = ((offerAmount + vendor.basePrice) / 2).rounded()
+            responseSubject = "Re: Your offer for \(eventTitle) — Counter"
+            responseBody = "I appreciate the offer, but $\(Int(offerAmount)) is a bit low for \(eventTitle). I could do $\(Int(counterAmount)) — that's the best I can offer. Let me know."
+            responseQuote = counterAmount
+        } else {
+            // Vendor walks away
+            responseSubject = "Re: Your offer for \(eventTitle) — Can't do it"
+            responseBody = "Sorry, I can't go that low for \(eventTitle). I wish you the best finding someone in your budget. Feel free to reach out for future events."
+            responseQuote = nil
+        }
+
         let responseActivity = PlanningActivity.create(
             eventId: eventId,
             vendorId: vendor.id,
@@ -580,16 +641,15 @@ class GameManager: GameContext {
             responseDeadline: responseDate.adding(days: 3),
             content: ActivityContent(
                 senderName: vendor.vendorName,
-                subject: "Re: Your offer",
-                body: "", // Populated on delivery based on negotiation logic
+                subject: responseSubject,
+                body: responseBody,
+                quoteAmount: responseQuote,
                 negotiationRound: negotiationRound
             )
         )
         advanceSystem.scheduleActivity(responseActivity)
 
-        vendorRelationships[vendor.id]?.recordNegotiation(
-            successful: offerAmount >= vendor.basePrice * (1.0 - relationship.pricingFlexibility)
-        )
+        vendorRelationships[vendor.id]?.recordNegotiation(successful: offerAmount >= minAcceptable)
     }
 
     private func getCurrentNegotiationRound(eventId: String, vendorId: String) -> Int {

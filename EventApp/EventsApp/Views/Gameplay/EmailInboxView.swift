@@ -148,7 +148,7 @@ struct EmailInboxView: View {
     @ViewBuilder
     private func threadDetail(_ thread: EmailThread) -> some View {
         VStack(alignment: .leading, spacing: 0) {
-            ForEach(thread.emails) { email in
+            ForEach(thread.emails.reversed()) { email in
                 VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
                     // Email header
                     HStack {
@@ -241,7 +241,8 @@ struct EmailInboxView: View {
 
     @ViewBuilder
     private func emailActions(for email: PlanningActivity) -> some View {
-        if email.type == .vendorOptionsReview, email.content.quoteAmount != nil {
+        if (email.type == .vendorOptionsReview || email.type == .vendorNegotiationResponse),
+           email.content.quoteAmount != nil {
             VendorQuoteActions(email: email)
         } else if email.type == .clientContractSent {
             ContractFeeActions(email: email)

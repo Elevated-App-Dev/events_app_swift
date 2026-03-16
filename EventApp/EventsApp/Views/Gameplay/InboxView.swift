@@ -292,7 +292,8 @@ struct MessageBubble: View {
     var onNegotiate: (() -> Void)? = nil
 
     private var isVendorQuote: Bool {
-        activity.type == .vendorOptionsReview && activity.status == .ready && activity.content.quoteAmount != nil
+        (activity.type == .vendorOptionsReview || activity.type == .vendorNegotiationResponse)
+            && activity.status == .ready && activity.content.quoteAmount != nil
     }
 
     /// Contracts are "from" the player but still need an action button (Send to Client).
