@@ -228,6 +228,21 @@ struct DeskHUDView: View {
                     .foregroundStyle(GameTheme.Colors.reputation)
             }
             .font(GameTheme.Typography.h3)
+
+            // Menu
+            Menu {
+                Button(action: { gameManager.showSettings() }) {
+                    Label("Settings", systemImage: "gear")
+                }
+                Button(action: { gameManager.returnToMainMenu() }) {
+                    Label("Main Menu", systemImage: "house")
+                }
+            } label: {
+                Image(systemName: "line.3.horizontal")
+                    .font(.system(size: 20))
+                    .foregroundStyle(GameTheme.Colors.textMuted)
+                    .frame(width: GameTheme.Size.touchTarget, height: GameTheme.Size.touchTarget)
+            }
         }
         .padding(.horizontal, GameTheme.Spacing.md)
         .padding(.vertical, GameTheme.Spacing.sm)
