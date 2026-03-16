@@ -860,6 +860,7 @@ struct PhoneTasksView: View {
 struct PhoneClientsView: View {
     @Environment(GameManager.self) private var gameManager
     @State private var expandedClientId: String?
+    @State private var viewingResultsEvent: EventData?
 
     var body: some View {
         ScrollView {
@@ -918,21 +919,26 @@ struct PhoneClientsView: View {
                         .padding(.top, GameTheme.Spacing.sm)
 
                     ForEach(gameManager.completedEvents.suffix(10).reversed()) { event in
-                        HStack {
-                            VStack(alignment: .leading, spacing: 2) {
-                                Text(event.clientName)
-                                    .font(GameTheme.Typography.caption)
-                                    .foregroundStyle(GameTheme.Colors.textPrimary)
-                                Text(event.eventTitle)
+                        Button(action: { viewingResultsEvent = event }) {
+                            HStack {
+                                VStack(alignment: .leading, spacing: 2) {
+                                    Text(event.clientName)
+                                        .font(GameTheme.Typography.caption)
+                                        .foregroundStyle(GameTheme.Colors.textPrimary)
+                                    Text(event.eventTitle)
+                                        .font(GameTheme.Typography.micro)
+                                        .foregroundStyle(GameTheme.Colors.textMuted)
+                                }
+                                Spacer()
+                                if let satisfaction = event.results?.finalSatisfaction {
+                                    Text("\(Int(satisfaction))%")
+                                        .font(GameTheme.Typography.micro)
+                                        .fontWeight(.bold)
+                                        .foregroundStyle(satisfaction >= 70 ? GameTheme.Colors.success : GameTheme.Colors.warning)
+                                }
+                                Image(systemName: "chevron.right")
                                     .font(GameTheme.Typography.micro)
                                     .foregroundStyle(GameTheme.Colors.textMuted)
-                            }
-                            Spacer()
-                            if let satisfaction = event.results?.finalSatisfaction {
-                                Text("\(Int(satisfaction))%")
-                                    .font(GameTheme.Typography.micro)
-                                    .fontWeight(.bold)
-                                    .foregroundStyle(satisfaction >= 70 ? GameTheme.Colors.success : GameTheme.Colors.warning)
                             }
                         }
                         .surfaceCard()
@@ -953,6 +959,9 @@ struct PhoneClientsView: View {
                 }
             }
             .padding(.horizontal, GameTheme.Spacing.md)
+        }
+        .sheet(item: $viewingResultsEvent) { event in
+            EventResultsView(event: event)
         }
     }
 
