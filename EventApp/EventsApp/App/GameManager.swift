@@ -169,12 +169,19 @@ class GameManager: GameContext {
             )
         }
 
-        // Schedule the first inquiry
+        // Generate the first inquiry immediately so there's something to do
+        let firstInquiry = eventPlanningSystem.generateInquiry(
+            stage: 1,
+            reputation: 0,
+            currentDate: advanceSystem.currentDate
+        )
+        pendingInquiries.append(firstInquiry)
+
+        // Schedule the next inquiry (delayed until first event completes)
         advanceSystem.scheduleNextInquiry(stage: playerData.stageNumber, reputation: playerData.reputation)
 
-        // Start tutorial
-        startTutorial()
-        gameState = .tutorial
+        // Go straight to playing — no tutorial
+        gameState = .playing
         isInitialized = true
     }
 

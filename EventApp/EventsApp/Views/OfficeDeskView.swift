@@ -47,11 +47,7 @@ struct OfficeDeskView: View {
                     .onDisappear { phoneOpenToApp = nil }
             }
 
-            // Tutorial overlay
-            if gameManager.tutorialSystem.isTutorialActive {
-                TutorialOverlayView()
-                    .zIndex(30)
-            }
+            // Tutorial disabled — will be rebuilt for new UI flow
 
             // Pause overlay (available via settings in future)
 
