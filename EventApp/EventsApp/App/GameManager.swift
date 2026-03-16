@@ -326,7 +326,6 @@ class GameManager: GameContext {
         event.status = .completed
 
         let satisfaction = event.results?.finalSatisfaction ?? 50
-        let profit = event.results?.profit ?? 0
 
         let repChange = progressionSystem.applyEventResult(
             satisfaction: satisfaction,
@@ -336,11 +335,13 @@ class GameManager: GameContext {
         playerData.reputation = repChange.newReputation
         event.results?.reputationChange = repChange.change
 
-        playerData.money += profit
-        if profit >= 0 {
-            transactions.append(.income(date: advanceSystem.currentDate, amount: profit, description: "Profit — \(event.eventTitle)", category: .eventProfit))
-        } else {
-            transactions.append(.expense(date: advanceSystem.currentDate, amount: abs(profit), description: "Loss — \(event.eventTitle)", category: .eventLoss))
+        // Player earns their service fee on completion
+        // Vendor costs were paid from the client's event budget
+        let serviceFee = event.serviceFee
+        event.results?.profit = serviceFee
+        playerData.money += serviceFee
+        if serviceFee > 0 {
+            transactions.append(.income(date: advanceSystem.currentDate, amount: serviceFee, description: "Service fee — \(event.eventTitle)", category: .eventProfit))
         }
 
         event.results?.clientFeedback = generateFeedback(satisfaction: satisfaction, tier: repChange.satisfactionTier)
@@ -921,13 +922,13 @@ class GameManager: GameContext {
         advanceSystem.scheduleActivity(depositActivity)
     }
 
-    /// After player acknowledges deposit: money arrives, event enters planning.
+    /// After player acknowledges deposit: event enters planning.
+    /// Client deposit covers vendor costs — tracked on the event budget, not player wallet.
     private func onClientDepositAcknowledged(_ activity: PlanningActivity) {
         guard let eventIndex = activeEvents.firstIndex(where: { $0.id == activity.eventId }) else { return }
 
         let depositAmount = activity.content.depositAmount ?? (activeEvents[eventIndex].budget.total * 0.25)
-        playerData.money += depositAmount
-        transactions.append(.income(date: advanceSystem.currentDate, amount: depositAmount, description: "Deposit — \(activeEvents[eventIndex].clientName)", category: .clientDeposit))
+        transactions.append(.income(date: advanceSystem.currentDate, amount: depositAmount, description: "Client deposit — \(activeEvents[eventIndex].clientName) (held for vendors)", category: .clientDeposit))
 
         activeEvents[eventIndex].status = .planning
     }
@@ -953,9 +954,8 @@ class GameManager: GameContext {
         activeEvents[eventIndex].budget.spent += price
         saveData.addVendorBooking(vendor.id, date: activeEvents[eventIndex].eventDate)
 
-        // Log transaction
-        transactions.append(.expense(date: advanceSystem.currentDate, amount: price, description: "Vendor — \(vendor.vendorName)", category: .vendorPayment))
-        playerData.money -= price
+        // Log transaction (vendor paid from event budget, not player wallet)
+        transactions.append(.expense(date: advanceSystem.currentDate, amount: price, description: "Vendor — \(vendor.vendorName) (from event budget)", category: .vendorPayment))
 
         // Mark quote as completed
         advanceSystem.completeActivity(id: activityId)

@@ -4,8 +4,7 @@ struct EventDetailView: View {
     @Environment(GameManager.self) private var gameManager
     let eventIndex: Int
     @State private var showVenuePicker = false
-    @State private var showVendorBrowser = false
-    @State private var vendorCategoryToBrowse: VendorCategory = .caterer
+    @State private var vendorCategoryToBrowse: IdentifiableVendorCategory?
     @State private var bookingMessage: String?
     @State private var showBookingAlert = false
 
@@ -141,8 +140,7 @@ struct EventDetailView: View {
                             Menu("Contact Vendor") {
                                 ForEach(availableCategories, id: \.self) { category in
                                     Button(category.rawValue.capitalized) {
-                                        vendorCategoryToBrowse = category
-                                        showVendorBrowser = true
+                                        vendorCategoryToBrowse = IdentifiableVendorCategory(category: category)
                                     }
                                 }
                             }
@@ -184,10 +182,10 @@ struct EventDetailView: View {
                     showBookingAlert = true
                 }
             }
-            .sheet(isPresented: $showVendorBrowser) {
+            .sheet(item: $vendorCategoryToBrowse) { item in
                 VendorBrowserView(
                     eventId: event.id,
-                    category: vendorCategoryToBrowse,
+                    category: item.category,
                     eventDate: event.eventDate
                 )
             }
@@ -210,5 +208,14 @@ struct EventDetailView: View {
         case .missed: return .red
         case .cancelled: return .gray
         }
+    }
+}
+
+struct IdentifiableVendorCategory: Identifiable {
+    let id: String
+    let category: VendorCategory
+    init(category: VendorCategory) {
+        self.id = category.rawValue
+        self.category = category
     }
 }
