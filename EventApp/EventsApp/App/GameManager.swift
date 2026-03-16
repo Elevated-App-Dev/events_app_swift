@@ -55,8 +55,13 @@ class GameManager: GameContext {
         inboxActivities.filter { $0.medium == .text || $0.medium == .call || $0.medium == .inPerson }
     }
 
-    /// Whether there are unread inbox items.
-    var hasInboxItems: Bool { !inboxActivities.isEmpty }
+    /// Whether there are actionable inbox items that need player attention.
+    /// System messages (event day, event results) don't block advance.
+    var hasInboxItems: Bool {
+        inboxActivities.contains { activity in
+            activity.type != .eventExecution && activity.type != .eventResults
+        }
+    }
 
     /// All activities grouped by contact name for threaded message display.
     /// Includes both active (ready) and completed activities.
@@ -922,13 +927,15 @@ class GameManager: GameContext {
         advanceSystem.scheduleActivity(depositActivity)
     }
 
-    /// After player acknowledges deposit: event enters planning.
-    /// Client deposit covers vendor costs — tracked on the event budget, not player wallet.
+    /// After player acknowledges deposit: money arrives, event enters planning.
+    /// Deposit shows in player money (satisfying feedback) — vendor costs
+    /// will deduct from event budget, not player money.
     private func onClientDepositAcknowledged(_ activity: PlanningActivity) {
         guard let eventIndex = activeEvents.firstIndex(where: { $0.id == activity.eventId }) else { return }
 
         let depositAmount = activity.content.depositAmount ?? (activeEvents[eventIndex].budget.total * 0.25)
         let eventTitle = activeEvents[eventIndex].eventTitle
+        playerData.money += depositAmount
         transactions.append(.income(date: advanceSystem.currentDate, amount: depositAmount, description: "Client deposit — \(eventTitle)", category: .clientDeposit))
 
         activeEvents[eventIndex].status = .planning

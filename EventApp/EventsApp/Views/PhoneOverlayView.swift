@@ -23,23 +23,30 @@ struct PhoneOverlayView: View {
                 VStack(spacing: GameTheme.Spacing.md) {
                     // Header
                     HStack {
+                        // Back button (only when inside an app)
+                        if selectedApp != nil {
+                            Button(action: {
+                                withAnimation(GameTheme.Anim.panelSlide) {
+                                    selectedApp = nil
+                                }
+                            }) {
+                                Image(systemName: "chevron.left")
+                                    .font(.system(size: 16, weight: .medium))
+                                    .foregroundStyle(GameTheme.Colors.accent)
+                                    .frame(width: GameTheme.Size.touchTarget, height: GameTheme.Size.touchTarget)
+                            }
+                        }
+
                         Text(selectedApp?.title ?? "Phone")
                             .font(GameTheme.Typography.h2)
                             .foregroundStyle(GameTheme.Colors.textPrimary)
 
                         Spacer()
 
-                        Button(action: {
-                            if selectedApp != nil {
-                                withAnimation(GameTheme.Anim.panelSlide) {
-                                    selectedApp = nil
-                                }
-                            } else {
-                                isPresented = false
-                            }
-                        }) {
-                            Image(systemName: selectedApp != nil ? "chevron.left" : "xmark")
-                                .font(.system(size: 18, weight: .medium))
+                        // Close button (always visible — one tap to desk)
+                        Button(action: { isPresented = false }) {
+                            Image(systemName: "xmark")
+                                .font(.system(size: 16, weight: .medium))
                                 .foregroundStyle(GameTheme.Colors.textSecondary)
                                 .frame(width: GameTheme.Size.touchTarget, height: GameTheme.Size.touchTarget)
                         }

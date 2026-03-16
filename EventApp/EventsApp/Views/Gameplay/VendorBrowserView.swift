@@ -53,7 +53,9 @@ struct VendorBrowserView: View {
                 }
             }
             .background(GameTheme.Colors.background)
+            .scrollContentBackground(.hidden)
         }
+        .preferredColorScheme(.dark)
     }
 }
 

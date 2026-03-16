@@ -131,7 +131,7 @@ struct AdvanceSystem: AdvanceSystemProtocol {
 
     func getInboxActivities() -> [PlanningActivity] {
         scheduledActivities.filter {
-            $0.scheduledDate == currentDate && $0.status == .ready
+            $0.scheduledDate <= currentDate && $0.status == .ready
         }
     }
 

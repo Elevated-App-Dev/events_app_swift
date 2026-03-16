@@ -35,7 +35,10 @@ struct VenuePickerView: View {
                     Button("Cancel") { dismiss() }
                 }
             }
+            .scrollContentBackground(.hidden)
+            .background(GameTheme.Colors.background)
         }
+        .preferredColorScheme(.dark)
     }
 
     private func bookVenue(_ venue: VenueData) {

@@ -14,8 +14,9 @@ struct EventDetailView: View {
     }
 
     private func canEditPlanning(_ event: EventData) -> Bool {
+        // Allow planning during any pre-execution phase
         switch event.phase {
-        case .booking, .prePlanning, .activePlanning:
+        case .booking, .prePlanning, .activePlanning, .finalPrep:
             return true
         default:
             return false

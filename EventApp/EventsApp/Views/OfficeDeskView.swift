@@ -53,11 +53,8 @@ struct OfficeDeskView: View {
                     .zIndex(30)
             }
 
-            // Pause overlay
-            if gameManager.gameState == .paused {
-                PauseOverlay()
-                    .zIndex(60)
-            }
+            // Pause overlay (available via settings in future)
+
         }
         .animation(GameTheme.Anim.panelSlide, value: showPhone)
         .animation(GameTheme.Anim.panelSlide, value: showLaptop)
@@ -231,14 +228,6 @@ struct DeskHUDView: View {
                     .foregroundStyle(GameTheme.Colors.reputation)
             }
             .font(GameTheme.Typography.h3)
-
-            // Pause button
-            Button(action: { gameManager.pauseGame() }) {
-                Image(systemName: "pause.circle")
-                    .font(.system(size: 24))
-                    .foregroundStyle(GameTheme.Colors.textMuted)
-                    .frame(width: GameTheme.Size.touchTarget, height: GameTheme.Size.touchTarget)
-            }
         }
         .padding(.horizontal, GameTheme.Spacing.md)
         .padding(.vertical, GameTheme.Spacing.sm)
