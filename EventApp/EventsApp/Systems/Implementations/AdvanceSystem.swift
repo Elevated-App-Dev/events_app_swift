@@ -39,14 +39,15 @@ struct AdvanceSystem: AdvanceSystemProtocol {
         var candidateDates: Set<GameDate> = []
 
         for activity in scheduledActivities {
-            guard activity.status == .scheduled || activity.status == .ready else { continue }
-            if activity.scheduledDate >= currentDate {
+            // Only look at scheduled (future) activities, not ready (already arrived) ones
+            guard activity.status == .scheduled else { continue }
+            if activity.scheduledDate > currentDate {
                 candidateDates.insert(activity.scheduledDate)
             }
         }
 
-        // Include the next inquiry date
-        if let inquiryDate = nextScheduledInquiryDate, inquiryDate >= currentDate {
+        // Include the next inquiry date if it's in the future
+        if let inquiryDate = nextScheduledInquiryDate, inquiryDate > currentDate {
             candidateDates.insert(inquiryDate)
         }
 
@@ -54,7 +55,7 @@ struct AdvanceSystem: AdvanceSystemProtocol {
 
         // Gather all activities for that date
         let activitiesForDate = scheduledActivities.filter {
-            $0.scheduledDate == nextDate && ($0.status == .scheduled || $0.status == .ready)
+            $0.scheduledDate == nextDate && $0.status == .scheduled
         }
 
         return DecisionPoint(date: nextDate, activities: activitiesForDate)
