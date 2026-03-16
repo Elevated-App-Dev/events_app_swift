@@ -1,35 +1,66 @@
 import SwiftUI
 
-/// Formal email inbox — contracts, vendor quotes, availability responses, invoices.
-/// Visual style: subject line, sender, body preview. NOT chat bubbles.
+/// Formal email inbox — threaded conversations grouped by contact.
+/// Shows subject line, sender, preview. Tap to expand the thread.
+/// Contracts, vendor quotes, availability responses, invoices arrive here.
 struct EmailInboxView: View {
     @Environment(GameManager.self) private var gameManager
-    @State private var expandedEmailId: String?
+    @State private var expandedThreadContact: String?
 
-    /// Emails = activities with .email medium that are ready, plus pending inquiries.
-    private var emails: [PlanningActivity] {
-        gameManager.advanceSystem.scheduledActivities
-            .filter { $0.medium == .email && ($0.status == .ready || $0.status == .completed) && $0.scheduledDate <= gameManager.currentDate }
-            .sorted { $0.scheduledDate > $1.scheduledDate }
+    /// Email threads grouped by contact, newest first.
+    private var emailThreads: [EmailThread] {
+        let allEmails = gameManager.advanceSystem.scheduledActivities
+            .filter { $0.medium == .email
+                      && ($0.status == .ready || $0.status == .completed || $0.status == .overdue)
+                      && $0.scheduledDate <= gameManager.currentDate }
+
+        var threadMap: [String: [PlanningActivity]] = [:]
+        for email in allEmails {
+            let contact = gameManager.resolveContactName(for: email)
+            threadMap[contact, default: []].append(email)
+        }
+
+        return threadMap.map { contact, emails in
+            let sorted = emails.sorted { $0.scheduledDate < $1.scheduledDate }
+            let unread = emails.filter { $0.status == .ready }.count
+            return EmailThread(
+                contactName: contact,
+                emails: sorted,
+                unreadCount: unread,
+                latestDate: sorted.last?.scheduledDate ?? gameManager.currentDate,
+                latestSubject: sorted.last?.content.subject ?? ""
+            )
+        }
+        .sorted { lhs, rhs in
+            if lhs.unreadCount > 0 && rhs.unreadCount == 0 { return true }
+            if lhs.unreadCount == 0 && rhs.unreadCount > 0 { return false }
+            return lhs.latestDate > rhs.latestDate
+        }
     }
 
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                // Pending inquiries as emails
+                // Pending inquiries
                 ForEach(gameManager.pendingInquiries) { inquiry in
-                    inquiryEmailRow(inquiry)
+                    inquiryRow(inquiry)
                     Divider().background(GameTheme.Colors.border)
                 }
 
-                // Activity emails
-                ForEach(emails) { email in
-                    emailRow(email)
+                // Email threads
+                ForEach(emailThreads) { thread in
+                    VStack(spacing: 0) {
+                        threadHeaderRow(thread)
+
+                        if expandedThreadContact == thread.contactName {
+                            threadDetail(thread)
+                        }
+                    }
                     Divider().background(GameTheme.Colors.border)
                 }
             }
 
-            if emails.isEmpty && gameManager.pendingInquiries.isEmpty {
+            if emailThreads.isEmpty && gameManager.pendingInquiries.isEmpty {
                 VStack(spacing: GameTheme.Spacing.sm) {
                     Image(systemName: "envelope.open")
                         .font(.system(size: 48))
@@ -44,70 +75,134 @@ struct EmailInboxView: View {
         }
     }
 
-    // MARK: - Email Row
+    // MARK: - Thread Header
 
     @ViewBuilder
-    private func emailRow(_ email: PlanningActivity) -> some View {
-        let isExpanded = expandedEmailId == email.id
-        let isUnread = email.status == .ready
+    private func threadHeaderRow(_ thread: EmailThread) -> some View {
+        let isExpanded = expandedThreadContact == thread.contactName
 
-        VStack(alignment: .leading, spacing: 0) {
-            // Header row (always visible)
-            Button(action: { withAnimation(GameTheme.Anim.panelSlide) { expandedEmailId = isExpanded ? nil : email.id } }) {
-                HStack(alignment: .top, spacing: GameTheme.Spacing.sm) {
-                    // Unread dot
-                    Circle()
-                        .fill(isUnread ? GameTheme.Colors.accent : Color.clear)
-                        .frame(width: 8, height: 8)
-                        .padding(.top, 6)
+        Button(action: {
+            withAnimation(GameTheme.Anim.panelSlide) {
+                expandedThreadContact = isExpanded ? nil : thread.contactName
+            }
+        }) {
+            HStack(alignment: .top, spacing: GameTheme.Spacing.sm) {
+                // Unread indicator
+                Circle()
+                    .fill(thread.hasUnread ? GameTheme.Colors.accent : Color.clear)
+                    .frame(width: 8, height: 8)
+                    .padding(.top, 6)
 
-                    VStack(alignment: .leading, spacing: 4) {
-                        HStack {
-                            Text(email.content.senderName)
-                                .font(GameTheme.Typography.caption)
-                                .fontWeight(isUnread ? .bold : .regular)
-                                .foregroundStyle(GameTheme.Colors.textPrimary)
-                            Spacer()
-                            Text(email.scheduledDate.shortFormatted)
-                                .font(GameTheme.Typography.micro)
-                                .foregroundStyle(GameTheme.Colors.textMuted)
-                        }
-
-                        Text(email.content.subject)
+                VStack(alignment: .leading, spacing: 4) {
+                    HStack {
+                        Text(thread.contactName)
                             .font(GameTheme.Typography.caption)
-                            .foregroundStyle(isUnread ? GameTheme.Colors.textPrimary : GameTheme.Colors.textSecondary)
-                            .lineLimit(isExpanded ? nil : 1)
+                            .fontWeight(thread.hasUnread ? .bold : .regular)
+                            .foregroundStyle(GameTheme.Colors.textPrimary)
 
-                        if !isExpanded && !email.content.body.isEmpty {
-                            Text(email.content.body.prefix(80) + "...")
+                        if thread.emails.count > 1 {
+                            Text("(\(thread.emails.count))")
                                 .font(GameTheme.Typography.micro)
                                 .foregroundStyle(GameTheme.Colors.textMuted)
-                                .lineLimit(1)
                         }
+
+                        Spacer()
+
+                        Text(thread.latestDate.shortFormatted)
+                            .font(GameTheme.Typography.micro)
+                            .foregroundStyle(GameTheme.Colors.textMuted)
+                    }
+
+                    Text(thread.latestSubject)
+                        .font(GameTheme.Typography.caption)
+                        .foregroundStyle(thread.hasUnread ? GameTheme.Colors.textPrimary : GameTheme.Colors.textSecondary)
+                        .lineLimit(1)
+
+                    // Preview of latest email body
+                    if !isExpanded, let latest = thread.emails.last, !latest.content.body.isEmpty {
+                        Text(latest.content.body.prefix(100).replacingOccurrences(of: "\n", with: " "))
+                            .font(GameTheme.Typography.micro)
+                            .foregroundStyle(GameTheme.Colors.textMuted)
+                            .lineLimit(1)
                     }
                 }
-            }
-            .padding(.horizontal, GameTheme.Spacing.md)
-            .padding(.vertical, GameTheme.Spacing.sm)
 
-            // Expanded body
-            if isExpanded {
-                VStack(alignment: .leading, spacing: GameTheme.Spacing.sm) {
-                    // Full body
-                    if !email.content.body.isEmpty {
-                        Text(email.content.body)
-                            .font(GameTheme.Typography.caption)
-                            .foregroundStyle(GameTheme.Colors.textSecondary)
+                if thread.hasUnread {
+                    Text("\(thread.unreadCount)")
+                        .font(GameTheme.Typography.micro)
+                        .fontWeight(.bold)
+                        .foregroundStyle(.white)
+                        .frame(minWidth: GameTheme.Size.badgeSize, minHeight: GameTheme.Size.badgeSize)
+                        .background(GameTheme.Colors.accent)
+                        .clipShape(Circle())
+                }
+            }
+        }
+        .padding(.horizontal, GameTheme.Spacing.md)
+        .padding(.vertical, GameTheme.Spacing.sm)
+        .background(thread.hasUnread ? GameTheme.Colors.surface : Color.clear)
+    }
+
+    // MARK: - Thread Detail (expanded emails)
+
+    @ViewBuilder
+    private func threadDetail(_ thread: EmailThread) -> some View {
+        VStack(alignment: .leading, spacing: 0) {
+            ForEach(thread.emails) { email in
+                VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
+                    // Email header
+                    HStack {
+                        Text(email.content.senderName == "You" ? "You" : email.content.senderName)
+                            .font(GameTheme.Typography.micro)
+                            .fontWeight(.bold)
+                            .foregroundStyle(email.content.senderName == "You" ? GameTheme.Colors.accent : GameTheme.Colors.textPrimary)
+                        Spacer()
+                        Text(email.scheduledDate.shortFormatted)
+                            .font(.system(size: 10))
+                            .foregroundStyle(GameTheme.Colors.textMuted)
+
+                        if email.status == .completed {
+                            Image(systemName: "checkmark")
+                                .font(.system(size: 10))
+                                .foregroundStyle(GameTheme.Colors.success)
+                        }
                     }
 
-                    // Quote display
+                    // Subject (if different from thread subject)
+                    Text(email.content.subject)
+                        .font(GameTheme.Typography.micro)
+                        .fontWeight(.medium)
+                        .foregroundStyle(GameTheme.Colors.textSecondary)
+
+                    // Body
+                    if !email.content.body.isEmpty {
+                        if email.type == .clientContractSent {
+                            // Contract as document
+                            Text(email.content.body)
+                                .font(GameTheme.Typography.micro)
+                                .foregroundStyle(GameTheme.Colors.textSecondary)
+                                .padding(GameTheme.Spacing.xs)
+                                .background(GameTheme.Colors.background)
+                                .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
+                                .overlay(
+                                    RoundedRectangle(cornerRadius: GameTheme.Radius.small)
+                                        .stroke(GameTheme.Colors.border, lineWidth: 1)
+                                )
+                        } else {
+                            Text(email.content.body)
+                                .font(GameTheme.Typography.micro)
+                                .foregroundStyle(GameTheme.Colors.textMuted)
+                        }
+                    }
+
+                    // Quote amount
                     if let quote = email.content.quoteAmount {
                         HStack {
-                            Text("Quoted price:")
-                                .font(GameTheme.Typography.caption)
+                            Text("Quoted:")
+                                .font(GameTheme.Typography.micro)
                                 .foregroundStyle(GameTheme.Colors.textMuted)
                             Text("$\(quote, specifier: "%.0f")")
-                                .font(GameTheme.Typography.moneyLarge)
+                                .font(GameTheme.Typography.money)
                                 .foregroundStyle(GameTheme.Colors.money)
                         }
                     }
@@ -116,52 +211,47 @@ struct EmailInboxView: View {
                     if let deadline = email.responseDeadline, email.status == .ready {
                         HStack(spacing: 4) {
                             Image(systemName: "clock")
-                                .font(GameTheme.Typography.micro)
+                                .font(.system(size: 10))
                             Text("Respond by \(deadline.formatted)")
-                                .font(GameTheme.Typography.micro)
+                                .font(.system(size: 10))
                         }
                         .foregroundStyle(GameTheme.Colors.warning)
                     }
 
-                    // Actions
+                    // Actions for unread emails
                     if email.status == .ready {
                         emailActions(for: email)
                     }
-
-                    if email.status == .completed {
-                        HStack(spacing: 4) {
-                            Image(systemName: "checkmark.circle.fill")
-                            Text("Handled")
-                        }
-                        .font(GameTheme.Typography.micro)
-                        .foregroundStyle(GameTheme.Colors.success)
-                    }
                 }
                 .padding(.horizontal, GameTheme.Spacing.md)
-                .padding(.bottom, GameTheme.Spacing.sm)
+                .padding(.vertical, GameTheme.Spacing.xs)
+                .background(email.status == .ready ? GameTheme.Colors.elevated.opacity(0.5) : Color.clear)
+
+                if email.id != thread.emails.last?.id {
+                    Divider()
+                        .background(GameTheme.Colors.border)
+                        .padding(.horizontal, GameTheme.Spacing.lg)
+                }
             }
         }
-        .background(isUnread ? GameTheme.Colors.surface : Color.clear)
+        .padding(.bottom, GameTheme.Spacing.xs)
     }
+
+    // MARK: - Email Actions
 
     @ViewBuilder
     private func emailActions(for email: PlanningActivity) -> some View {
-        // Vendor quote — accept or negotiate
         if email.type == .vendorOptionsReview, email.content.quoteAmount != nil {
             HStack(spacing: GameTheme.Spacing.xs) {
-                Button(action: {
-                    withAnimation { gameManager.acceptVendorQuote(activityId: email.id) }
-                }) {
+                Button(action: { withAnimation { gameManager.acceptVendorQuote(activityId: email.id) } }) {
                     Text("Accept Quote")
-                        .font(GameTheme.Typography.micro)
-                        .fontWeight(.semibold)
+                        .font(GameTheme.Typography.micro).fontWeight(.semibold)
                         .foregroundStyle(.white)
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, GameTheme.Spacing.xs)
+                        .padding(.vertical, 6)
                         .background(GameTheme.Colors.success)
                         .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
                 }
-
                 Button(action: {
                     if let vendorId = email.vendorId, let vendor = SeedData.vendor(byId: vendorId) {
                         let offer = (email.content.quoteAmount ?? vendor.basePrice) * 0.85
@@ -169,44 +259,30 @@ struct EmailInboxView: View {
                     }
                 }) {
                     Text("Negotiate")
-                        .font(GameTheme.Typography.micro)
-                        .fontWeight(.semibold)
+                        .font(GameTheme.Typography.micro).fontWeight(.semibold)
                         .foregroundStyle(GameTheme.Colors.warning)
                         .frame(maxWidth: .infinity)
-                        .padding(.vertical, GameTheme.Spacing.xs)
-                        .overlay(
-                            RoundedRectangle(cornerRadius: GameTheme.Radius.small)
-                                .stroke(GameTheme.Colors.warning, lineWidth: 1)
-                        )
+                        .padding(.vertical, 6)
+                        .overlay(RoundedRectangle(cornerRadius: GameTheme.Radius.small).stroke(GameTheme.Colors.warning, lineWidth: 1))
                 }
             }
-        }
-        // Draft contract
-        else if email.type == .clientContractSent {
-            Button(action: {
-                withAnimation { gameManager.completeActivity(email.id) }
-            }) {
+        } else if email.type == .clientContractSent {
+            Button(action: { withAnimation { gameManager.completeActivity(email.id) } }) {
                 Text("Send to Client")
-                    .font(GameTheme.Typography.micro)
-                    .fontWeight(.semibold)
+                    .font(GameTheme.Typography.micro).fontWeight(.semibold)
                     .foregroundStyle(.white)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, GameTheme.Spacing.xs)
+                    .padding(.vertical, 6)
                     .background(GameTheme.Colors.accent)
                     .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
             }
-        }
-        // Generic acknowledge
-        else {
-            Button(action: {
-                withAnimation { gameManager.completeActivity(email.id) }
-            }) {
+        } else {
+            Button(action: { withAnimation { gameManager.completeActivity(email.id) } }) {
                 Text(acknowledgeLabel(for: email.type))
-                    .font(GameTheme.Typography.micro)
-                    .fontWeight(.semibold)
+                    .font(GameTheme.Typography.micro).fontWeight(.semibold)
                     .foregroundStyle(.white)
                     .frame(maxWidth: .infinity)
-                    .padding(.vertical, GameTheme.Spacing.xs)
+                    .padding(.vertical, 6)
                     .background(GameTheme.Colors.accent)
                     .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
             }
@@ -223,65 +299,54 @@ struct EmailInboxView: View {
         }
     }
 
-    // MARK: - Inquiry Email
+    // MARK: - Inquiry Row
 
     @ViewBuilder
-    private func inquiryEmailRow(_ inquiry: ClientInquiry) -> some View {
-        VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
-            HStack(alignment: .top, spacing: GameTheme.Spacing.sm) {
-                Circle()
-                    .fill(GameTheme.Colors.warning)
-                    .frame(width: 8, height: 8)
-                    .padding(.top, 6)
+    private func inquiryRow(_ inquiry: ClientInquiry) -> some View {
+        HStack(alignment: .top, spacing: GameTheme.Spacing.sm) {
+            Circle()
+                .fill(GameTheme.Colors.warning)
+                .frame(width: 8, height: 8)
+                .padding(.top, 6)
 
-                VStack(alignment: .leading, spacing: 4) {
-                    HStack {
-                        Text(inquiry.clientName)
-                            .font(GameTheme.Typography.caption)
-                            .fontWeight(.bold)
-                            .foregroundStyle(GameTheme.Colors.textPrimary)
-                        Spacer()
-                        Text("New")
-                            .font(GameTheme.Typography.micro)
-                            .fontWeight(.bold)
-                            .padding(.horizontal, 6)
-                            .padding(.vertical, 2)
-                            .background(GameTheme.Colors.warning.opacity(0.15))
-                            .foregroundStyle(GameTheme.Colors.warning)
-                            .clipShape(Capsule())
-                    }
-
-                    Text("Event inquiry — \(inquiry.subCategory)")
+            VStack(alignment: .leading, spacing: 4) {
+                HStack {
+                    Text(inquiry.clientName)
                         .font(GameTheme.Typography.caption)
+                        .fontWeight(.bold)
                         .foregroundStyle(GameTheme.Colors.textPrimary)
+                    Spacer()
+                    Text("New")
+                        .font(GameTheme.Typography.micro).fontWeight(.bold)
+                        .padding(.horizontal, 6).padding(.vertical, 2)
+                        .background(GameTheme.Colors.warning.opacity(0.15))
+                        .foregroundStyle(GameTheme.Colors.warning)
+                        .clipShape(Capsule())
+                }
 
-                    Text("$\(inquiry.budget) \u{00B7} \(inquiry.guestCount) guests \u{00B7} \(inquiry.eventDate.shortFormatted)")
-                        .font(GameTheme.Typography.micro)
-                        .foregroundStyle(GameTheme.Colors.textMuted)
+                Text("Event inquiry — \(inquiry.subCategory)")
+                    .font(GameTheme.Typography.caption)
+                    .foregroundStyle(GameTheme.Colors.textPrimary)
 
-                    HStack(spacing: GameTheme.Spacing.xs) {
-                        Button(action: { withAnimation { gameManager.acceptInquiry(inquiry) } }) {
-                            Text("Accept")
-                                .font(GameTheme.Typography.micro)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(.white)
-                                .padding(.horizontal, GameTheme.Spacing.sm)
-                                .padding(.vertical, 6)
-                                .background(GameTheme.Colors.success)
-                                .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
-                        }
-                        Button(action: { withAnimation { gameManager.declineInquiry(inquiry) } }) {
-                            Text("Decline")
-                                .font(GameTheme.Typography.micro)
-                                .fontWeight(.semibold)
-                                .foregroundStyle(GameTheme.Colors.textMuted)
-                                .padding(.horizontal, GameTheme.Spacing.sm)
-                                .padding(.vertical, 6)
-                                .overlay(
-                                    RoundedRectangle(cornerRadius: GameTheme.Radius.small)
-                                        .stroke(GameTheme.Colors.textMuted, lineWidth: 1)
-                                )
-                        }
+                Text("$\(inquiry.budget) \u{00B7} \(inquiry.guestCount) guests \u{00B7} \(inquiry.eventDate.shortFormatted)")
+                    .font(GameTheme.Typography.micro)
+                    .foregroundStyle(GameTheme.Colors.textMuted)
+
+                HStack(spacing: GameTheme.Spacing.xs) {
+                    Button(action: { withAnimation { gameManager.acceptInquiry(inquiry) } }) {
+                        Text("Accept")
+                            .font(GameTheme.Typography.micro).fontWeight(.semibold)
+                            .foregroundStyle(.white)
+                            .padding(.horizontal, GameTheme.Spacing.sm).padding(.vertical, 6)
+                            .background(GameTheme.Colors.success)
+                            .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
+                    }
+                    Button(action: { withAnimation { gameManager.declineInquiry(inquiry) } }) {
+                        Text("Decline")
+                            .font(GameTheme.Typography.micro).fontWeight(.semibold)
+                            .foregroundStyle(GameTheme.Colors.textMuted)
+                            .padding(.horizontal, GameTheme.Spacing.sm).padding(.vertical, 6)
+                            .overlay(RoundedRectangle(cornerRadius: GameTheme.Radius.small).stroke(GameTheme.Colors.textMuted, lineWidth: 1))
                     }
                 }
             }
@@ -290,4 +355,17 @@ struct EmailInboxView: View {
         .padding(.vertical, GameTheme.Spacing.sm)
         .background(GameTheme.Colors.surface)
     }
+}
+
+// MARK: - Email Thread Model
+
+struct EmailThread: Identifiable {
+    var id: String { contactName }
+    let contactName: String
+    let emails: [PlanningActivity]
+    let unreadCount: Int
+    let latestDate: GameDate
+    let latestSubject: String
+
+    var hasUnread: Bool { unreadCount > 0 }
 }

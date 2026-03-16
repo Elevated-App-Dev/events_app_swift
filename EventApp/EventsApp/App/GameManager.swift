@@ -94,7 +94,7 @@ class GameManager: GameContext {
 
     /// Resolve the contact name for threading — "You"-sent activities get
     /// grouped with the client or vendor they belong to, not a "You" thread.
-    private func resolveContactName(for activity: PlanningActivity) -> String {
+    func resolveContactName(for activity: PlanningActivity) -> String {
         // If clientName is set, use it (client-related activities)
         if let clientName = activity.clientName, !clientName.isEmpty {
             return clientName
@@ -492,7 +492,6 @@ class GameManager: GameContext {
     /// Player initiates contact with a vendor for an event.
     /// Schedules the availability check and response activities.
     func initiateVendorContact(eventId: String, vendor: VendorData) {
-        // Create or get vendor relationship
         if vendorRelationships[vendor.id] == nil {
             vendorRelationships[vendor.id] = VendorRelationship.createNew(vendorId: vendor.id)
         }
@@ -500,9 +499,11 @@ class GameManager: GameContext {
         guard let relationship = vendorRelationships[vendor.id],
               relationship.willAcceptBooking else { return }
 
+        let eventTitle = activeEvents.first(where: { $0.id == eventId })?.eventTitle ?? "your event"
+
         vendorRelationships[vendor.id]?.recordBookingStarted()
 
-        // Step 1: Availability request (immediate — same day, player-initiated)
+        // Step 1: Availability request (immediate)
         let requestActivity = PlanningActivity.create(
             eventId: eventId,
             vendorId: vendor.id,
@@ -512,14 +513,14 @@ class GameManager: GameContext {
             scheduledDate: advanceSystem.currentDate,
             content: ActivityContent(
                 senderName: "You",
-                subject: "Availability inquiry — \(vendor.vendorName)",
-                body: "Sent availability request to \(vendor.vendorName) for your event."
+                subject: "Availability inquiry — \(vendor.vendorName) for \(eventTitle)",
+                body: "Sent availability request to \(vendor.vendorName) for \(eventTitle)."
             )
         )
         advanceSystem.scheduleActivity(requestActivity)
         advanceSystem.completeActivity(id: requestActivity.id)
 
-        // Step 2: Availability response (1-2 days, vendor-initiated)
+        // Step 2: Availability response (1-2 days)
         let responseSpeedBonus = relationship.responseSpeedBonus
         let responseDays = max(1, Int.random(in: 1...2) - responseSpeedBonus)
         let responseDate = advanceSystem.currentDate.adding(days: responseDays)
@@ -534,8 +535,8 @@ class GameManager: GameContext {
             responseDeadline: responseDate.adding(days: 3),
             content: ActivityContent(
                 senderName: vendor.vendorName,
-                subject: "Re: Availability inquiry",
-                body: "Hi! Thanks for reaching out. I checked my calendar and I'm available on your event date. I'd be happy to put together a quote for you."
+                subject: "Re: Availability for \(eventTitle)",
+                body: "Hi! Thanks for reaching out about \(eventTitle). I checked my calendar and I'm available on the event date. I'd be happy to put together a quote for you."
             )
         )
         advanceSystem.scheduleActivity(responseActivity)
@@ -842,6 +843,8 @@ class GameManager: GameContext {
         guard let vendorId = activity.vendorId,
               let vendor = SeedData.vendor(byId: vendorId) else { return }
 
+        let eventTitle = activeEvents.first(where: { $0.id == activity.eventId })?.eventTitle ?? "your event"
+
         // Vendor sends a quote 1 day after availability confirmation
         let quoteDate = advanceSystem.currentDate.adding(days: 1)
 
@@ -855,8 +858,8 @@ class GameManager: GameContext {
             responseDeadline: quoteDate.adding(days: 5),
             content: ActivityContent(
                 senderName: vendor.vendorName,
-                subject: "Quote for your event",
-                body: "Thanks for reaching out! I'm available on your event date. Here's my pricing:\n\nBase rate: $\(Int(vendor.basePrice))\nSpecialty: \(vendor.specialty)\n\nLet me know if you'd like to proceed, or if you'd like to discuss pricing.",
+                subject: "Quote — \(eventTitle)",
+                body: "Thanks for reaching out about \(eventTitle)! Here's my pricing:\n\nBase rate: $\(Int(vendor.basePrice))\nSpecialty: \(vendor.specialty)\n\nLet me know if you'd like to proceed, or if you'd like to discuss pricing.",
                 quoteAmount: vendor.basePrice
             )
         )
