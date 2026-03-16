@@ -91,7 +91,12 @@ struct AdvanceSystem: AdvanceSystemProtocol {
     // MARK: - Schedule Activities
 
     mutating func scheduleActivity(_ activity: PlanningActivity) {
-        scheduledActivities.append(activity)
+        var newActivity = activity
+        // If scheduled for today or earlier, mark as ready immediately
+        if newActivity.scheduledDate <= currentDate && newActivity.status == .scheduled {
+            newActivity.status = .ready
+        }
+        scheduledActivities.append(newActivity)
     }
 
     mutating func scheduleNextInquiry(stage: Int, reputation: Int) {
