@@ -203,19 +203,41 @@ class GameManager: GameContext {
     /// Called when the player taps the Advance button.
     /// Finds the next decision point, advances time, and presents inbox.
     func advanceToNextPoint() {
+        // Auto-complete stale ready activities from past days that might be blocking
+        autoCompleteStaleActivities()
+
         // Check for overdue activities before advancing
         let overdueWarnings = advanceSystem.processOverdueActivities()
         processOverdueVendorImpacts(overdueWarnings)
 
-        guard let nextPoint = advanceSystem.findNextDecisionPoint() else {
-            // Nothing scheduled — generate an inquiry and try again
-            advanceSystem.scheduleNextInquiry(stage: playerData.stageNumber, reputation: playerData.reputation)
-            guard let fallbackPoint = advanceSystem.findNextDecisionPoint() else { return }
+        if let nextPoint = advanceSystem.findNextDecisionPoint() {
+            performAdvance(to: nextPoint)
+            return
+        }
+
+        // Nothing scheduled — try scheduling an inquiry
+        advanceSystem.scheduleNextInquiry(stage: playerData.stageNumber, reputation: playerData.reputation)
+
+        if let fallbackPoint = advanceSystem.findNextDecisionPoint() {
             performAdvance(to: fallbackPoint)
             return
         }
 
-        performAdvance(to: nextPoint)
+        // Absolute fallback — advance one day so the game never gets stuck
+        let tomorrow = advanceSystem.currentDate.adding(days: 1)
+        let fallbackDecision = DecisionPoint(date: tomorrow, activities: [])
+        performAdvance(to: fallbackDecision)
+    }
+
+    /// Auto-complete any ready activities from past days that the player
+    /// missed or that don't require action. Prevents invisible blockers.
+    private func autoCompleteStaleActivities() {
+        let stale = advanceSystem.scheduledActivities.filter {
+            $0.status == .ready && $0.scheduledDate < advanceSystem.currentDate
+        }
+        for activity in stale {
+            advanceSystem.completeActivity(id: activity.id)
+        }
     }
 
     private func performAdvance(to point: DecisionPoint) {

@@ -17,17 +17,25 @@ struct InboxView: View {
         }
     }
 
+    /// Message threads filtered to texts/calls only (emails go to Email app).
+    private var messageOnlyThreads: [ConversationThread] {
+        gameManager.messageThreads.map { thread in
+            let filtered = thread.activities.filter { $0.medium != .email }
+            let unread = filtered.filter { $0.status == .ready }.count
+            return ConversationThread(
+                contactName: thread.contactName,
+                activities: filtered,
+                unreadCount: unread,
+                latestDate: filtered.last?.scheduledDate ?? thread.latestDate
+            )
+        }
+        .filter { !$0.activities.isEmpty }
+    }
+
     private var threadListView: some View {
         ScrollView {
             VStack(spacing: 0) {
-                // New inquiries as special threads at top
-                ForEach(gameManager.pendingInquiries) { inquiry in
-                    InquiryThreadRow(inquiry: inquiry)
-                    Divider().background(GameTheme.Colors.border)
-                }
-
-                // Conversation threads
-                ForEach(gameManager.messageThreads) { thread in
+                ForEach(messageOnlyThreads) { thread in
                     Button(action: { selectedContactName = thread.contactName }) {
                         ThreadRow(thread: thread)
                     }
@@ -35,7 +43,7 @@ struct InboxView: View {
                 }
             }
 
-            if gameManager.messageThreads.isEmpty && gameManager.pendingInquiries.isEmpty {
+            if messageOnlyThreads.isEmpty {
                 VStack(spacing: GameTheme.Spacing.sm) {
                     Image(systemName: "message")
                         .font(.system(size: 48))
