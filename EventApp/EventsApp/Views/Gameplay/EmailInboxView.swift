@@ -242,40 +242,9 @@ struct EmailInboxView: View {
     @ViewBuilder
     private func emailActions(for email: PlanningActivity) -> some View {
         if email.type == .vendorOptionsReview, email.content.quoteAmount != nil {
-            HStack(spacing: GameTheme.Spacing.xs) {
-                Button(action: { withAnimation { gameManager.acceptVendorQuote(activityId: email.id) } }) {
-                    Text("Accept Quote")
-                        .font(GameTheme.Typography.micro).fontWeight(.semibold)
-                        .foregroundStyle(.white)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 6)
-                        .background(GameTheme.Colors.success)
-                        .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
-                }
-                Button(action: {
-                    if let vendorId = email.vendorId, let vendor = SeedData.vendor(byId: vendorId) {
-                        let offer = (email.content.quoteAmount ?? vendor.basePrice) * 0.85
-                        withAnimation { gameManager.sendNegotiationOffer(activityId: email.id, eventId: email.eventId, vendor: vendor, offerAmount: offer) }
-                    }
-                }) {
-                    Text("Negotiate")
-                        .font(GameTheme.Typography.micro).fontWeight(.semibold)
-                        .foregroundStyle(GameTheme.Colors.warning)
-                        .frame(maxWidth: .infinity)
-                        .padding(.vertical, 6)
-                        .overlay(RoundedRectangle(cornerRadius: GameTheme.Radius.small).stroke(GameTheme.Colors.warning, lineWidth: 1))
-                }
-            }
+            VendorQuoteActions(email: email)
         } else if email.type == .clientContractSent {
-            Button(action: { withAnimation { gameManager.completeActivity(email.id) } }) {
-                Text("Send to Client")
-                    .font(GameTheme.Typography.micro).fontWeight(.semibold)
-                    .foregroundStyle(.white)
-                    .frame(maxWidth: .infinity)
-                    .padding(.vertical, 6)
-                    .background(GameTheme.Colors.accent)
-                    .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
-            }
+            ContractFeeActions(email: email)
         } else {
             Button(action: { withAnimation { gameManager.completeActivity(email.id) } }) {
                 Text(acknowledgeLabel(for: email.type))
@@ -354,6 +323,202 @@ struct EmailInboxView: View {
         .padding(.horizontal, GameTheme.Spacing.md)
         .padding(.vertical, GameTheme.Spacing.sm)
         .background(GameTheme.Colors.surface)
+    }
+}
+
+// MARK: - Vendor Quote Actions (Accept / Negotiate with amount picker)
+
+struct VendorQuoteActions: View {
+    @Environment(GameManager.self) private var gameManager
+    let email: PlanningActivity
+    @State private var showNegotiate = false
+    @State private var offerAmount: Double
+
+    init(email: PlanningActivity) {
+        self.email = email
+        let quote = email.content.quoteAmount ?? 0
+        _offerAmount = State(initialValue: (quote * 0.85).rounded())
+    }
+
+    private var quoteAmount: Double { email.content.quoteAmount ?? 0 }
+
+    var body: some View {
+        VStack(spacing: GameTheme.Spacing.xs) {
+            // Accept button
+            Button(action: { withAnimation { gameManager.acceptVendorQuote(activityId: email.id) } }) {
+                Text("Accept — $\(Int(quoteAmount))")
+                    .font(GameTheme.Typography.micro).fontWeight(.semibold)
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 6)
+                    .background(GameTheme.Colors.success)
+                    .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
+            }
+
+            // Negotiate toggle
+            Button(action: { withAnimation(GameTheme.Anim.panelSlide) { showNegotiate.toggle() } }) {
+                Text(showNegotiate ? "Cancel" : "Make a Counter Offer")
+                    .font(GameTheme.Typography.micro).fontWeight(.semibold)
+                    .foregroundStyle(GameTheme.Colors.warning)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 6)
+                    .overlay(RoundedRectangle(cornerRadius: GameTheme.Radius.small).stroke(GameTheme.Colors.warning, lineWidth: 1))
+            }
+
+            // Negotiate amount picker
+            if showNegotiate {
+                VStack(spacing: GameTheme.Spacing.xs) {
+                    Text("Your offer:")
+                        .font(GameTheme.Typography.micro)
+                        .foregroundStyle(GameTheme.Colors.textMuted)
+
+                    Text("$\(Int(offerAmount))")
+                        .font(GameTheme.Typography.moneyLarge)
+                        .foregroundStyle(GameTheme.Colors.money)
+
+                    // Slider from 50% to 100% of quote
+                    Slider(value: $offerAmount,
+                           in: (quoteAmount * 0.5)...(quoteAmount),
+                           step: 10)
+                    .tint(GameTheme.Colors.warning)
+
+                    HStack {
+                        Text("$\(Int(quoteAmount * 0.5))")
+                            .font(.system(size: 10))
+                            .foregroundStyle(GameTheme.Colors.textMuted)
+                        Spacer()
+                        Text("$\(Int(quoteAmount))")
+                            .font(.system(size: 10))
+                            .foregroundStyle(GameTheme.Colors.textMuted)
+                    }
+
+                    let savings = quoteAmount - offerAmount
+                    if savings > 0 {
+                        Text("Saving $\(Int(savings)) (\(Int(savings / quoteAmount * 100))% off)")
+                            .font(GameTheme.Typography.micro)
+                            .foregroundStyle(GameTheme.Colors.success)
+                    }
+
+                    Button(action: {
+                        if let vendorId = email.vendorId, let vendor = SeedData.vendor(byId: vendorId) {
+                            withAnimation {
+                                gameManager.sendNegotiationOffer(
+                                    activityId: email.id,
+                                    eventId: email.eventId,
+                                    vendor: vendor,
+                                    offerAmount: offerAmount
+                                )
+                            }
+                        }
+                    }) {
+                        Text("Send Offer — $\(Int(offerAmount))")
+                            .font(GameTheme.Typography.micro).fontWeight(.semibold)
+                            .foregroundStyle(.white)
+                            .frame(maxWidth: .infinity)
+                            .padding(.vertical, 6)
+                            .background(GameTheme.Colors.warning)
+                            .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
+                    }
+                }
+                .padding(GameTheme.Spacing.sm)
+                .background(GameTheme.Colors.elevated)
+                .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
+            }
+        }
+    }
+}
+
+// MARK: - Contract Fee Actions (set service fee before sending)
+
+struct ContractFeeActions: View {
+    @Environment(GameManager.self) private var gameManager
+    let email: PlanningActivity
+    @State private var serviceFeePercent: Double
+
+    init(email: PlanningActivity) {
+        self.email = email
+        // If client counter-offered, default to their suggested percent
+        _serviceFeePercent = State(initialValue: email.content.counterOfferAmount ?? 15)
+    }
+
+    private var eventBudget: Double { email.content.contractAmount ?? 0 }
+    private var serviceFee: Double { eventBudget * (serviceFeePercent / 100) }
+    private var totalToClient: Double { eventBudget + serviceFee }
+
+    var body: some View {
+        VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
+            Text("Set Your Service Fee")
+                .font(GameTheme.Typography.micro)
+                .fontWeight(.bold)
+                .foregroundStyle(GameTheme.Colors.textPrimary)
+
+            // Fee breakdown
+            HStack {
+                Text("Event budget:")
+                    .font(GameTheme.Typography.micro)
+                    .foregroundStyle(GameTheme.Colors.textMuted)
+                Spacer()
+                Text("$\(Int(eventBudget))")
+                    .font(GameTheme.Typography.money)
+                    .foregroundStyle(GameTheme.Colors.textSecondary)
+            }
+
+            HStack {
+                Text("Your fee (\(Int(serviceFeePercent))%):")
+                    .font(GameTheme.Typography.micro)
+                    .foregroundStyle(GameTheme.Colors.textMuted)
+                Spacer()
+                Text("$\(Int(serviceFee))")
+                    .font(GameTheme.Typography.money)
+                    .foregroundStyle(GameTheme.Colors.money)
+            }
+
+            Slider(value: $serviceFeePercent, in: 5...30, step: 1)
+                .tint(GameTheme.Colors.money)
+
+            HStack {
+                Text("5%")
+                    .font(.system(size: 10))
+                    .foregroundStyle(GameTheme.Colors.textMuted)
+                Spacer()
+                Text("30%")
+                    .font(.system(size: 10))
+                    .foregroundStyle(GameTheme.Colors.textMuted)
+            }
+
+            Divider().background(GameTheme.Colors.border)
+
+            HStack {
+                Text("Total to client:")
+                    .font(GameTheme.Typography.caption)
+                    .fontWeight(.bold)
+                    .foregroundStyle(GameTheme.Colors.textPrimary)
+                Spacer()
+                Text("$\(Int(totalToClient))")
+                    .font(GameTheme.Typography.moneyLarge)
+                    .foregroundStyle(GameTheme.Colors.money)
+            }
+
+            Button(action: {
+                withAnimation {
+                    gameManager.sendContractWithFee(
+                        activityId: email.id,
+                        serviceFeePercent: serviceFeePercent
+                    )
+                }
+            }) {
+                Text("Send Contract — $\(Int(totalToClient))")
+                    .font(GameTheme.Typography.micro).fontWeight(.semibold)
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 6)
+                    .background(GameTheme.Colors.accent)
+                    .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
+            }
+        }
+        .padding(GameTheme.Spacing.sm)
+        .background(GameTheme.Colors.elevated)
+        .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
     }
 }
 

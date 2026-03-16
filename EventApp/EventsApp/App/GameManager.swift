@@ -738,6 +738,86 @@ class GameManager: GameContext {
         advanceSystem.scheduleActivity(contractActivity)
     }
 
+    /// Player sends contract with their chosen service fee.
+    /// The client may accept or negotiate based on personality.
+    func sendContractWithFee(activityId: String, serviceFeePercent: Double) {
+        guard let activity = advanceSystem.scheduledActivities.first(where: { $0.id == activityId }),
+              let eventIndex = activeEvents.firstIndex(where: { $0.id == activity.eventId }) else { return }
+
+        let event = activeEvents[eventIndex]
+        let serviceFee = event.budget.total * (serviceFeePercent / 100)
+
+        activeEvents[eventIndex].serviceFeePercent = serviceFeePercent
+        activeEvents[eventIndex].serviceFee = serviceFee
+
+        advanceSystem.completeActivity(id: activityId)
+
+        // Client response depends on personality and fee level
+        let signDays = Int.random(in: 1...2)
+        let signDate = advanceSystem.currentDate.adding(days: signDays)
+
+        let willNegotiate = shouldClientNegotiateFee(personality: event.personality, feePercent: serviceFeePercent)
+
+        if willNegotiate && event.negotiationRoundsUsed < 2 {
+            // Client pushes back
+            let counterPercent = max(5, serviceFeePercent - Double.random(in: 3...8))
+            let counterFee = event.budget.total * (counterPercent / 100)
+
+            let pushbackActivity = PlanningActivity.create(
+                eventId: event.id,
+                clientName: event.clientName,
+                type: .clientContractSent, // Reuse type — it's another contract draft
+                medium: .email,
+                scheduledDate: signDate,
+                responseDeadline: signDate.adding(days: 3),
+                content: ActivityContent(
+                    senderName: event.clientName,
+                    subject: "Re: Contract — fee discussion",
+                    body: clientNegotiationResponse(personality: event.personality, originalFee: serviceFee, counterFee: counterFee, feePercent: serviceFeePercent, counterPercent: counterPercent),
+                    counterOfferAmount: counterPercent,
+                    contractAmount: event.budget.total
+                )
+            )
+            advanceSystem.scheduleActivity(pushbackActivity)
+            activeEvents[eventIndex].negotiationRoundsUsed += 1
+        } else {
+            // Client accepts
+            onClientContractSent(activity)
+        }
+    }
+
+    private func shouldClientNegotiateFee(personality: ClientPersonality, feePercent: Double) -> Bool {
+        switch personality {
+        case .easyGoing:
+            return feePercent > 20 // Only pushes back on high fees
+        case .budgetConscious:
+            return feePercent > 10 // Very sensitive to fees
+        case .perfectionist:
+            return feePercent > 25 // Expects to pay for quality
+        case .demanding:
+            return feePercent > 15 // Negotiates everything
+        case .indecisive:
+            return false // Doesn't negotiate, accepts whatever
+        case .celebrity:
+            return false // Money isn't the issue
+        }
+    }
+
+    private func clientNegotiationResponse(personality: ClientPersonality, originalFee: Double, counterFee: Double, feePercent: Double, counterPercent: Double) -> String {
+        let response: String
+        switch personality {
+        case .budgetConscious:
+            response = "I appreciate the detailed contract, but the \(Int(feePercent))% service fee is higher than I was expecting. Would you consider \(Int(counterPercent))% ($\(Int(counterFee)))? That would help us stay within our budget."
+        case .demanding:
+            response = "The contract looks good, but I've worked with planners who charge less. I think \(Int(counterPercent))% ($\(Int(counterFee))) is more in line with what I'd expect. Can we make that work?"
+        case .easyGoing:
+            response = "Hey, the contract looks great overall! Just wondering if there's any flexibility on the fee? Something around \(Int(counterPercent))% would be easier for us."
+        default:
+            response = "Thanks for sending this over. Could we discuss the service fee? I was thinking something closer to \(Int(counterPercent))% ($\(Int(counterFee))) might be more reasonable."
+        }
+        return response
+    }
+
     /// After contract sent: client signs in 1-2 days.
     private func onClientContractSent(_ activity: PlanningActivity) {
         let signDays = Int.random(in: 1...2)
