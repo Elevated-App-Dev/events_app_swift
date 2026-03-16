@@ -246,6 +246,16 @@ struct EmailInboxView: View {
             VendorQuoteActions(email: email)
         } else if email.type == .clientContractSent {
             ContractFeeActions(email: email)
+        } else if email.type == .vendorDepositPayment, let amount = email.content.depositAmount {
+            Button(action: { withAnimation { gameManager.completeActivity(email.id) } }) {
+                Text("Pay $\(Int(amount))")
+                    .font(GameTheme.Typography.micro).fontWeight(.semibold)
+                    .foregroundStyle(.white)
+                    .frame(maxWidth: .infinity)
+                    .padding(.vertical, 6)
+                    .background(GameTheme.Colors.warning)
+                    .clipShape(RoundedRectangle(cornerRadius: GameTheme.Radius.small))
+            }
         } else {
             Button(action: { withAnimation { gameManager.completeActivity(email.id) } }) {
                 Text(acknowledgeLabel(for: email.type))

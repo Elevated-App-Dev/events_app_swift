@@ -776,11 +776,14 @@ class GameManager: GameContext {
             onClientDepositAcknowledged(activity)
         case .clientFinalPayment:
             onClientFinalPayment(activity)
+        case .clientDateChangeRequest:
+            onHeadcountRequestSent(activity)
         case .vendorAvailabilityResponse:
             onVendorAvailabilityReceived(activity)
         case .vendorOptionsReview:
-            // Quote reviewed — handled by accept/negotiate actions in UI
             break
+        case .vendorDepositPayment:
+            onVendorDepositPaid(activity)
         default:
             break
         }
@@ -960,7 +963,7 @@ class GameManager: GameContext {
     }
 
     /// After player acknowledges deposit: money arrives, event enters planning.
-    /// Schedules vendor booking reminder and final confirmation deadline.
+    /// Schedules natural checkpoints leading up to the event day.
     private func onClientDepositAcknowledged(_ activity: PlanningActivity) {
         guard let eventIndex = activeEvents.firstIndex(where: { $0.id == activity.eventId }) else { return }
 
@@ -972,41 +975,7 @@ class GameManager: GameContext {
 
         activeEvents[eventIndex].status = .planning
 
-        // Schedule a vendor booking reminder for tomorrow
-        let reminderDate = advanceSystem.currentDate.adding(days: 1)
-        let reminderActivity = PlanningActivity.create(
-            eventId: event.id,
-            clientName: event.clientName,
-            type: .vendorAvailabilityRequest, // Reuse type for now
-            medium: .text,
-            scheduledDate: reminderDate,
-            content: ActivityContent(
-                senderName: "System",
-                subject: "Time to book vendors — \(eventTitle)",
-                body: "The deposit is in. Open Business > Events to start contacting vendors for \(eventTitle). You need at least a venue and caterer."
-            )
-        )
-        advanceSystem.scheduleActivity(reminderActivity)
-
-        // Schedule final confirmation reminder 5 days before event
-        let finalConfirmDate = event.eventDate.adding(days: -5)
-        if finalConfirmDate > advanceSystem.currentDate {
-            let confirmActivity = PlanningActivity.create(
-                eventId: event.id,
-                clientName: event.clientName,
-                type: .vendorFinalConfirmation,
-                medium: .email,
-                scheduledDate: finalConfirmDate,
-                content: ActivityContent(
-                    senderName: "System",
-                    subject: "Final confirmations due — \(eventTitle)",
-                    body: "The event is in 5 days. Make sure all vendors are confirmed and the venue is locked in."
-                )
-            )
-            advanceSystem.scheduleActivity(confirmActivity)
-        }
-
-        // Schedule client final payment 7 days before event
+        // Schedule client final payment (-7 days before event)
         let finalPaymentDate = event.eventDate.adding(days: -7)
         if finalPaymentDate > advanceSystem.currentDate {
             let remainingBalance = event.budget.total + event.serviceFee - depositAmount
@@ -1025,6 +994,24 @@ class GameManager: GameContext {
             )
             advanceSystem.scheduleActivity(paymentActivity)
         }
+
+        // Schedule client headcount request (-5 days before event)
+        let headcountRequestDate = event.eventDate.adding(days: -5)
+        if headcountRequestDate > advanceSystem.currentDate {
+            let headcountActivity = PlanningActivity.create(
+                eventId: event.id,
+                clientName: event.clientName,
+                type: .clientDateChangeRequest, // Reuse for headcount communication
+                medium: .email,
+                scheduledDate: headcountRequestDate,
+                content: ActivityContent(
+                    senderName: "You",
+                    subject: "Final headcount needed — \(eventTitle)",
+                    body: "Hi \(event.clientName), the event is coming up! Can you confirm the final guest count? Our caterer needs the number by \(event.eventDate.adding(days: -3).formatted)."
+                )
+            )
+            advanceSystem.scheduleActivity(headcountActivity)
+        }
     }
 
     /// Client final payment received before event.
@@ -1037,7 +1024,63 @@ class GameManager: GameContext {
         }
     }
 
-    /// Player accepts a vendor quote — books the vendor for the event.
+    /// After vendor deposit/final invoice is paid.
+    private func onVendorDepositPaid(_ activity: PlanningActivity) {
+        let amount = activity.content.depositAmount ?? 0
+        guard amount > 0,
+              let vendorId = activity.vendorId,
+              let vendor = SeedData.vendor(byId: vendorId) else { return }
+
+        let eventTitle = activeEvents.first(where: { $0.id == activity.eventId })?.eventTitle ?? "Event"
+        transactions.append(.expense(date: advanceSystem.currentDate, amount: amount, description: "\(vendor.vendorName) payment — \(eventTitle)", category: .vendorPayment))
+    }
+
+    /// After headcount request sent: client responds next day with final count.
+    private func onHeadcountRequestSent(_ activity: PlanningActivity) {
+        guard let event = activeEvents.first(where: { $0.id == activity.eventId }) else { return }
+
+        let responseDate = advanceSystem.currentDate.adding(days: 1)
+
+        // Client responds with headcount
+        let responseActivity = PlanningActivity.create(
+            eventId: event.id,
+            clientName: event.clientName,
+            type: .clientDateChangeRequest,
+            medium: .email,
+            scheduledDate: responseDate,
+            content: ActivityContent(
+                senderName: event.clientName,
+                subject: "Re: Final headcount — \(event.eventTitle)",
+                body: "We're confirmed at \(event.guestCount) guests! A couple might not make it but let's plan for the full count to be safe."
+            )
+        )
+        advanceSystem.scheduleActivity(responseActivity)
+
+        // Schedule caterer headcount verification (-3 days)
+        let catererVerifyDate = event.eventDate.adding(days: -3)
+        if catererVerifyDate > advanceSystem.currentDate {
+            // Find the caterer for this event
+            if let catererAssignment = event.vendors.first(where: { $0.category == .caterer }),
+               let caterer = SeedData.vendor(byId: catererAssignment.vendorId) {
+                let catererActivity = PlanningActivity.create(
+                    eventId: event.id,
+                    vendorId: caterer.id,
+                    vendorCategory: .caterer,
+                    type: .vendorFinalConfirmation,
+                    medium: .email,
+                    scheduledDate: catererVerifyDate,
+                    content: ActivityContent(
+                        senderName: "You",
+                        subject: "Final headcount confirmation — \(event.eventTitle)",
+                        body: "Hi \(caterer.vendorName), confirming \(event.guestCount) guests for \(event.eventTitle) on \(event.eventDate.formatted). Please confirm you're all set."
+                    )
+                )
+                advanceSystem.scheduleActivity(catererActivity)
+            }
+        }
+    }
+
+    /// Player accepts a vendor quote — vendor sends deposit invoice.
     func acceptVendorQuote(activityId: String) {
         guard let activity = advanceSystem.scheduledActivities.first(where: { $0.id == activityId }),
               let vendorId = activity.vendorId,
@@ -1045,8 +1088,9 @@ class GameManager: GameContext {
               let eventIndex = activeEvents.firstIndex(where: { $0.id == activity.eventId }) else { return }
 
         let price = activity.content.quoteAmount ?? vendor.basePrice
+        let eventTitle = activeEvents[eventIndex].eventTitle
 
-        // Book the vendor
+        // Book the vendor (price agreed, not fully paid yet)
         let assignment = VendorAssignment(
             vendorId: vendor.id,
             category: vendor.category,
@@ -1058,14 +1102,51 @@ class GameManager: GameContext {
         activeEvents[eventIndex].budget.spent += price
         saveData.addVendorBooking(vendor.id, date: activeEvents[eventIndex].eventDate)
 
-        // Log transaction (vendor paid from event budget, not player wallet)
-        let eventTitle = activeEvents[eventIndex].eventTitle
-        transactions.append(.expense(date: advanceSystem.currentDate, amount: price, description: "\(vendor.vendorName) — \(eventTitle)", category: .vendorPayment))
-
-        // Mark quote as completed
         advanceSystem.completeActivity(id: activityId)
 
-        // Send confirmation message
+        // Vendor sends deposit invoice (+1 day)
+        let depositAmount = (price * 0.5).rounded()
+        let invoiceDate = advanceSystem.currentDate.adding(days: 1)
+
+        let invoiceActivity = PlanningActivity.create(
+            eventId: activity.eventId,
+            vendorId: vendorId,
+            vendorCategory: activity.vendorCategory,
+            type: .vendorDepositPayment,
+            medium: .email,
+            scheduledDate: invoiceDate,
+            responseDeadline: invoiceDate.adding(days: 3),
+            content: ActivityContent(
+                senderName: vendor.vendorName,
+                subject: "Deposit invoice — \(eventTitle)",
+                body: "Thanks for booking! To secure your date for \(eventTitle), please send a 50% deposit of $\(Int(depositAmount)). The remaining $\(Int(price - depositAmount)) is due after the event.",
+                quoteAmount: depositAmount,
+                depositAmount: depositAmount
+            )
+        )
+        advanceSystem.scheduleActivity(invoiceActivity)
+
+        // Schedule vendor final invoice (+1 day after event)
+        let finalInvoiceDate = activeEvents[eventIndex].eventDate.adding(days: 1)
+        let finalAmount = price - depositAmount
+        let finalInvoiceActivity = PlanningActivity.create(
+            eventId: activity.eventId,
+            vendorId: vendorId,
+            vendorCategory: activity.vendorCategory,
+            type: .vendorDepositPayment, // Reuse type for final payment
+            medium: .email,
+            scheduledDate: finalInvoiceDate,
+            content: ActivityContent(
+                senderName: vendor.vendorName,
+                subject: "Final invoice — \(eventTitle)",
+                body: "Thanks for a great event! Here's the final invoice for the remaining balance of $\(Int(finalAmount)) for \(eventTitle).",
+                quoteAmount: finalAmount,
+                depositAmount: finalAmount
+            )
+        )
+        advanceSystem.scheduleActivity(finalInvoiceActivity)
+
+        // Confirmation message (immediate)
         let confirmActivity = PlanningActivity.create(
             eventId: activity.eventId,
             vendorId: vendorId,
@@ -1075,12 +1156,11 @@ class GameManager: GameContext {
             scheduledDate: advanceSystem.currentDate,
             content: ActivityContent(
                 senderName: "You",
-                subject: "Booking confirmed — \(vendor.vendorName) for \(activeEvents[eventIndex].eventTitle)",
-                body: "Booked \(vendor.vendorName) for $\(Int(price)) for \(activeEvents[eventIndex].eventTitle). They're confirmed."
+                subject: "Booking confirmed — \(vendor.vendorName) for \(eventTitle)",
+                body: "Booked \(vendor.vendorName) for $\(Int(price)) for \(eventTitle). Deposit of $\(Int(depositAmount)) due, remaining $\(Int(finalAmount)) after the event."
             )
         )
         advanceSystem.scheduleActivity(confirmActivity)
-        advanceSystem.completeActivity(id: confirmActivity.id)
     }
 
     /// After vendor confirms availability: schedule a quote.
