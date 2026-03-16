@@ -252,21 +252,32 @@ struct DeskAdvanceButton: View {
     @Environment(GameManager.self) private var gameManager
     let action: () -> Void
 
-    private var hasInbox: Bool { gameManager.hasInboxItems }
+    private var unreadCount: Int { gameManager.inboxActivities.count + gameManager.pendingInquiries.count }
 
     var body: some View {
-        Button(action: action) {
-            HStack(spacing: GameTheme.Spacing.xs) {
-                Image(systemName: "forward.fill")
-                if let nextPoint = gameManager.advanceSystem.findNextDecisionPoint() {
-                    Text("Advance to \(nextPoint.date.formatted)")
-                } else {
-                    Text("Advance")
+        VStack(spacing: 4) {
+            // Warning if there are unread items
+            if unreadCount > 0 {
+                HStack(spacing: 4) {
+                    Image(systemName: "exclamationmark.circle")
+                        .font(.system(size: 12))
+                    Text("\(unreadCount) unread \(unreadCount == 1 ? "item" : "items") in inbox")
+                        .font(GameTheme.Typography.micro)
                 }
+                .foregroundStyle(GameTheme.Colors.warning)
             }
-            .primaryButton()
-            .opacity(hasInbox ? 0.4 : 1.0)
+
+            Button(action: action) {
+                HStack(spacing: GameTheme.Spacing.xs) {
+                    Image(systemName: "forward.fill")
+                    if let nextPoint = gameManager.advanceSystem.findNextDecisionPoint() {
+                        Text("Advance to \(nextPoint.date.formatted)")
+                    } else {
+                        Text("Advance")
+                    }
+                }
+                .primaryButton()
+            }
         }
-        .disabled(hasInbox)
     }
 }

@@ -236,14 +236,15 @@ class GameManager: GameContext {
         performAdvance(to: fallbackDecision)
     }
 
-    /// Auto-complete any ready activities from past days that the player
-    /// missed or that don't require action. Prevents invisible blockers.
+    /// Auto-complete any ready activities that the player hasn't explicitly
+    /// handled. Runs their completion handlers so follow-up activities get scheduled.
     private func autoCompleteStaleActivities() {
         let stale = advanceSystem.scheduledActivities.filter {
             $0.status == .ready && $0.scheduledDate < advanceSystem.currentDate
         }
         for activity in stale {
-            advanceSystem.completeActivity(id: activity.id)
+            // Run through the full completion handler so follow-ups get scheduled
+            completeActivity(activity.id)
         }
     }
 
