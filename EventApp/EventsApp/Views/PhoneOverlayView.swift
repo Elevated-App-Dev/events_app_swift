@@ -654,55 +654,82 @@ struct PhoneBankView: View {
 
     private let startingBalance: Double = 500.0
 
+    /// Total service fees earned across all completed events.
+    private var totalFeesEarned: Double {
+        gameManager.transactions
+            .filter { $0.category == .eventProfit }
+            .reduce(0) { $0 + $1.amount }
+    }
+
+    /// Total client deposits received (held for vendor payments).
+    private var totalClientDeposits: Double {
+        gameManager.transactions
+            .filter { $0.category == .clientDeposit }
+            .reduce(0) { $0 + $1.amount }
+    }
+
+    /// Total vendor payments made (from event budgets).
+    private var totalVendorPayments: Double {
+        gameManager.transactions
+            .filter { $0.category == .vendorPayment }
+            .reduce(0) { $0 + abs($1.amount) }
+    }
+
     var body: some View {
         ScrollView {
             VStack(spacing: 0) {
-                // Account summary
-                VStack(spacing: GameTheme.Spacing.md) {
-                    // Current balance (large)
+                // Your Money
+                VStack(spacing: GameTheme.Spacing.sm) {
                     VStack(spacing: 4) {
-                        Text("Current Balance")
+                        Text("Your Money")
                             .font(GameTheme.Typography.micro)
                             .foregroundStyle(GameTheme.Colors.textMuted)
-                        Text("$\(gameManager.playerData.money, specifier: "%.2f")")
+                        Text("$\(gameManager.playerData.money, specifier: "%.0f")")
                             .font(GameTheme.Typography.display)
                             .foregroundStyle(GameTheme.Colors.money)
                     }
 
-                    // Starting balance
-                    HStack {
-                        Text("Starting Balance")
-                            .font(GameTheme.Typography.caption)
-                            .foregroundStyle(GameTheme.Colors.textMuted)
-                        Spacer()
-                        Text("$\(startingBalance, specifier: "%.2f")")
-                            .font(GameTheme.Typography.money)
-                            .foregroundStyle(GameTheme.Colors.textSecondary)
+                    // Breakdown
+                    VStack(spacing: 6) {
+                        bankRow("Starting capital", amount: startingBalance, color: GameTheme.Colors.textSecondary)
+                        bankRow("Fees earned", amount: totalFeesEarned, color: GameTheme.Colors.success, showPlus: true)
                     }
                     .padding(.horizontal, GameTheme.Spacing.md)
-
-                    // Net change
-                    let netChange = gameManager.playerData.money - startingBalance
-                    HStack {
-                        Text("Net Change")
-                            .font(GameTheme.Typography.caption)
-                            .foregroundStyle(GameTheme.Colors.textMuted)
-                        Spacer()
-                        Text("\(netChange >= 0 ? "+" : "")$\(netChange, specifier: "%.2f")")
-                            .font(GameTheme.Typography.money)
-                            .foregroundStyle(netChange >= 0 ? GameTheme.Colors.success : GameTheme.Colors.error)
-                    }
-                    .padding(.horizontal, GameTheme.Spacing.md)
-
-                    Divider()
-                        .background(GameTheme.Colors.border)
-                        .padding(.horizontal, GameTheme.Spacing.md)
                 }
-                .padding(.top, GameTheme.Spacing.md)
+                .padding(.vertical, GameTheme.Spacing.md)
+
+                Divider().background(GameTheme.Colors.border).padding(.horizontal, GameTheme.Spacing.md)
+
+                // Event Funds Summary (client money flowing through)
+                VStack(alignment: .leading, spacing: GameTheme.Spacing.xs) {
+                    Text("Event Funds (Client Money)")
+                        .font(GameTheme.Typography.micro)
+                        .fontWeight(.bold)
+                        .foregroundStyle(GameTheme.Colors.textMuted)
+
+                    bankRow("Client deposits received", amount: totalClientDeposits, color: GameTheme.Colors.success, showPlus: true)
+                    bankRow("Vendor payments made", amount: totalVendorPayments, color: GameTheme.Colors.error, showMinus: true)
+
+                    let eventFundBalance = totalClientDeposits - totalVendorPayments
+                    HStack {
+                        Text("Event fund balance")
+                            .font(GameTheme.Typography.caption)
+                            .fontWeight(.medium)
+                            .foregroundStyle(GameTheme.Colors.textPrimary)
+                        Spacer()
+                        Text("$\(eventFundBalance, specifier: "%.0f")")
+                            .font(GameTheme.Typography.money)
+                            .foregroundStyle(eventFundBalance >= 0 ? GameTheme.Colors.money : GameTheme.Colors.error)
+                    }
+                }
+                .padding(.horizontal, GameTheme.Spacing.md)
+                .padding(.vertical, GameTheme.Spacing.sm)
+
+                Divider().background(GameTheme.Colors.border).padding(.horizontal, GameTheme.Spacing.md)
 
                 // Transaction ledger
                 VStack(alignment: .leading, spacing: 0) {
-                    Text("Transactions")
+                    Text("All Transactions")
                         .font(GameTheme.Typography.h3)
                         .foregroundStyle(GameTheme.Colors.textPrimary)
                         .padding(.horizontal, GameTheme.Spacing.md)
@@ -715,42 +742,37 @@ struct PhoneBankView: View {
                             .frame(maxWidth: .infinity)
                             .padding(.vertical, GameTheme.Spacing.lg)
                     } else {
-                        // Show transactions in reverse order with running balance
                         let reversed = Array(gameManager.transactions.reversed())
-                        var runningBalance = gameManager.playerData.money
 
                         ForEach(Array(reversed.enumerated()), id: \.element.id) { index, tx in
-                            let balanceAfter = balanceAfterTransaction(index: index)
-
                             HStack(alignment: .top) {
-                                // Date
                                 Text(tx.date.shortFormatted)
                                     .font(GameTheme.Typography.micro)
                                     .foregroundStyle(GameTheme.Colors.textMuted)
-                                    .frame(width: 70, alignment: .leading)
+                                    .frame(width: 65, alignment: .leading)
 
-                                // Description
                                 VStack(alignment: .leading, spacing: 2) {
                                     Text(tx.description)
                                         .font(GameTheme.Typography.caption)
                                         .foregroundStyle(GameTheme.Colors.textPrimary)
-                                        .lineLimit(1)
+                                        .lineLimit(2)
+
+                                    Text(categoryLabel(tx.category))
+                                        .font(.system(size: 10))
+                                        .foregroundStyle(categoryColor(tx.category))
                                 }
                                 .frame(maxWidth: .infinity, alignment: .leading)
 
-                                // Amount
-                                Text("\(tx.isIncome ? "+" : "")\(tx.amount, specifier: "%.0f")")
+                                Text("\(tx.isIncome ? "+" : "")$\(abs(tx.amount), specifier: "%.0f")")
                                     .font(GameTheme.Typography.money)
                                     .foregroundStyle(tx.isIncome ? GameTheme.Colors.success : GameTheme.Colors.error)
-                                    .frame(width: 80, alignment: .trailing)
+                                    .frame(width: 75, alignment: .trailing)
                             }
                             .padding(.horizontal, GameTheme.Spacing.md)
                             .padding(.vertical, GameTheme.Spacing.xs)
 
                             if index < reversed.count - 1 {
-                                Divider()
-                                    .background(GameTheme.Colors.border)
-                                    .padding(.horizontal, GameTheme.Spacing.md)
+                                Divider().background(GameTheme.Colors.border).padding(.horizontal, GameTheme.Spacing.md)
                             }
                         }
                     }
@@ -759,13 +781,37 @@ struct PhoneBankView: View {
         }
     }
 
-    private func balanceAfterTransaction(index: Int) -> Double {
-        let reversed = Array(gameManager.transactions.reversed())
-        var balance = gameManager.playerData.money
-        for i in 0..<index {
-            balance -= reversed[i].amount
+    @ViewBuilder
+    private func bankRow(_ label: String, amount: Double, color: Color, showPlus: Bool = false, showMinus: Bool = false) -> some View {
+        HStack {
+            Text(label)
+                .font(GameTheme.Typography.caption)
+                .foregroundStyle(GameTheme.Colors.textMuted)
+            Spacer()
+            Text("\(showPlus ? "+" : showMinus ? "-" : "")$\(amount, specifier: "%.0f")")
+                .font(GameTheme.Typography.money)
+                .foregroundStyle(color)
         }
-        return balance
+    }
+
+    private func categoryLabel(_ category: TransactionKind) -> String {
+        switch category {
+        case .clientDeposit: return "Client Funds"
+        case .clientPayment: return "Client Payment"
+        case .vendorPayment: return "Event Budget"
+        case .venuePayment: return "Event Budget"
+        case .eventProfit: return "Your Fee"
+        case .eventLoss: return "Loss"
+        }
+    }
+
+    private func categoryColor(_ category: TransactionKind) -> Color {
+        switch category {
+        case .clientDeposit, .clientPayment: return GameTheme.Colors.accent
+        case .vendorPayment, .venuePayment: return GameTheme.Colors.warning
+        case .eventProfit: return GameTheme.Colors.success
+        case .eventLoss: return GameTheme.Colors.error
+        }
     }
 }
 

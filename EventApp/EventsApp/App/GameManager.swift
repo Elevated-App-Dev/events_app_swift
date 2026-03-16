@@ -928,7 +928,8 @@ class GameManager: GameContext {
         guard let eventIndex = activeEvents.firstIndex(where: { $0.id == activity.eventId }) else { return }
 
         let depositAmount = activity.content.depositAmount ?? (activeEvents[eventIndex].budget.total * 0.25)
-        transactions.append(.income(date: advanceSystem.currentDate, amount: depositAmount, description: "Client deposit — \(activeEvents[eventIndex].clientName) (held for vendors)", category: .clientDeposit))
+        let eventTitle = activeEvents[eventIndex].eventTitle
+        transactions.append(.income(date: advanceSystem.currentDate, amount: depositAmount, description: "Client deposit — \(eventTitle)", category: .clientDeposit))
 
         activeEvents[eventIndex].status = .planning
     }
@@ -955,7 +956,8 @@ class GameManager: GameContext {
         saveData.addVendorBooking(vendor.id, date: activeEvents[eventIndex].eventDate)
 
         // Log transaction (vendor paid from event budget, not player wallet)
-        transactions.append(.expense(date: advanceSystem.currentDate, amount: price, description: "Vendor — \(vendor.vendorName) (from event budget)", category: .vendorPayment))
+        let eventTitle = activeEvents[eventIndex].eventTitle
+        transactions.append(.expense(date: advanceSystem.currentDate, amount: price, description: "\(vendor.vendorName) — \(eventTitle)", category: .vendorPayment))
 
         // Mark quote as completed
         advanceSystem.completeActivity(id: activityId)
@@ -970,8 +972,8 @@ class GameManager: GameContext {
             scheduledDate: advanceSystem.currentDate,
             content: ActivityContent(
                 senderName: "You",
-                subject: "Booking confirmed — \(vendor.vendorName)",
-                body: "Booked \(vendor.vendorName) for $\(Int(price)). They're confirmed for your event."
+                subject: "Booking confirmed — \(vendor.vendorName) for \(activeEvents[eventIndex].eventTitle)",
+                body: "Booked \(vendor.vendorName) for $\(Int(price)) for \(activeEvents[eventIndex].eventTitle). They're confirmed."
             )
         )
         advanceSystem.scheduleActivity(confirmActivity)
